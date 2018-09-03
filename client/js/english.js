@@ -38,6 +38,14 @@ function loadPage(url, anchor) {
     return false;
 }
 
+function initHeader() {
+    $("#header-logo").attr("src", CONTEXT + "img/header-english-logo.png");
+}
+
+function initFooter() {
+    $("#footer-logo").attr("src", CONTEXT + "img/footer-english-logo.png");
+}
+
 //
 // $(document).ready(function () {
 //     console.log("Hello! ped");
