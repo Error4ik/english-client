@@ -1,0 +1,22 @@
+.logo-navbar {
+    width: 260px;
+    height: 70px;
+}
+
+footer {
+    margin-top: 20px;
+    text-align: justify;
+    letter-spacing: 1px;
+    height: 153px;
+    background: #2c3e50;
+    color: #fff;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+@media (max-width: 991px) {
+    .header-container {
+        max-width: 100%;
+    }
+}

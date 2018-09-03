@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="english">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Learn page</title>
+    <link rel="stylesheet" type="text/css" href="../css/english.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap/bootstrap.min.css">
+    <script src="../js/angular/angular.js"></script>
+    <script src="../js/angular/angular-route.min.js"></script>
+    <script src="../js/jquery/jquery-3.3.1.min.js"></script>
+    <script src="../js/bootstrap/bootstrap.min.js"></script>
+    <script src="../js/english.js"></script>
+    <script>
+        $(function () {
+            CONTEXT = '../';
+            $("#header").load("../header.html");
+            $("#footer").load("../footer.html");
+        });
+    </script>
+</head>
+<body>
+
+<div id="header"></div>
+
+<div class="container" ng-view>
+</div>
+
+<div id="footer"></div>
+
+<script>
+    var english = angular.module("english", ['ngRoute']);
+
+    english.config(function ($routeProvider, $locationProvider) {
+        $routeProvider.when('/training', {
+            templateUrl: "learns/training.html",
+            controller: "TrainingPageController"
+        }).when('/users', {
+            templateUrl: "test/test.html",
+            controller: "UsersController"
+        }).when('/user/:id', {
+            templateUrl: "test/test2.html",
+            controller: "UserByIdCtrl"
+        }).otherwise({
+            templateUrl: 'empty.html',
+            controller: 'RouteController'
+        });
+
+//        $locationProvider.html5Mode({enabled: true, requireBase: false});
+    });
+
+
+    english.controller('RouteController', function ($scope, $http, $location, $route, $routeParams) {
+        $location.path("/training");
+    });
+
+    english.controller("TrainingPageController", function () {
+        console.log("aaaaaaaaa");
+    });
+
+    english.controller("UsersController", function ($scope, $http) {
+        console.log(base_url + "/users");
+        doGet($http, base_url + "/users", function (data) {
+            console.log(data);
+            $scope.users = data;
+        })
+    });
+
+    english.controller("UserByIdCtrl", function ($scope, $http) {
+        doGet($http, base_url + "/user/1", function (data) {
+            console.log(data);
+            $scope.user = data;
+        })
+    });
+</script>
+</body>
+</html>
