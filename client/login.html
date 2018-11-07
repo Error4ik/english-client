@@ -1,0 +1,46 @@
+<div class="row col-sm-12 m-0 justify-content-between">
+    <div class="col col-sm-4">
+        <h2>Sign In</h2>
+        <div id="login-form" role="form">
+            <div class="alert alert-danger" id="login_error" style="display: none;"></div>
+            <label for="email">Email:</label>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                <input type="text" class="form-control" id="email" placeholder="Enter email" name="email"
+                       autofocus>
+            </div>
+            <label for="password">Password:</label>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input type="password" class="form-control" id="password" placeholder="Enter password"
+                       name="password">
+            </div>
+            <button type="submit" name="submit" onclick="login()" class="btn btn-success"
+                    style="margin-top: 15px; margin-bottom: 15px">
+                Sign In
+            </button>
+        </div>
+    </div>
+    <div class="col col-sm-4">
+        <h2>Sign On</h2>
+        <form name="registration" role="form">
+            <div class="alert alert-danger" id="reg-error" style="display: none;"></div>
+            <label for="reg-email">Email:</label>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                <input type="email" class="form-control" id="reg-email" placeholder="Enter email" name="email"
+                       required="required">
+            </div>
+            <label for="reg-password">Password:</label>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input type="password" class="form-control" id="reg-password" placeholder="Enter password"
+                       name="password" required="required">
+            </div>
+            <button type="submit" onclick="regUser()" class="btn btn-success pull-right"
+                    style="margin-top: 15px; margin-bottom: 15px">
+                Sign On
+            </button>
+        </form>
+    </div>
+</div>

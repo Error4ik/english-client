@@ -1,0 +1,90 @@
+<div>
+    <div class="add-card p-1">
+        <form id="add-card" enctype="multipart/form-data">
+            <div class="col-sm-12 text-center" style="padding-top: 20px">
+                <div class="row p-1">
+                    <div class="col-sm-6">
+                        <label for="word">Word</label>
+                        <span class="input-group-addon"></span>
+                        <input type="text" class="form-control" id="word" name="word" placeholder="Enter word"
+                               autofocus required="required">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="transcription">Transcription</label>
+                        <span class="input-group-addon"></span>
+                        <input type="text" class="form-control" id="transcription" name="transcription"
+                               placeholder="Enter transcription" required="required">
+                    </div>
+                </div>
+                <div class="row p-1">
+                    <div class="col-sm-12">
+                        <label for="translation">Translation</label>
+                        <span class="input-group-addon"></span>
+                        <input type="text" class="form-control" id="translation" name="translation"
+                               placeholder="Enter a comma-separated translation." autofocus required="required">
+                    </div>
+                </div>
+                <div class="row p-1">
+                    <div class="col-sm-6">
+                        <label for="category">Category</label>
+                        <span class="input-group-addon"></span>
+                        <select class="form-control" id="category" name="category" required="required">
+                            <option ng-repeat="category in categories">{{ category.name }}</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="part-of-speech">Part of speech</label>
+                        <span class="input-group-addon"></span>
+                        <select class="form-control" id="part-of-speech" name="partOfSpeech" required="required">
+                            <option ng-repeat="speech in parts">{{ speech.partOfSpeech }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row p-1">
+                    <div class="col-sm-6">
+                        <label for="first-phrase">First phrase</label>
+                        <span class="input-group-addon"></span>
+                        <input type="text" class="form-control" id="first-phrase" name="firstPhrase"
+                               placeholder="Enter the first phrase." autofocus required="required">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="first-phrase-translation">First phrase translation</label>
+                        <span class="input-group-addon"></span>
+                        <input type="text" class="form-control" id="first-phrase-translation"
+                               name="firstPhraseTranslation"
+                               placeholder="Enter the translation for the first phrase." autofocus required="required">
+                    </div>
+                </div>
+                <div class="row p-1">
+                    <div class="col-sm-6">
+                        <label for="second-phrase">Second phrase</label>
+                        <span class="input-group-addon"></span>
+                        <input type="text" class="form-control" id="second-phrase" name="secondPhrase"
+                               placeholder="Enter the second phrase." autofocus required="required">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="second-phrase-translation">Second phrase translation</label>
+                        <span class="input-group-addon"></span>
+                        <input type="text" class="form-control" id="second-phrase-translation"
+                               name="secondPhraseTranslation"
+                               placeholder="Enter the translation for the second phrase." autofocus required="required">
+                    </div>
+                </div>
+                <div class="row p-1">
+                    <div class="col-md-12">
+                        <label for="description" style="font-weight: bold">Описание</label>
+                        <textarea class="form-control" id="description" name="description"
+                                  required="required"></textarea>
+                    </div>
+                </div>
+                <label for="photo">Select a photo:</label>
+                <span class="input-group-addon"></span>
+                <input type="file" name="photo" id="photo" required="required">
+                <br/>
+                <button type="submit" onclick="addCard();" class="btn btn-info" style="margin-top: 15px">
+                    Add Card
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

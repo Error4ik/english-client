@@ -1,7 +1,7 @@
-<div class="container-fluid p-0 m-0" style="background-color: #eaece2">
+<div class="container-fluid p-1 m-0" style="background-color: #eaece2">
     <div class="container header-container">
         <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-            <a href="#" onclick="document.location.href = CONTEXT + 'index.html';" class="navbar-brand">
+            <a href="#!/" class="navbar-brand">
                 <img id="header-logo" src="img/header-english-logo.png" class="logo-navbar" alt="logo">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupport">
@@ -10,18 +10,37 @@
             <div class="collapse navbar-collapse" id="navbarSupport">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#"
-                           onclick="document.location.href = CONTEXT + 'index.html';">Главная</a>
+                        <a class="nav-link" href="#!/">Главная</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="return loadPage('training/training.html', '#');">
+                        <a class="nav-link" href="#!/training">
                             Обучение
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="return loadPage('exams/exam.html', '#');">
-                            Экзамен
+                    <li id="add-card-page" class="nav-item" style="display: none;">
+                        <a class="nav-link" href="#!/add-card">
+                            Добавить карточку
                         </a>
+                    </li>
+                    <li class="dropdown nav-item" id="logout-item" style="display: none;">
+                        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"
+                           onclick="return false;">
+                            <span id="user-info" style="font-weight: bold"></span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu text-center">
+                            <li>
+                                <a href="#!/settings" class="nav-link">
+                                    Настройки
+                                </a>
+                                <a href="#" class="nav-link" onclick="return logOut();">
+                                    Выйти
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li id="login-page" class="nav-item">
+                        <a class="nav-link" href="#!/login">Войти</a>
                     </li>
                 </ul>
             </div>
