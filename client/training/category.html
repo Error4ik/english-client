@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="front">
                     <div class="cover text-center">
-                        <img ng-src="//localhost:9000/image/{{word.image.id}}" alt="photo"/>
+                        <img ng-src="{{imageUrl}}{{word.image.id}}" alt="photo"/>
                     </div>
                     <div class="content">
                         <div class="text-center">
@@ -29,7 +29,7 @@
                 </div>
                 <div class="back">
                     <div class="cover text-center">
-                        <img ng-src="//localhost:9000/image/{{word.image.id}}" alt="photo"/>
+                        <img ng-src="{{imageUrl}}{{word.image.id}}" alt="photo"/>
                     </div>
                     <div class="content">
                         <div class="text-center">

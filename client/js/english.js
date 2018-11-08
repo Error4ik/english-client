@@ -1,6 +1,7 @@
 DOMAIN = 'http://192.168.1.168';
 // DOMAIN = 'http://localhost';
 base_url = DOMAIN + ':9000';
+image_url = base_url + "/image/";
 
 user = {};
 user.hasRole = function (role) {
@@ -186,9 +187,6 @@ english.config(function ($routeProvider, $locationProvider, $httpProvider) {
     }).when('/category/:id', {
         templateUrl: "training/category.html",
         controller: "CategoryController"
-    }).when('/words', {
-        templateUrl: "test/test3.html",
-        controller: "WordController"
     }).when('/login', {
         templateUrl: "login.html"
     }).otherwise({
@@ -205,6 +203,7 @@ english.controller('IndexController', function ($scope, $http, $location, $route
 english.controller("TrainingPageController", function ($scope, $http, $window) {
     doGet($http, base_url + "/category/categories", function (data) {
         $scope.categories = data;
+        $scope.imageUrl = image_url;
     });
 });
 
@@ -221,19 +220,7 @@ english.controller("AddCardController", function ($scope, $http, $location, $rou
 english.controller("CategoryController", function ($scope, $http, $routeParams) {
     doGet($http, base_url + "/word/words-by-category/" + $routeParams.id, function (data) {
         $scope.words = data.wordsByCategory;
-    });
-});
-
-english.controller("UserByIdCtrl", function ($scope, $http) {
-    doGet($http, base_url + "/user/1", function (data) {
-        console.log(data);
-        $scope.user = data;
-    });
-});
-
-english.controller("WordController", function ($scope, $http) {
-    doGet($http, base_url + "/word/words", function (data) {
-        $scope.words = data.allWord;
+        $scope.imageUrl = image_url;
     });
 });
 
