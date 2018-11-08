@@ -118,7 +118,7 @@ function logOut() {
 function addCard() {
     var data = new FormData($("#add-card")[0]);
     $.ajax({
-        url: base_url + "/word/add",
+        url: base_url + "/admin/add-card",
         method: "POST",
         contentType: false,
         data: data,
