@@ -145,6 +145,29 @@ function addCard() {
     });
 }
 
+function addCategory() {
+    var data = new FormData();
+    data.append("name", $("#name").val());
+    data.append("description", $("#description").val());
+    data.append("photo", $('input[type=file]')[0].files[0]);
+    $.ajax({
+        url: base_url + "/admin/add-category",
+        method: "POST",
+        contentType: false,
+        data: data,
+        processData: false,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+        },
+        success: function () {
+            document.location.href = "#!/";
+        },
+        error: function (error) {
+            console.log("ERROR: ", error);
+        }
+    });
+}
+
 function isAdmin() {
     return user.hasRole("admin");
 }
@@ -155,6 +178,7 @@ function closeDialog(data) {
     $('#user-info').html(data.name);
     if (isAdmin()) {
         $("#add-card-page").show();
+        $("#add-category").show();
     }
 }
 
@@ -193,6 +217,8 @@ english.config(function ($routeProvider, $locationProvider, $httpProvider) {
     }).when('/add-card', {
         templateUrl: "training/add-card.html",
         controller: "AddCardController"
+    }).when("/add-category", {
+        templateUrl: "training/add-category.html"
     }).when('/category/:id', {
         templateUrl: "training/category.html",
         controller: "CategoryController"

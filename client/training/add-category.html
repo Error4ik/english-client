@@ -1,0 +1,27 @@
+<div class="add-card p-1">
+    <form id="add-category" enctype="multipart/form-data">
+        <div class="col-sm-12 text-center" style="padding-top: 20px">
+            <div class="row p-1">
+                <div class="col-sm-6">
+                    <label for="name">Category name</label>
+                    <span class="input-group-addon"></span>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter name category"
+                           autofocus required="required">
+                </div>
+                <div class="col-sm-6">
+                    <label for="description">Category description</label>
+                    <span class="input-group-addon"></span>
+                    <input type="text" class="form-control" id="description" name="description"
+                           placeholder="Enter description" required="required">
+                </div>
+            </div>
+            <label for="photo">Select a photo:</label>
+            <span class="input-group-addon"></span>
+            <input type="file" name="photo" id="photo" required="required">
+            <br/>
+            <button type="submit" onclick="addCategory();" class="btn btn-info" style="margin-top: 15px">
+                Add Category
+            </button>
+        </div>
+    </form>
+</div>

@@ -223,3 +223,14 @@ label {
 #search {
     padding: 0 10px 10px 10px;
 }
+
+a {
+    color: #800000; /* Цвет обычной ссылки */
+}
+a:visited {
+    color: #800000; /* Цвет посещенной ссылки */
+}
+a:hover {
+    color: #808000;
+}
+
