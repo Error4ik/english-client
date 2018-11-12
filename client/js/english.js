@@ -114,9 +114,19 @@ function logOut() {
     });
 }
 
-
 function addCard() {
-    var data = new FormData($("#add-card")[0]);
+    var data = new FormData();
+    data.append("word", $("#word").val());
+    data.append("transcription", $("#transcription").val());
+    data.append("translation", $("#translation").val());
+    data.append("category", $("#category").val());
+    data.append("partOfSpeech", $("#part-of-speech").val());
+    data.append("firstPhrase", $("#first-phrase").val());
+    data.append("secondPhrase", $("#second-phrase").val());
+    data.append("firstPhraseTranslation", $("#first-phrase-translation").val());
+    data.append("secondPhraseTranslation", $("#second-phrase-translation").val());
+    data.append("description", $("#description").val());
+    data.append("photo", $('input[type=file]')[0].files[0]);
     $.ajax({
         url: base_url + "/admin/add-card",
         method: "POST",
@@ -125,7 +135,6 @@ function addCard() {
         processData: false,
         beforeSend: function (xhr) {
             xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=utf-8");
         },
         success: function () {
             document.location.href = "#!/";
