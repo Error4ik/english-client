@@ -1,7 +1,7 @@
-DOMAIN = 'http://192.168.1.168';
-// DOMAIN = 'http://localhost';
-base_url = DOMAIN + ':9000';
-image_url = base_url + "/image/";
+// DOMAIN = 'http://192.168.1.168';
+DOMAIN = 'https://your-english.herokuapp.com';
+// base_url = DOMAIN + ':9000';
+base_url = DOMAIN;
 
 user = {};
 user.hasRole = function (role) {
@@ -238,7 +238,6 @@ english.controller('IndexController', function ($scope, $http, $location, $route
 english.controller("TrainingPageController", function ($scope, $http, $window) {
     doGet($http, base_url + "/category/categories", function (data) {
         $scope.categories = data;
-        $scope.imageUrl = image_url;
     });
 });
 
@@ -255,7 +254,6 @@ english.controller("AddCardController", function ($scope, $http, $location, $rou
 english.controller("CategoryController", function ($scope, $http, $routeParams) {
     doGet($http, base_url + "/word/words-by-category/" + $routeParams.id, function (data) {
         $scope.words = data.wordsByCategory;
-        $scope.imageUrl = image_url;
     });
 });
 
