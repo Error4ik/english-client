@@ -17,27 +17,29 @@
                             Обучение
                         </a>
                     </li>
-                    <li id="add-card-page" class="nav-item" style="display: none;">
-                        <a class="nav-link" href="#!/add-card">
-                            Добавить карточку
-                        </a>
-                    </li>
-                    <li id="add-category" class="nav-item" style="display: none;">
-                        <a class="nav-link" href="#!/add-category">
-                            Добавить категорию
-                        </a>
-                    </li>
-                    <li class="dropdown nav-item" id="logout-item" style="display: none;">
+                    <li class="dropdown nav-item" id="user-item" style="display: none;">
                         <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"
                            onclick="return false;">
                             <span id="user-info" style="font-weight: bold"></span>
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu text-center">
-                            <li>
+                            <li id="add-card-page" class="nav-item" style="display: none;">
+                                <a class="nav-link" href="#!/add-card">
+                                    Добавить карточку
+                                </a>
+                            </li>
+                            <li id="add-category" class="nav-item" style="display: none;">
+                                <a class="nav-link" href="#!/add-category">
+                                    Добавить категорию
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="#!/settings" class="nav-link">
                                     Настройки
                                 </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="#" class="nav-link" onclick="return logOut();">
                                     Выйти
                                 </a>

@@ -172,7 +172,7 @@ function isAdmin() {
 }
 
 function closeDialog(data) {
-    $('#logout-item').show();
+    $('#user-item').show();
     $('#login-page').hide();
     $('#user-info').html(data.name);
     if (isAdmin()) {
