@@ -54,7 +54,7 @@ footer {
 .image-display {
     width: 160px;
     height: 163px;
-    background-image: url("../img/complete-list-irregular-verb.png");
+    /*background-image: url("../img/complete-list-irregular-verb.png");*/
     background-repeat: no-repeat;
     background-position: center;
 }

@@ -7,9 +7,11 @@ user.hasRole = function (role) {
     return false;
 };
 
+formIsValidate = true;
+
 function login() {
-    var email = $("#email").val();
-    var pass = $("#password").val();
+    let email = $("#email").val();
+    let pass = $("#password").val();
     $.ajax({
         url: base_url + "/oauth/token",
         method: "POST",
@@ -35,8 +37,8 @@ function login() {
 }
 
 function regUser() {
-    var email = $("#reg-email").val();
-    var pass = $("#reg-password").val();
+    let email = $("#reg-email").val();
+    let pass = $("#reg-password").val();
     $.ajax({
         url: base_url + "/registration",
         method: "POST",
@@ -63,7 +65,7 @@ function regUser() {
 }
 
 function loadUser(f) {
-    var token = readCookie("token");
+    let token = readCookie("token");
     if (token != null && token != "") {
         $.ajax({
             url: base_url + '/user/current',
@@ -114,57 +116,69 @@ function logOut() {
 }
 
 function addCard() {
-    var data = new FormData();
-    data.append("word", $("#word").val());
-    data.append("transcription", $("#transcription").val());
-    data.append("translation", $("#translation").val());
-    data.append("category", $("#category").val());
-    data.append("partOfSpeech", $("#part-of-speech").val());
-    data.append("firstPhrase", $("#first-phrase").val());
-    data.append("secondPhrase", $("#second-phrase").val());
-    data.append("firstPhraseTranslation", $("#first-phrase-translation").val());
-    data.append("secondPhraseTranslation", $("#second-phrase-translation").val());
-    data.append("description", $("#description").val());
-    data.append("photo", $('input[type=file]')[0].files[0]);
-    $.ajax({
-        url: base_url + "/admin/add-card",
-        method: "POST",
-        contentType: false,
-        data: data,
-        processData: false,
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
-        },
-        success: function () {
-            document.location.href = "#!/";
-        },
-        error: function (error) {
-            console.log("ERROR: ", error);
-        }
-    });
+    let form = $("#add-card").serializeArray();
+    let file = $('input[type=file]')[0].files[0];
+    let wordForm = checkFields(form, file);
+    if (formIsValidate) {
+        $.ajax({
+            url: base_url + "/admin/add-card",
+            method: "POST",
+            contentType: false,
+            data: wordForm,
+            processData: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+            },
+            success: function () {
+                document.location.href = "#!/";
+            },
+            error: function (error) {
+                console.log("ERROR: ", error);
+            }
+        });
+    }
 }
 
 function addCategory() {
-    var data = new FormData();
-    data.append("name", $("#name").val());
-    data.append("description", $("#description").val());
-    data.append("photo", $('input[type=file]')[0].files[0]);
-    $.ajax({
-        url: base_url + "/admin/add-category",
-        method: "POST",
-        contentType: false,
-        data: data,
-        processData: false,
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
-        },
-        success: function () {
-            document.location.href = "#!/";
-        },
-        error: function (error) {
-            console.log("ERROR: ", error);
+    let form = $("#add-category").serializeArray();
+    let file = $('input[type=file]')[0].files[0];
+    let categoryForm = checkFields(form, file);
+    if (formIsValidate) {
+        $.ajax({
+            url: base_url + "/admin/add-category",
+            method: "POST",
+            contentType: false,
+            data: categoryForm,
+            processData: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+            },
+            success: function () {
+                document.location.href = "#!/";
+            },
+            error: function (error) {
+                console.log("ERROR: ", error);
+            }
+        });
+    }
+}
+
+function checkFields(form, file) {
+    let formData = new FormData();
+    formIsValidate = true;
+    if (file === undefined) {
+        formIsValidate = false;
+    } else {
+        formData.append("photo", file);
+        for (let i = 0; i < form.length; ++i) {
+            if (form[i].value === "") {
+                formIsValidate = false;
+                break;
+            }
+            formData.append(form[i].name, form[i].value);
         }
-    });
+    }
+    return formData;
 }
 
 function isAdmin() {
@@ -177,14 +191,14 @@ function closeDialog(data) {
     $('#user-info').html(data.name);
     if (isAdmin()) {
         $("#add-card-page").show();
-        $("#add-category").show();
+        $("#add-category-page").show();
     }
 }
 
 function createCookie(name, value, days) {
-    var expires;
+    let expires;
     if (days) {
-        var date = new Date();
+        let date = new Date();
         date.setTime(date.getTime() + (days * 1000));
         expires = "; expires=" + date.toGMTString();
     } else {
@@ -194,10 +208,10 @@ function createCookie(name, value, days) {
 }
 
 function readCookie(name) {
-    var nameEQ = encodeURIComponent(name) + "=";
-    var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
+    let nameEQ = encodeURIComponent(name) + "=";
+    let ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
         while (c.charAt(0) === ' ') c = c.substring(1, c.length);
         if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
     }
@@ -267,8 +281,8 @@ function doPost($http, url, data, action, error) {
 }
 
 function doHttp(method, $http, url, data, action, error) {
-    var token = readCookie("token");
-    var headers = {};
+    let token = readCookie("token");
+    let headers = {};
     if (token != null && token != "") {
         headers = {
             'Authorization': 'Bearer ' + token,
