@@ -218,7 +218,16 @@ function readCookie(name) {
     return null;
 }
 
-var english = angular.module("english", ['ngRoute', 'angularUtils.directives.dirPagination']);
+function innerDate() {
+    let d = new Date();
+    let day=["Воскресенье","Понедельник","Вторник", "Среда","Четверг","Пятница","Суббота"];
+    let month=["января","февраля","марта","апреля","мая","июня", "июля","августа","сентября","октября","ноября","декабря"];
+
+    document.getElementById("current-date").innerHTML = day[d.getDay()] + " " + d.getDate() + " " + month[d.getMonth()]
+        + " " + d.getFullYear() + " г.";
+}
+
+let english = angular.module("english", ['ngRoute', 'angularUtils.directives.dirPagination']);
 
 english.config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider.when('/', {

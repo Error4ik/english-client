@@ -1,21 +1,16 @@
 <div class="row">
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3" ng-repeat="category in categories" style="margin-bottom: 20px">
+    <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" ng-repeat="category in categories" style="margin-bottom: 20px">
         <div class="category-card-container">
             <a href="#!/category/{{category.id}}">
-                <div>
-                    <div style="height: 320px">
-                        <div class="cover text-center">
-                            <img ng-src="{{imageUrl}}{{category.image.id}}" alt="photo"
-                                 style="width: 200px;"/>
-                        </div>
-                        <div class="content">
-                            <div class="text-center">
-                                <h3>{{ category.name }}</h3>
-                            </div>
-                            <!--<div style="padding: 2px">-->
-                            <!--{{ category.description }}-->
-                            <!--</div>-->
-                        </div>
+                <div class="cover text-center">
+                    <img ng-src="{{imageUrl}}{{category.image.id}}" alt="photo"/>
+                </div>
+                <div class="content">
+                    <div class="text-center">
+                        <h3>{{ category.name }}</h3>
+                    </div>
+                    <div style="padding: 2px" class="text-center">
+                    {{ 200 }}
                     </div>
                 </div>
             </a>

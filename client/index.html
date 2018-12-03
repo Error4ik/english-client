@@ -8,9 +8,8 @@
     <link rel="stylesheet" type="text/css" href="css/english.css">
     <script src="js/angular/angular.js"></script>
     <script src="js/angular/angular-route.min.js"></script>
-    <script src="js/jquery/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap/bootstrap.min.js"></script>
     <script src="js/dirPagination/dirPagination.js"></script>
+    <script src="js/jquery/jquery-3.3.1.min.js"></script>
     <script src="js/english.js"></script>
     <script>
         $(function () {
@@ -22,12 +21,13 @@
         });
     </script>
 </head>
-<body ng-app="english">
+<body ng-app="english" style="background: #f6f4f1">
 
 <div id="header"></div>
 
-<div class="container" ng-view></div>
+<div class="container" ng-view style="padding: 15px 0 0 0"></div>
 
 <div id="footer"></div>
+<script src="js/bootstrap/bootstrap.min.js"></script>
 </body>
 </html>
