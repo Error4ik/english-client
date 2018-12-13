@@ -168,7 +168,7 @@ a:hover {
 }
 
 .social-icon img {
-    width: 50px;
+    width: 80px;
     background: #f0edea;
     padding: 30px 10px 30px 10px;
 }
@@ -177,4 +177,8 @@ a:hover {
     padding: 30px 10px 30px 10px;
     font-family:"Comic Sans MS";
     font-weight: bold;
+}
+
+.social-icon:hover {
+    opacity: .5;
 }

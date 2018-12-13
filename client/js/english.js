@@ -185,10 +185,17 @@ function isAdmin() {
     return user.hasRole("admin");
 }
 
+function isAuthenticated() {
+    return user.authenticated;
+}
+
 function closeDialog(data) {
     $('#user-item').show();
     $('#login-page').hide();
     $('#user-info').html(data.name);
+    if (isAuthenticated()) {
+        $('#user-test').show();
+    }
     if (isAdmin()) {
         $("#add-card-page").show();
         $("#add-category-page").show();
@@ -220,8 +227,8 @@ function readCookie(name) {
 
 function innerDate() {
     let d = new Date();
-    let day=["Воскресенье","Понедельник","Вторник", "Среда","Четверг","Пятница","Суббота"];
-    let month=["января","февраля","марта","апреля","мая","июня", "июля","августа","сентября","октября","ноября","декабря"];
+    let day = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
+    let month = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
 
     document.getElementById("current-date").innerHTML = day[d.getDay()] + " " + d.getDate() + " " + month[d.getMonth()]
         + " " + d.getFullYear() + " г.";
@@ -239,13 +246,22 @@ english.config(function ($routeProvider, $locationProvider, $httpProvider) {
     }).when('/add-card', {
         templateUrl: "training/add-card.html",
         controller: "AddCardController"
-    }).when("/add-category", {
+    }).when('/add-category', {
         templateUrl: "training/add-category.html"
     }).when('/category/:id', {
         templateUrl: "training/category.html",
         controller: "CategoryController"
     }).when('/login', {
         templateUrl: "login.html"
+    }).when('/practice', {
+        templateUrl: "training/practice.html",
+        controller: "PracticeController"
+    }).when('/exam-page/:id', {
+        templateUrl: "training/exam-page.html",
+        controller: "ExamController"
+    }).when('/result', {
+        templateUrl: "training/exam-result.html",
+        controller: "ExamResultController"
     }).otherwise({
         templateUrl: 'training/empty.html'
     });
@@ -279,6 +295,79 @@ english.controller("CategoryController", function ($scope, $http, $routeParams) 
         $scope.words = data.wordsByCategory;
         $scope.imageUrl = image_url;
     });
+});
+
+english.controller("PracticeController", function ($scope, $http, $routeParams) {
+    doGet($http, base_url + "/exam/exams", function (data) {
+        $scope.exams = data;
+    });
+});
+
+english.controller("ExamController", function ($scope, $http, $routeParams) {
+    let questions;
+    let count = 0;
+    let answersTrue = [];
+    let userAnswers = [];
+    let totalQuestion;
+    let examId;
+    doGet($http, base_url + "/exam/" + $routeParams.id, function (data) {
+        $scope.imageUrl = image_url;
+        $scope.name = data.name;
+        examId = data.id;
+        questions = data.questions;
+        $scope.word = questions[count].word;
+        $scope.variants = questions[count].words;
+        totalQuestion = questions.length;
+        $scope.count = count + 1;
+        $scope.total = totalQuestion;
+        $scope.progress = ($scope.count / totalQuestion) * 100;
+    });
+
+    $scope.next = function (word, variant) {
+        answersTrue.push(word);
+        userAnswers.push(variant);
+
+        if (count >= 0 && count < questions.length - 1) {
+            $scope.word = questions[++count].word;
+            $scope.variants = questions[count].words;
+            $scope.count = count + 1;
+            $scope.progress = ($scope.count / totalQuestion) * 100;
+        } else {
+            let coincidences = 0;
+            for(let i = 0; i < questions.length; i++) {
+                if (answersTrue[i].word === userAnswers[i].word) {
+                    coincidences += 1;
+                }
+            }
+
+            $.ajax({
+                url: base_url + '/user/save-stats-for-exam',
+                type: 'POST',
+                dataType: "json",
+                crossDomain: true,
+                data: {"examId": examId, "correctAnswer" : coincidences},
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=utf-8");
+                },
+                success: function (data) {
+                    document.location.href = "#!/result";
+                },
+                error: function (data) {
+                    console.log(JSON.parse(data.responseText).error_description);
+                }
+            });
+        }
+    };
+});
+
+english.controller("ExamResultController", function ($scope, $http, $routeParams) {
+    doGet($http, base_url + "/user/exam-stats-by-user", function (data) {
+        console.log(data);
+        $scope.name = data.user.email;
+        $scope.exam = data.exam;
+        $scope.result = Math.round((data.correctAnswer / data.totalQuestions) * 100);
+    })
 });
 
 function doGet($http, url, action, error) {
