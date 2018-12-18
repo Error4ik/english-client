@@ -345,7 +345,7 @@ english.controller("ExamController", function ($scope, $http, $routeParams) {
             }
 
             $.ajax({
-                url: base_url + '/user/save-stats-for-exam',
+                url: base_url + '/exam/save-stats-for-exam',
                 type: 'POST',
                 dataType: "json",
                 crossDomain: true,
@@ -366,7 +366,7 @@ english.controller("ExamController", function ($scope, $http, $routeParams) {
 });
 
 english.controller("ExamResultController", function ($scope, $http, $routeParams) {
-    doGet($http, base_url + "/user/exam-stats-by-user", function (data) {
+    doGet($http, base_url + "/exam/exam-stats-by-user", function (data) {
         console.log(data);
         $scope.name = data.user.email;
         $scope.exam = data.exam;
