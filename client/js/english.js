@@ -199,6 +199,7 @@ function closeDialog(data) {
     if (isAdmin()) {
         $("#add-card-page").show();
         $("#add-category-page").show();
+        $("#add-questions").show();
     }
 }
 
@@ -262,6 +263,9 @@ english.config(function ($routeProvider, $locationProvider, $httpProvider) {
     }).when('/result', {
         templateUrl: "training/exam-result.html",
         controller: "ExamResultController"
+    }).when('/add-exam-and-question', {
+        templateUrl: "training/add-questions.html",
+        controller: "AddQuestionsController"
     }).otherwise({
         templateUrl: 'training/empty.html'
     });
@@ -334,7 +338,7 @@ english.controller("ExamController", function ($scope, $http, $routeParams) {
             $scope.progress = ($scope.count / totalQuestion) * 100;
         } else {
             let coincidences = 0;
-            for(let i = 0; i < questions.length; i++) {
+            for (let i = 0; i < questions.length; i++) {
                 if (answersTrue[i].word === userAnswers[i].word) {
                     coincidences += 1;
                 }
@@ -345,7 +349,7 @@ english.controller("ExamController", function ($scope, $http, $routeParams) {
                 type: 'POST',
                 dataType: "json",
                 crossDomain: true,
-                data: {"examId": examId, "correctAnswer" : coincidences},
+                data: {"examId": examId, "correctAnswer": coincidences},
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
                     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=utf-8");
@@ -369,6 +373,86 @@ english.controller("ExamResultController", function ($scope, $http, $routeParams
         $scope.result = Math.round((data.correctAnswer / data.totalQuestions) * 100);
     })
 });
+
+english.controller("AddQuestionsController", function ($scope, $http, $routeParams) {
+    let exams = [];
+    doGet($http, base_url + "/exam/exams", function (data) {
+        $scope.exams = data;
+        exams = data;
+        $scope.setWords(exams[0].category.id);
+    });
+
+    doGet($http, base_url + "/category/categories", function (data) {
+        $scope.categories = data;
+    });
+
+    $scope.addExam = function () {
+        let data = new FormData($("#add-exam")[0]);
+        $.ajax({
+            url: base_url + "/admin/add-exam",
+            method: "POST",
+            contentType: false,
+            data: data,
+            processData: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+            },
+            success: function (data) {
+                location.reload();
+            },
+            error: function (error) {
+                console.log("ERROR ", error);
+            }
+        });
+    };
+
+    $scope.changedValue = function (item) {
+        for (let i = 0; i < exams.length; i++) {
+            if (exams[i].name === item) {
+                item = exams[i];
+                break;
+            }
+        }
+        $scope.setWords(item.category.id);
+    };
+
+    $scope.setWords = function (id) {
+        doGet($http, base_url + "/word/words-by-category/" + id, function (data) {
+            $scope.words = data.wordsByCategory;
+            $scope.wordsIsNotQuestion = getWordsIsNotQuestion(data.wordsByCategory);
+        });
+    };
+
+    $scope.addQuestion = function () {
+        let data = new FormData($("#add-question")[0]);
+        $.ajax({
+            url: base_url + "/admin/add-question",
+            type: 'POST',
+            contentType: false,
+            data: data,
+            processData: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+            },
+            success: function (data) {
+                location.reload();
+            },
+            error: function (data) {
+                console.log(JSON.parse(data.responseText).error_description);
+            }
+        });
+    }
+});
+
+function getWordsIsNotQuestion(wordsIsNotQuestion) {
+    let array = [];
+    for (let i = 0; i < wordsIsNotQuestion.length; i++) {
+        if (!wordsIsNotQuestion[i].useInQuestion) {
+            array.push(wordsIsNotQuestion[i]);
+        }
+    }
+    return array;
+}
 
 function doGet($http, url, action, error) {
     doHttp("GET", $http, url, null, action, error);
