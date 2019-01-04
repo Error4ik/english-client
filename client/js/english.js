@@ -1,4 +1,5 @@
-DOMAIN = 'http://78.107.253.241';
+// DOMAIN = 'http://78.107.253.241';
+DOMAIN = 'http://localhost';
 base_url = DOMAIN + ':9000';
 image_url = base_url + "/image/";
 
@@ -243,15 +244,18 @@ english.config(function ($routeProvider, $locationProvider, $httpProvider) {
         controller: "IndexController"
     }).when('/training', {
         templateUrl: "training/training.html",
-        controller: "TrainingPageController"
+        controller: "TrainingController"
+    }).when('/category', {
+        templateUrl: "training/category.html",
+        controller: "CategoryController"
     }).when('/add-card', {
         templateUrl: "training/add-card.html",
         controller: "AddCardController"
     }).when('/add-category', {
         templateUrl: "training/add-category.html"
     }).when('/category/:id', {
-        templateUrl: "training/category.html",
-        controller: "CategoryController"
+        templateUrl: "training/words-by-category.html",
+        controller: "WordByCategoryController"
     }).when('/login', {
         templateUrl: "login.html"
     }).when('/practice', {
@@ -277,7 +281,11 @@ english.controller('IndexController', function ($scope, $http, $location, $route
 
 });
 
-english.controller("TrainingPageController", function ($scope, $http, $window) {
+english.controller("TrainingController", function ($scope, $http, $location, $route, $routeParams) {
+
+});
+
+english.controller("CategoryController", function ($scope, $http, $window) {
     doGet($http, base_url + "/category/categories", function (data) {
         $scope.categories = data;
         $scope.imageUrl = image_url;
@@ -294,7 +302,7 @@ english.controller("AddCardController", function ($scope, $http, $location, $rou
     });
 });
 
-english.controller("CategoryController", function ($scope, $http, $routeParams) {
+english.controller("WordByCategoryController", function ($scope, $http, $routeParams) {
     doGet($http, base_url + "/word/words-by-category/" + $routeParams.id, function (data) {
         $scope.words = data.wordsByCategory;
         $scope.imageUrl = image_url;
@@ -315,6 +323,11 @@ english.controller("ExamController", function ($scope, $http, $routeParams) {
     let totalQuestion;
     let examId;
     doGet($http, base_url + "/exam/" + $routeParams.id, function (data) {
+        if (data.type === 0) {
+            $scope.exam1 = true;
+        } else {
+            $scope.exam2 = true;
+        }
         $scope.imageUrl = image_url;
         $scope.name = data.name;
         examId = data.id;
@@ -367,11 +380,8 @@ english.controller("ExamController", function ($scope, $http, $routeParams) {
 
 english.controller("ExamResultController", function ($scope, $http, $routeParams) {
     doGet($http, base_url + "/exam/exam-stats-by-user", function (data) {
-        console.log(data);
-        $scope.name = data.user.email;
-        $scope.exam = data.exam;
-        $scope.result = Math.round((data.correctAnswer / data.totalQuestions) * 100);
-    })
+        $scope.exams = data;
+    });
 });
 
 english.controller("AddQuestionsController", function ($scope, $http, $routeParams) {
@@ -379,7 +389,6 @@ english.controller("AddQuestionsController", function ($scope, $http, $routePara
     doGet($http, base_url + "/exam/exams", function (data) {
         $scope.exams = data;
         exams = data;
-        $scope.setWords(exams[0].category.id);
     });
 
     doGet($http, base_url + "/category/categories", function (data) {
@@ -413,13 +422,13 @@ english.controller("AddQuestionsController", function ($scope, $http, $routePara
                 break;
             }
         }
-        $scope.setWords(item.category.id);
+        $scope.setWords(item);
     };
 
-    $scope.setWords = function (id) {
-        doGet($http, base_url + "/word/words-by-category/" + id, function (data) {
+    $scope.setWords = function (exam) {
+        doGet($http, base_url + "/word/words-by-category/" + exam.category.id, function (data) {
             $scope.words = data.wordsByCategory;
-            $scope.wordsIsNotQuestion = getWordsIsNotQuestion(data.wordsByCategory);
+            $scope.wordsIsNotQuestion = getWordsIsNotQuestion(data.wordsByCategory, exam);
         });
     };
 
@@ -444,12 +453,24 @@ english.controller("AddQuestionsController", function ($scope, $http, $routePara
     }
 });
 
-function getWordsIsNotQuestion(wordsIsNotQuestion) {
+function getWordsIsNotQuestion(words, exam) {
     let array = [];
-    for (let i = 0; i < wordsIsNotQuestion.length; i++) {
-        if (!wordsIsNotQuestion[i].useInQuestion) {
-            array.push(wordsIsNotQuestion[i]);
+    let flag = true;
+    if (exam.questions.length > 0) {
+        for (let i = 0; i < words.length; i++) {
+            for (let j = 0; j < exam.questions.length; j++) {
+                if (words[i].id === exam.questions[j].word.id) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                array.push(words[i]);
+            }
+            flag = true;
         }
+    } else {
+        array = words;
     }
     return array;
 }

@@ -1,0 +1,63 @@
+<div class="row">
+    <div class="col-sm-12" id="search">
+        <input type="text" ng-model="query.word" class="form-control" placeholder="Search"/>
+    </div>
+    <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" dir-paginate="word in words | itemsPerPage: 12 | filter: query">
+        <div class="card-container">
+            <div class="card">
+                <div class="front">
+                    <div class="cover text-center">
+                        <img ng-src="{{imageUrl}}{{word.image.id}}" alt="photo"/>
+                    </div>
+                    <div class="content">
+                        <div class="text-center">
+                            <div style="padding: 2px">
+                                <span class="card-font">
+                                    {{ word.word }}
+                                </span>
+                            </div>
+                            <div style="padding: 2px">
+                                <span class="card-font">
+                                    [{{ word.transcription }}]
+                                </span>
+                            </div>
+                            <div style="padding: 5px">
+                                <span ng-repeat="phrase in word.phrases">
+                                {{ phrase.phrase }}
+                                <br>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back">
+                    <div class="cover text-center">
+                        <img ng-src="{{imageUrl}}{{word.image.id}}" alt="photo"/>
+                    </div>
+                    <div class="content">
+                        <div class="text-center">
+                            <div style="padding: 2px">
+                                <span ng-repeat="translation in word.translations"
+                                      class="card-font">
+                                {{ translation.translation }} {{$last ? '' : ($index==translations.length-2) ? ' and ' : ', '}}
+                            </span>
+                            </div>
+                            <div style="margin-top: 20px; padding: 5px">
+                                <span ng-repeat="phrase in word.phrases">
+                                {{ phrase.translate }}
+                                <br>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <dir-pagination-controls
+                boundary-links="true"
+                template-url="js/dirPagination/dirPagination.tpl.html">
+        </dir-pagination-controls>
+    </div>
+</div>

@@ -7,18 +7,24 @@
 <body>
 <form id="add-exam" name="add-exam" style="margin-top: 30px">
     <div class="row text-center">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <label for="name">Название экзамена</label>
             <span class="input-group-addon"></span>
             <input type="text" class="form-control" id="name" name="name"
                    placeholder="Enter exam name" required="required">
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <label for="category">Выберите категорию</label>
             <span class="input-group-addon"></span>
             <select class="form-control" id="category" name="category">
                 <option ng-repeat="category in categories">{{ category.name }}</option>
             </select>
+        </div>
+        <div class="col-sm-4">
+            <label for="type">Укажите тип экзамена(0 или 1)</label>
+            <span class="input-group-addon"></span>
+            <input type="number" class="form-control" id="type" name="type"
+                   placeholder="Enter exam type" required="required">
         </div>
         <div class="col-sm-12">
             <button type="submit" ng-click="addExam();" class="btn btn-info" style="margin-top: 15px">
@@ -55,7 +61,7 @@
         </div>
         <div class="col-sm-12">
             <button type="submit" ng-click="addQuestion();" class="btn btn-info" style="margin-top: 15px">
-                Add Card
+                Add question
             </button>
         </div>
     </div>

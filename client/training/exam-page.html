@@ -14,14 +14,28 @@
             {{ count }} \ {{ total }}
         </div>
     </div>
-    <div>
-        <img ng-src="{{imageUrl}}{{word.image.id}}" alt="photo"/>
+    <div ng-show="exam1">
+        <div>
+            <img ng-src="{{imageUrl}}{{word.image.id}}" alt="photo"/>
+        </div>
+        <div class="row text-center" style="padding-top: 30px">
+            <div class="col-6 col-sm-3" ng-repeat="variant in variants">
+                <button id="12345" class="btn btn-info" ng-click="next(word, variant);">
+                    {{variant.word}}
+                </button>
+            </div>
+        </div>
     </div>
-    <div class="row text-center" style="padding-top: 30px">
-        <div class="col-6 col-sm-3" ng-repeat="variant in variants">
-            <button id="12345" class="btn btn-info" ng-click="next(word, variant);">
-                {{variant.word}}
-            </button>
+    <div ng-show="exam2">
+        <div>
+            <h1>{{ word.word }}</h1>
+        </div>
+        <div class="row text-center" style="padding-top: 30px">
+            <div class="col-6 col-sm-3" ng-repeat="variant in variants">
+                <button id="123456" class="btn btn-info" ng-click="next(word, variant);">
+                    <img ng-src="{{imageUrl}}{{variant.image.id}}" alt="photo"/>
+                </button>
+            </div>
         </div>
     </div>
 </div>
