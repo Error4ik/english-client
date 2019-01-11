@@ -166,11 +166,11 @@ a:hover {
 .social-icon img {
     width: 80px;
     background: #f0edea;
-    padding: 30px 10px 30px 10px;
+    padding: 10px;
 }
 
 #current-date {
-    padding: 30px 10px 30px 10px;
+    padding: 10px ;
     font-family:"Comic Sans MS";
     font-weight: bold;
 }
@@ -179,14 +179,23 @@ a:hover {
     opacity: .5;
 }
 
-@media screen and (max-width: 500px){
-    .variant img {
+@media screen and (max-width: 992px){
+    .image-variant img {
         width: 100%;
     }
 
-    .variant {
+    .image-variant {
         padding: 0;
     }
+}
+
+.words-variant {
+    width: 100%;
+    padding: 5px;
+}
+
+.words-variant button {
+    width: 100%;
 }
 
 @media (max-width: 992px) {
