@@ -27,7 +27,7 @@
                 <div class="col-sm-6">
                     <label for="category">Category</label>
                     <span class="input-group-addon"></span>
-                    <select class="form-control" id="category" name="category" required="required">
+                    <select class="form-control" id="category" name="category">
                         <option ng-repeat="category in categories">{{ category.name }}</option>
                     </select>
                 </div>
@@ -78,7 +78,7 @@
             </div>
             <label for="photo">Select a photo:</label>
             <span class="input-group-addon"></span>
-            <input type="file" name="photo" id="photo" required="required">
+            <input type="file" name="photo" id="photo">
             <br/>
             <button type="submit" onclick="addCard();" class="btn btn-info" style="margin-top: 15px">
                 Add Card

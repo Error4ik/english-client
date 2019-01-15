@@ -167,17 +167,13 @@ function addCategory() {
 function checkFields(form, file) {
     let formData = new FormData();
     formIsValidate = true;
-    if (file === undefined) {
-        formIsValidate = false;
-    } else {
-        formData.append("photo", file);
-        for (let i = 0; i < form.length; ++i) {
-            if (form[i].value === "") {
-                formIsValidate = false;
-                break;
-            }
-            formData.append(form[i].name, form[i].value);
+    formData.append("photo", file);
+    for (let i = 0; i < form.length; ++i) {
+        if (form[i].value === "") {
+            formIsValidate = false;
+            break;
         }
+        formData.append(form[i].name, form[i].value);
     }
     return formData;
 }
@@ -270,6 +266,12 @@ english.config(function ($routeProvider, $locationProvider, $httpProvider) {
     }).when('/add-exam-and-question', {
         templateUrl: "training/add-questions.html",
         controller: "AddQuestionsController"
+    }).when('/learning-by-part-of-speech', {
+        templateUrl: "training/parts-of-speech.html",
+        controller: "PartOfSpeechController"
+    }).when('/words-by-part-of-speech/:id', {
+        templateUrl: "training/words-by-part-of-speech.html",
+        controller: "WordsByPartOfSpeechController"
     }).otherwise({
         templateUrl: 'training/empty.html'
     });
@@ -285,14 +287,14 @@ english.controller("TrainingController", function ($scope, $http, $location, $ro
 
 });
 
-english.controller("CategoryController", function ($scope, $http, $window) {
+english.controller("CategoryController", function ($scope, $http) {
     doGet($http, base_url + "/category/categories", function (data) {
         $scope.categories = data;
         $scope.imageUrl = image_url;
     });
 });
 
-english.controller("AddCardController", function ($scope, $http, $location, $route, $routeParams) {
+english.controller("AddCardController", function ($scope, $http) {
     doGet($http, base_url + "/category/categories", function (data) {
         $scope.categories = data;
     });
@@ -309,7 +311,7 @@ english.controller("WordByCategoryController", function ($scope, $http, $routePa
     });
 });
 
-english.controller("PracticeController", function ($scope, $http, $routeParams) {
+english.controller("PracticeController", function ($scope, $http) {
     doGet($http, base_url + "/exam/exams", function (data) {
         $scope.exams = data;
     });
@@ -378,13 +380,13 @@ english.controller("ExamController", function ($scope, $http, $routeParams) {
     };
 });
 
-english.controller("ExamResultController", function ($scope, $http, $routeParams) {
+english.controller("ExamResultController", function ($scope, $http) {
     doGet($http, base_url + "/exam/exam-stats-by-user", function (data) {
         $scope.exams = data;
     });
 });
 
-english.controller("AddQuestionsController", function ($scope, $http, $routeParams) {
+english.controller("AddQuestionsController", function ($scope, $http) {
     let exams = [];
     doGet($http, base_url + "/exam/exams", function (data) {
         $scope.exams = data;
@@ -451,6 +453,18 @@ english.controller("AddQuestionsController", function ($scope, $http, $routePara
             }
         });
     }
+});
+
+english.controller("PartOfSpeechController", function ($scope, $http) {
+    doGet($http, base_url + "/part-of-speech/part-of-speech-without-noun", function (data) {
+        $scope.parts = data;
+    })
+});
+
+english.controller("WordsByPartOfSpeechController", function ($scope, $http, $routeParams) {
+    doGet($http, base_url + "/word/words-by-part-of-speech/" + $routeParams.id, function (data) {
+        $scope.words = data
+    })
 });
 
 function getWordsIsNotQuestion(words, exam) {

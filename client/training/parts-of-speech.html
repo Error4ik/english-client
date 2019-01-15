@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Words-by-part-of-speech</title>
+</head>
+<body>
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" ng-repeat="part in parts" style="margin-bottom: 20px">
+        <div class="category-card-container">
+            <a href="#!/words-by-part-of-speech/{{part.id}}">
+                <div class="cover text-center">
+                    <img ng-src="img/mental-health.png" alt="photo"/>
+                </div>
+                <div class="content">
+                    <div class="text-center">
+                        <h3>{{ part.partOfSpeech }}</h3>
+                    </div>
+                    <div style="padding: 2px" class="text-center">
+                        <h5>{{ part.numberOfWords }}</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
