@@ -16,7 +16,7 @@ footer {
 }
 
 #header {
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     background: #ffffff;
 }
 
@@ -156,9 +156,11 @@ footer {
 a {
     color: #800000;
 }
+
 a:visited {
     color: #800000;
 }
+
 a:hover {
     color: #808000;
 }
@@ -170,8 +172,8 @@ a:hover {
 }
 
 #current-date {
-    padding: 10px ;
-    font-family:"Comic Sans MS";
+    padding: 10px;
+    font-family: "Comic Sans MS";
     font-weight: bold;
 }
 
@@ -179,7 +181,7 @@ a:hover {
     opacity: .5;
 }
 
-@media screen and (max-width: 992px){
+@media screen and (max-width: 992px) {
     .image-variant img {
         width: 100%;
     }
@@ -208,4 +210,16 @@ a:hover {
     .container {
         max-width: 80%;
     }
+}
+
+.main-body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    background: #f6f4f1;
+}
+
+.body-content {
+    flex: 1;
+    padding: 15px 0 0 0;
 }
