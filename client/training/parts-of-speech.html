@@ -6,6 +6,13 @@
 </head>
 <body>
 <div class="row">
+    <div class="col-md-12">
+        <ul class="breadcrumb">
+            <li><a href="#!/">Главная</a></li>
+            <li><a href="#!/training">Обучение</a></li>
+            <li class="active">Части речи</li>
+        </ul>
+    </div>
     <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" ng-repeat="part in parts" style="margin-bottom: 20px">
         <div class="category-card-container">
             <a href="#!/words-by-part-of-speech/{{part.id}}">

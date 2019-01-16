@@ -6,6 +6,12 @@
 </head>
 <body>
 <div class="row text-center">
+    <div class="col-md-12">
+        <ul class="breadcrumb">
+            <li><a href="#!/">Главная</a></li>
+            <li class="active">Практика</li>
+        </ul>
+    </div>
     <div class="col-sm-6" ng-repeat="exam in exams">
         <h5><a href="#!/exam-page/{{exam.id}}"> {{ exam.name }} </a></h5>
     </div>

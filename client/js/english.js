@@ -308,6 +308,7 @@ english.controller("WordByCategoryController", function ($scope, $http, $routePa
     doGet($http, base_url + "/word/words-by-category/" + $routeParams.id, function (data) {
         $scope.words = data.wordsByCategory;
         $scope.imageUrl = image_url;
+        $scope.category = data.wordsByCategory[0].category.name;
     });
 });
 
@@ -463,7 +464,8 @@ english.controller("PartOfSpeechController", function ($scope, $http) {
 
 english.controller("WordsByPartOfSpeechController", function ($scope, $http, $routeParams) {
     doGet($http, base_url + "/word/words-by-part-of-speech/" + $routeParams.id, function (data) {
-        $scope.words = data
+        $scope.words = data;
+        $scope.partOfSpeech = data[0].partOfSpeech.partOfSpeech;
     })
 });
 
