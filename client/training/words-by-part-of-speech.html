@@ -48,11 +48,11 @@
                         <div class="text-center">
                             <div class="text-center" style="padding: 2px; height: 200px; background-color: #dfffef">
                                 <div style="padding-top: 50px">
-                                    <h1 ng-repeat="translation in word.translations"
-                                        class="card-font" style="font-weight: 500; font-size: 36px">
+                                    <span ng-repeat="translation in word.translations"
+                                        class="card-font" style="font-weight: 500; font-size: 28px">
                                         {{ translation.translation }} {{$last ? '' : ($index==translations.length-2) ? '
                                         and ' : ', '}}
-                                    </h1>
+                                    </span>
                                 </div>
                             </div>
                             <div style="margin-top: 20px; padding: 5px">
