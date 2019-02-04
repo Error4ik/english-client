@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Phrases by category</title>
+</head>
+<body>
+<div class="row">
+    <div class="col-md-12">
+        <ul class="breadcrumb">
+            <li><a href="#!/">Главная</a></li>
+            <li><a href="#!/training">Обучение</a></li>
+            <li><a href="#!/learning-by-phrase">Категории фраз</a></li>
+            <li class="active">{{ category }}</li>
+        </ul>
+    </div>
+    <div class="col-sm-12" id="search">
+        <input type="text" ng-model="query.phrase" class="form-control" placeholder="Search"/>
+    </div>
+    <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3"
+         dir-paginate="phrase in phrases | itemsPerPage: 12 | filter: query">
+        <div class="card-container">
+            <div class="card">
+                <div class="front">
+                    <div class="content">
+                        <div class="text-center">
+                            <div style="padding: 2px; height: 200px; background-color: #dfffef">
+                                <h1 style="padding-top: 50px">
+                                    {{ phrase.phrase }}
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back">
+                    <div class="content">
+                        <div class="text-center">
+                            <div class="text-center" style="padding: 2px; height: 200px; background-color: #dfffef">
+                                <div style="padding-top: 50px">
+                                    <span class="card-font" style="font-weight: 500; font-size: 28px">
+                                        {{ phrase.translation }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <dir-pagination-controls
+                boundary-links="true"
+                template-url="js/dirPagination/dirPagination.tpl.html">
+        </dir-pagination-controls>
+    </div>
+</div>
+</body>
+</html>

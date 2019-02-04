@@ -255,3 +255,8 @@ ul.breadcrumb li a:hover {
     color: #01447e;
     text-decoration: underline;
 }
+
+.training-links {
+    font-size: 30px;
+    font-weight: 500;
+}

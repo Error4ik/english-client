@@ -197,6 +197,7 @@ function closeDialog(data) {
         $("#add-card-page").show();
         $("#add-category-page").show();
         $("#add-questions").show();
+        $("#add-phrase-category").show();
     }
 }
 
@@ -272,6 +273,15 @@ english.config(function ($routeProvider, $locationProvider, $httpProvider) {
     }).when('/words-by-part-of-speech/:id', {
         templateUrl: "training/words-by-part-of-speech.html",
         controller: "WordsByPartOfSpeechController"
+    }).when('/learning-by-phrase', {
+        templateUrl: "training/phrases-category.html",
+        controller: "PhrasesCategoryController"
+    }).when('/phrase-by-category/:id', {
+        templateUrl: "training/phrases-by-category.html",
+        controller: "PhrasesByCategoryController"
+    }).when('/add-phrase-category', {
+        templateUrl: "training/add-phrase-category.html",
+        controller: "AddPhraseCategoryController"
     }).otherwise({
         templateUrl: 'training/empty.html'
     });
@@ -467,6 +477,46 @@ english.controller("WordsByPartOfSpeechController", function ($scope, $http, $ro
         $scope.words = data;
         $scope.partOfSpeech = data[0].partOfSpeech.partOfSpeech;
     })
+});
+
+english.controller("PhrasesCategoryController", function ($scope, $http, $routeParams) {
+    doGet($http, base_url + "/category/phrase-category", function (data) {
+        $scope.categories = data;
+    })
+});
+
+english.controller("PhrasesByCategoryController", function ($scope, $http, $routeParams) {
+    doGet($http, base_url + "/phrase/category/" + $routeParams.id, function (data) {
+        $scope.phrases = data;
+        $scope.category = data[0].phraseCategory.name;
+    })
+});
+
+english.controller("AddPhraseCategoryController", function ($scope, $http, $routeParams) {
+    doGet($http, base_url + "/category/phrase-category", function (data) {
+        $scope.categories = data;
+    });
+
+    $scope.addPhraseFromTraining = function () {
+        console.log("HELLO!");
+        let data = new FormData($("#add-phrase-for-training")[0]);
+        $.ajax({
+            url: base_url + "/admin/add-phrase-for-training",
+            type: 'POST',
+            contentType: false,
+            data: data,
+            processData: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+            },
+            success: function (data) {
+                location.reload();
+            },
+            error: function (data) {
+                console.log(JSON.parse(data.responseText).error_description);
+            }
+        });
+    }
 });
 
 function getWordsIsNotQuestion(words, exam) {
