@@ -56,7 +56,7 @@ function regUser() {
                 $('#reg-error').html(data.error);
                 $('#reg-error').show();
             } else {
-                location.reload();
+                document.location.href = "#!/registration-is-completed";
             }
         },
         error: function (error) {
@@ -255,6 +255,8 @@ english.config(function ($routeProvider, $locationProvider, $httpProvider) {
         controller: "WordByCategoryController"
     }).when('/login', {
         templateUrl: "login.html"
+    }).when('/registration-is-completed', {
+        templateUrl: "training/registration-is-completed.html"
     }).when('/practice', {
         templateUrl: "training/practice.html",
         controller: "PracticeController"
