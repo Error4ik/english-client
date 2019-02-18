@@ -284,6 +284,9 @@ english.config(function ($routeProvider, $locationProvider, $httpProvider) {
     }).when('/add-phrase-category', {
         templateUrl: "training/add-phrase-category.html",
         controller: "AddPhraseCategoryController"
+    }).when('/users', {
+        templateUrl: "training/users.html",
+        controller: "UserController"
     }).otherwise({
         templateUrl: 'training/empty.html'
     });
@@ -516,6 +519,54 @@ english.controller("AddPhraseCategoryController", function ($scope, $http, $rout
             },
             error: function (data) {
                 console.log(JSON.parse(data.responseText).error_description);
+            }
+        });
+    }
+});
+
+english.controller("UserController", function ($scope, $http) {
+    doGet($http, base_url + "/admin/users", function (data) {
+        $scope.users = data;
+    });
+
+    let allRoles =[];
+
+    doGet($http, base_url + "/admin/roles", function (data) {
+        $scope.roles = data;
+        allRoles = data;
+    });
+
+    $scope.userRoles = function (userRoles) {
+        let array = [];
+        if (allRoles.length === userRoles.length) {
+            return array
+        }
+        for (let a = 0; a < allRoles.length; a++) {
+            for (let b = 0; b < userRoles.length; b++) {
+                if (allRoles[a].role === userRoles[b].role) {
+                    break;
+                } else {
+                    array.push(allRoles[a]);
+                }
+            }
+        }
+        return array;
+    };
+
+    $scope.addOrDeleteRole = function (user, role) {
+        $.ajax({
+            url: base_url + "/admin/change-role",
+            method: "POST",
+            dataType: "json",
+            data: {"userId": user.id, "roleId": role.id},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+            },
+            success: function (data) {
+                location.reload();
+            },
+            error: function (error) {
+                console.log(error);
             }
         });
     }

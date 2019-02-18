@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="col-sm-12" id="search">
+        <input type="text" ng-model="query.email" class="form-control" placeholder="Search"/>
+    </div>
+    <div class="row text-center p-1" ng-repeat="user in users | filter: query">
+        <div class="col-sm-3">
+            {{ user.email }}
+        </div>
+        <div class="col-sm-1" ng-repeat="role in user.roles">
+            <button type="button" class="btn btn-danger" style="width: 100%" ng-click="addOrDeleteRole(user, role);">
+                {{ role.role }}
+            </button>
+        </div>
+        <div class="col-sm-4">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#{{user.id}}">
+                {{ user.id }}
+            </button>
+        </div>
+
+        <!-- Modal -->
+        <div id="{{user.id}}" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">{{user.email}}</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-sm-6 p-1" ng-repeat="role in userRoles(user.roles);">
+                            <button type="button" class="btn btn-success" style="width: 100%"
+                                    ng-click="addOrDeleteRole(user, role);">
+                                {{ role.role }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
