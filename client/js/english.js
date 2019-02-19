@@ -198,6 +198,7 @@ function closeDialog(data) {
         $("#add-category-page").show();
         $("#add-questions").show();
         $("#add-phrase-category").show();
+        $("#users").show();
     }
 }
 
