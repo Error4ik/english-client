@@ -18,7 +18,7 @@
         <input type="text" ng-model="query.word" class="form-control" placeholder="Search"/>
     </div>
     <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3"
-         dir-paginate="word in words | itemsPerPage: 12 | filter: query">
+         dir-paginate="word in words | itemsPerPage: itemsPerPage | filter: query" total-items="total_count">
         <div class="card-container">
             <div class="card">
                 <div class="front">
@@ -69,8 +69,11 @@
     </div>
     <div class="col-12">
         <dir-pagination-controls
+                max-size="9"
+                direction-links="true"
                 boundary-links="true"
-                template-url="js/dirPagination/dirPagination.tpl.html">
+                template-url="js/dirPagination/dirPagination.tpl.html"
+                on-page-change="getData(newPageNumber)">
         </dir-pagination-controls>
     </div>
 </div>

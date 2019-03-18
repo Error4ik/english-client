@@ -1,5 +1,5 @@
-// DOMAIN = 'http://78.107.253.241';
-DOMAIN = 'http://localhost';
+DOMAIN = 'http://78.107.253.241';
+// DOMAIN = 'http://localhost';
 base_url = DOMAIN + ':9000';
 image_url = base_url + "/image/";
 
@@ -321,11 +321,24 @@ english.controller("AddCardController", function ($scope, $http) {
 });
 
 english.controller("WordByCategoryController", function ($scope, $http, $routeParams) {
-    doGet($http, base_url + "/word/words-by-category/" + $routeParams.id, function (data) {
-        $scope.words = data.wordsByCategory;
-        $scope.imageUrl = image_url;
-        $scope.category = data.wordsByCategory[0].category.name;
-    });
+    let page = 0;
+    $scope.itemsPerPage = 12;
+    $scope.total_count = 0;
+    $scope.words = [];
+    $scope.getData = function (page) {
+        if (page > 0) {
+            page = page - 1;
+        }
+        let url = base_url + "/word/words-by-category/" + $routeParams.id + "/" + $scope.itemsPerPage + "/" + page;
+        doGet($http, url, function (data) {
+            $scope.words = data.wordsByCategory;
+            $scope.total_count = data.allRecords;
+            $scope.imageUrl = image_url;
+            $scope.category = data.wordsByCategory[0].category.name;
+        });
+    };
+
+    $scope.getData(page);
 });
 
 english.controller("PracticeController", function ($scope, $http) {
@@ -479,10 +492,23 @@ english.controller("PartOfSpeechController", function ($scope, $http) {
 });
 
 english.controller("WordsByPartOfSpeechController", function ($scope, $http, $routeParams) {
-    doGet($http, base_url + "/word/words-by-part-of-speech/" + $routeParams.id, function (data) {
-        $scope.words = data;
-        $scope.partOfSpeech = data[0].partOfSpeech.partOfSpeech;
-    })
+    let page = 0;
+    $scope.itemsPerPage = 12;
+    $scope.total_count = 0;
+    $scope.words = [];
+    $scope.getData = function (page) {
+        if (page > 0) {
+            page = page - 1;
+        }
+        let url = base_url + "/word/words-by-part-of-speech/" + $routeParams.id + "/" + $scope.itemsPerPage + "/" + page;
+        doGet($http, url, function (data) {
+            $scope.words = data.wordsByPartOfSpeech;
+            $scope.total_count = data.allRecords;
+            $scope.partOfSpeech = data.wordsByPartOfSpeech[0].partOfSpeech.partOfSpeech;
+        });
+    };
+
+    $scope.getData(page);
 });
 
 english.controller("PhrasesCategoryController", function ($scope, $http, $routeParams) {
@@ -492,10 +518,23 @@ english.controller("PhrasesCategoryController", function ($scope, $http, $routeP
 });
 
 english.controller("PhrasesByCategoryController", function ($scope, $http, $routeParams) {
-    doGet($http, base_url + "/phrase/category/" + $routeParams.id, function (data) {
-        $scope.phrases = data;
-        $scope.category = data[0].phraseCategory.name;
-    })
+    let page = 0;
+    $scope.itemsPerPage = 12;
+    $scope.total_count = 0;
+    $scope.phrases = [];
+    $scope.getData = function (page) {
+        if (page > 0) {
+            page = page - 1;
+        }
+        let url = base_url + "/phrase/category/" + $routeParams.id + "/" + $scope.itemsPerPage + "/" + page;
+        doGet($http, url, function (data) {
+            $scope.phrases = data.phrasesByCategoryId;
+            $scope.total_count = data.allRecords;
+            $scope.category = data.phrasesByCategoryId[0].phraseCategory.name;
+        });
+    };
+
+    $scope.getData(page);
 });
 
 english.controller("AddPhraseCategoryController", function ($scope, $http, $routeParams) {
@@ -530,7 +569,7 @@ english.controller("UserController", function ($scope, $http) {
         $scope.users = data;
     });
 
-    let allRoles =[];
+    let allRoles = [];
 
     doGet($http, base_url + "/admin/roles", function (data) {
         $scope.roles = data;
