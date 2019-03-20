@@ -8,14 +8,18 @@
 }
 
 footer {
-    margin-top: 10px;
     height: auto;
-    background: #f0edea;
+    background: #ffffff;
     color: #000;
     width: 100%;
 }
 
 #header {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background: #ffffff;
+}
+
+#footer {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     background: #ffffff;
 }
@@ -167,11 +171,12 @@ a:hover {
 
 .social-icon img {
     width: 80px;
-    background: #f0edea;
+    background: #ffffff;
     padding: 10px;
 }
 
 #current-date {
+    margin-top: 20px;
     padding: 10px;
     font-family: "Comic Sans MS";
     font-weight: bold;
