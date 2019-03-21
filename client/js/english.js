@@ -459,8 +459,8 @@ english.controller("AddQuestionsController", function ($scope, $http) {
 
     $scope.setWords = function (exam) {
         doGet($http, base_url + "/word/words-by-category/" + exam.category.id, function (data) {
-            $scope.words = data.wordsByCategory;
-            $scope.wordsIsNotQuestion = getWordsIsNotQuestion(data.wordsByCategory, exam);
+            $scope.words = data;
+            $scope.wordsIsNotQuestion = getWordsIsNotQuestion(data, exam);
         });
     };
 
