@@ -488,6 +488,7 @@ english.controller("AddQuestionsController", function ($scope, $http) {
 english.controller("PartOfSpeechController", function ($scope, $http) {
     doGet($http, base_url + "/part-of-speech/part-of-speech-without-noun", function (data) {
         $scope.parts = data;
+        $scope.imageUrl = image_url;
     })
 });
 
