@@ -506,6 +506,7 @@ english.controller("WordsByPartOfSpeechController", function ($scope, $http, $ro
             $scope.words = data.wordsByPartOfSpeech;
             $scope.total_count = data.allRecords;
             $scope.partOfSpeech = data.wordsByPartOfSpeech[0].partOfSpeech.partOfSpeech;
+            $scope.description = data.wordsByPartOfSpeech[0].partOfSpeech.description;
         });
     };
 
