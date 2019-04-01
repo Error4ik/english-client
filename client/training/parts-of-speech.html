@@ -17,15 +17,15 @@
         <div class="category-card-container">
             <a href="#!/words-by-part-of-speech/{{part.id}}">
                 <div class="cover text-center">
-                    <img ng-src="{{imageUrl}}{{part.image.id}}" alt="photo"/>
+                    <div style="height: 180px">
+                        <img ng-src="{{imageUrl}}{{part.image.id}}" alt="photo" style="height: 100%;"/>
+                    </div>
                 </div>
                 <div class="content">
-                    <div class="text-center">
-                        <h5>{{ part.partOfSpeech }}</h5>
-                    </div>
                     <div style="padding: 2px" class="text-center">
                         <h5>{{ part.numberOfWords }}</h5>
                     </div>
+                    <div style="height: 20px"></div>
                 </div>
             </a>
         </div>
