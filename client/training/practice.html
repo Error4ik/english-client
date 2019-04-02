@@ -6,14 +6,21 @@
 </head>
 <body>
 <div class="row text-center">
-    <div class="col-md-12">
+    <div class="col-md-12 p-2">
         <ul class="breadcrumb">
             <li><a href="#!/">Главная</a></li>
             <li class="active">Практика</li>
         </ul>
     </div>
-    <div class="col-sm-6" ng-repeat="exam in exams">
-        <h5><a href="#!/exam-page/{{exam.id}}"> {{ exam.name }} {{ exam.type }} </a></h5>
+    <div class="col-12 col-sm-6 col-md-6 p-2" ng-repeat="exam in exams">
+        <div class="practice-button">
+            <a class="btn btn-link text-left" href="#!/exam-page/{{exam.id}}">
+                {{exam.name }}
+                <span style="color: white; float: right;">
+                   Type  {{ exam.type }}
+                </span>
+            </a>
+        </div>
     </div>
 </div>
 </body>

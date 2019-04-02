@@ -359,3 +359,23 @@ ul.breadcrumb li a:hover {
     color: white;
     height: 35px;
 }
+
+.practice-button a {
+    background-color: #75a29f;
+    color: black;
+    font-size: 20px;
+    text-decoration: none;
+    width: 100%;
+}
+
+.practice-button a:hover {
+    color: white;
+    background-color: #365f5c;
+    text-decoration: none;
+}
+
+.exam2-word {
+    font-size: 50px;
+    color: #ea7d00;
+    font-weight: bold;
+}
