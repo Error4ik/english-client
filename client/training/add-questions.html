@@ -23,8 +23,10 @@
         <div class="col-sm-4">
             <label for="type">Укажите тип экзамена(0 или 1)</label>
             <span class="input-group-addon"></span>
-            <input type="number" class="form-control" id="type" name="type"
-                   placeholder="Enter exam type" required="required">
+            <select type="number" class="form-control" id="type" name="type" required="required">
+                <option>0</option>
+                <option>1</option>
+            </select>
         </div>
         <div class="col-sm-12">
             <button type="submit" ng-click="addExam();" class="btn btn-info" style="margin-top: 15px">
@@ -48,7 +50,7 @@
         <div class="col-sm-6">
             <label for="word">Слово по которому будет вопрос</label>
             <span class="input-group-addon"></span>
-            <select class="form-control" id="word" name="word">
+            <select class="form-control" id="word" name="noun">
                 <option ng-repeat="word in wordsIsNotQuestion">{{ word.word }}</option>
             </select>
         </div>

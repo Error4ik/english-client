@@ -8,7 +8,7 @@ user.hasRole = function (role) {
     return false;
 };
 
-formIsValidate = true;
+formIsValidate = false;
 
 function login() {
     let email = $("#email").val();
@@ -116,58 +116,9 @@ function logOut() {
     });
 }
 
-function addCard() {
-    let form = $("#add-card").serializeArray();
-    let file = $('input[type=file]')[0].files[0];
-    let wordForm = checkFields(form, file);
-    if (formIsValidate) {
-        $.ajax({
-            url: base_url + "/admin/add-card",
-            method: "POST",
-            contentType: false,
-            data: wordForm,
-            processData: false,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
-            },
-            success: function () {
-                document.location.href = "#!/";
-            },
-            error: function (error) {
-                console.log("ERROR: ", error);
-            }
-        });
-    }
-}
-
-function addCategory() {
-    let form = $("#add-category").serializeArray();
-    let file = $('input[type=file]')[0].files[0];
-    let categoryForm = checkFields(form, file);
-    if (formIsValidate) {
-        $.ajax({
-            url: base_url + "/admin/add-category",
-            method: "POST",
-            contentType: false,
-            data: categoryForm,
-            processData: false,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
-            },
-            success: function () {
-                document.location.href = "#!/";
-            },
-            error: function (error) {
-                console.log("ERROR: ", error);
-            }
-        });
-    }
-}
-
-function checkFields(form, file) {
+function checkFields(form) {
     let formData = new FormData();
     formIsValidate = true;
-    formData.append("photo", file);
     for (let i = 0; i < form.length; ++i) {
         if (form[i].value === "") {
             formIsValidate = false;
@@ -250,7 +201,8 @@ english.config(function ($routeProvider, $locationProvider, $httpProvider) {
         templateUrl: "training/add-card.html",
         controller: "AddCardController"
     }).when('/add-category', {
-        templateUrl: "training/add-category.html"
+        templateUrl: "training/add-category.html",
+        controller: "AddCategoryController"
     }).when('/category/:id', {
         templateUrl: "training/words-by-category.html",
         controller: "WordByCategoryController"
@@ -315,9 +267,88 @@ english.controller("AddCardController", function ($scope, $http) {
         $scope.categories = data;
     });
 
-    doGet($http, base_url + "/part-of-speech/parts-of-speech", function (data) {
+    doGet($http, base_url + "/part-of-speech/part-of-speech-without-noun", function (data) {
         $scope.parts = data;
     });
+
+    $scope.addNoun = function addNoun() {
+        let form = $("#add-noun").serializeArray();
+        let file = $('input[type=file]')[0].files[0];
+        if (typeof file !== "undefined") {
+            let wordForm = checkFields(form);
+            wordForm.append("photo", file);
+            if (formIsValidate) {
+                $.ajax({
+                    url: base_url + "/admin/add-noun",
+                    method: "POST",
+                    contentType: false,
+                    data: wordForm,
+                    processData: false,
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+                    },
+                    success: function () {
+                        document.location.href = "#!/";
+                    },
+                    error: function (error) {
+                        console.log("ERROR: ", error);
+                    }
+                });
+            }
+        }
+    };
+
+    $scope.addWord = function addWord() {
+        let form = $("#add-word").serializeArray();
+        let wordForm = checkFields(form);
+        if (formIsValidate) {
+            $.ajax({
+                url: base_url + "/admin/add-word",
+                method: "POST",
+                contentType: false,
+                data: wordForm,
+                processData: false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+                },
+                success: function () {
+                    document.location.href = "#!/";
+                },
+                error: function (error) {
+                    console.log("ERROR: ", error);
+                }
+            });
+        }
+    };
+});
+
+english.controller("AddCategoryController", function ($scope, $http) {
+    $scope.addCategory = function addCategory() {
+        let form = $("#add-category").serializeArray();
+        let file = $('input[type=file]')[0].files[0];
+        if (typeof file !== "undefined") {
+            let categoryForm = checkFields(form);
+            categoryForm.append("photo", file);
+            if (formIsValidate) {
+                $.ajax({
+                    url: base_url + "/admin/add-category",
+                    method: "POST",
+                    contentType: false,
+                    data: categoryForm,
+                    processData: false,
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+                    },
+                    success: function () {
+                        document.location.href = "#!/";
+                    },
+                    error: function (error) {
+                        console.log("ERROR: ", error);
+                    }
+                });
+            }
+        }
+    }
 });
 
 english.controller("WordByCategoryController", function ($scope, $http, $routeParams) {
@@ -364,8 +395,8 @@ english.controller("ExamController", function ($scope, $http, $routeParams) {
         $scope.name = data.name;
         examId = data.id;
         questions = data.questions;
-        $scope.word = questions[count].word;
-        $scope.variants = questions[count].words;
+        $scope.word = questions[count].noun;
+        $scope.variants = questions[count].nouns;
         totalQuestion = questions.length;
         $scope.count = count + 1;
         $scope.total = totalQuestion;
@@ -377,8 +408,8 @@ english.controller("ExamController", function ($scope, $http, $routeParams) {
         userAnswers.push(variant);
 
         if (count >= 0 && count < questions.length - 1) {
-            $scope.word = questions[++count].word;
-            $scope.variants = questions[count].words;
+            $scope.word = questions[++count].noun;
+            $scope.variants = questions[count].nouns;
             $scope.count = count + 1;
             $scope.progress = ($scope.count / totalQuestion) * 100;
         } else {
