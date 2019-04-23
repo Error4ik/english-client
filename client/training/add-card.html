@@ -1,12 +1,12 @@
-<div class="p-1 row">
+<div class="p-1 row width_hundred_percent_marg_zero">
     <div class="col-sm-6">
         <div class="col-sm-12 text-center" style="padding-top: 20px">
             <form id="add-noun" name="add-noun" enctype="multipart/form-data">
                 <div class="row p-1">
                     <div class="col-sm-6">
-                        <label for="word-1">Word</label>
+                        <label for="word-1">Noun</label>
                         <span class="input-group-addon"></span>
-                        <input type="text" class="form-control" id="word-1" name="word" placeholder="Enter word"
+                        <input type="text" class="form-control" id="word-1" name="word" placeholder="Enter noun"
                                autofocus required="required">
                     </div>
                     <div class="col-sm-6">
@@ -79,7 +79,7 @@
                 </div>
                 <label for="photo">Select a photo:</label>
                 <span class="input-group-addon"></span>
-                <input type="file" name="photo" id="photo" required="required">
+                <input type="file" name="photo" id="photo" required="required" class="width_hundred_percent_marg_zero">
                 <br/>
                 <button type="submit" ng-click="addNoun();" class="btn btn-info" style="margin-top: 15px">
                     Add Noun

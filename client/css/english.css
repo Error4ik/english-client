@@ -217,9 +217,9 @@ a:hover {
 }
 
 .social-icon img {
-    width: 80px;
+    width: 60px;
     background: #ffffff;
-    padding: 10px;
+    padding: 20px 10px 10px;
 }
 
 #current-date {
@@ -273,7 +273,7 @@ a:hover {
 
 .body-content {
     flex: 1;
-    padding: 15px 0 0 0;
+    padding: 7px 0 0 0;
 }
 
 .breadcrumb {
@@ -343,9 +343,9 @@ ul.breadcrumb li a:hover {
     text-decoration: none;
 }
 
-.learning {
-    position: relative;
+.width_hundred_percent_marg_zero {
     width: 100%;
+    margin: 0;
 }
 
 .learning img {
