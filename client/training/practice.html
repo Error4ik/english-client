@@ -1,18 +1,20 @@
-<div class="row text-center width_hundred_percent_marg_zero">
-    <div class="col-md-12 p-2">
-        <ul class="breadcrumb">
-            <li><a href="#!/">Главная</a></li>
-            <li class="active">Практика</li>
-        </ul>
-    </div>
-    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 p-2" ng-repeat="exam in exams">
-        <div class="practice-button">
-            <a class="btn btn-link text-left" href="#!/exam-page/{{exam.id}}">
-                {{exam.name }}
-                <span style="color: white; float: right;">
+<div class="container p-0">
+    <div class="row text-center width_hundred_percent_marg_zero">
+        <div class="col-md-12 p-2">
+            <ul class="breadcrumb">
+                <li><a href="#!/">Главная</a></li>
+                <li class="active">Практика</li>
+            </ul>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 p-2" ng-repeat="exam in exams">
+            <div class="practice-button">
+                <a class="btn btn-link text-left" href="#!/exam-page/{{exam.id}}">
+                    {{exam.name }}
+                    <span style="color: white; float: right;">
                    Type  {{ exam.type }}
                 </span>
-            </a>
+                </a>
+            </div>
         </div>
     </div>
 </div>

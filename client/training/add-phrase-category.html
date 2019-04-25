@@ -1,29 +1,31 @@
-<form id="add-phrase-for-training" name="add-phrase-for-training" style="margin-top: 30px">
-    <div class="p-1 row text-center width_hundred_percent_marg_zero">
-        <div class="col-sm-4">
-            <label for="phrase">Фраза на английском</label>
-            <span class="input-group-addon"></span>
-            <input type="text" class="form-control" id="phrase" name="phrase"
-                   placeholder="Enter phrase" required="required">
+<div class="container p-0">
+    <form id="add-phrase-for-training" name="add-phrase-for-training" style="margin-top: 30px">
+        <div class="p-1 row text-center width_hundred_percent_marg_zero">
+            <div class="col-sm-4">
+                <label for="phrase">Фраза на английском</label>
+                <span class="input-group-addon"></span>
+                <input type="text" class="form-control" id="phrase" name="phrase"
+                       placeholder="Enter phrase" required="required">
+            </div>
+            <div class="col-sm-4">
+                <label for="translate">Перевод фразы</label>
+                <span class="input-group-addon"></span>
+                <input type="text" class="form-control" id="translate" name="translate"
+                       placeholder="Enter translate" required="required">
+            </div>
+            <div class="col-sm-4">
+                <label for="category">Выберите категорию</label>
+                <span class="input-group-addon"></span>
+                <select class="form-control" id="category" name="category">
+                    <option ng-repeat="category in categories">{{ category.name }}</option>
+                </select>
+            </div>
+            <div class="col-sm-12">
+                <button type="submit" ng-click="addPhraseFromTraining();" class="btn btn-info"
+                        style="margin-top: 15px">
+                    Add Phrase
+                </button>
+            </div>
         </div>
-        <div class="col-sm-4">
-            <label for="translate">Перевод фразы</label>
-            <span class="input-group-addon"></span>
-            <input type="text" class="form-control" id="translate" name="translate"
-                   placeholder="Enter translate" required="required">
-        </div>
-        <div class="col-sm-4">
-            <label for="category">Выберите категорию</label>
-            <span class="input-group-addon"></span>
-            <select class="form-control" id="category" name="category">
-                <option ng-repeat="category in categories">{{ category.name }}</option>
-            </select>
-        </div>
-        <div class="col-sm-12">
-            <button type="submit" ng-click="addPhraseFromTraining();" class="btn btn-info"
-                    style="margin-top: 15px">
-                Add Phrase
-            </button>
-        </div>
-    </div>
-</form>
+    </form>
+</div>

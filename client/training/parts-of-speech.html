@@ -1,26 +1,28 @@
-<div class="row text-center width_hundred_percent_marg_zero">
-    <div class="col-md-12">
-        <ul class="breadcrumb">
-            <li><a href="#!/">Главная</a></li>
-            <li><a href="#!/training">Обучение</a></li>
-            <li class="active">Части речи</li>
-        </ul>
-    </div>
-    <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" ng-repeat="part in parts" style="margin-bottom: 20px">
-        <div class="category-card-container">
-            <a href="#!/words-by-part-of-speech/{{part.id}}">
-                <div class="cover text-center">
-                    <div style="height: 180px">
-                        <img ng-src="{{imageUrl}}{{part.image.id}}" alt="photo" style="height: 100%;"/>
+<div class="container p-0">
+    <div class="row text-center width_hundred_percent_marg_zero">
+        <div class="col-md-12">
+            <ul class="breadcrumb">
+                <li><a href="#!/">Главная</a></li>
+                <li><a href="#!/training">Обучение</a></li>
+                <li class="active">Части речи</li>
+            </ul>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 p-2" ng-repeat="part in parts">
+            <div class="category-card-container">
+                <a href="#!/words-by-part-of-speech/{{part.id}}">
+                    <div class="cover text-center">
+                        <div style="height: 180px">
+                            <img ng-src="{{imageUrl}}{{part.image.id}}" alt="photo" style="height: 100%;"/>
+                        </div>
                     </div>
-                </div>
-                <div class="content">
-                    <div style="padding: 2px" class="text-center">
-                        <h5>{{ part.numberOfWords }}</h5>
+                    <div class="content">
+                        <div style="padding: 2px" class="text-center">
+                            <h5>{{ part.numberOfWords }}</h5>
+                        </div>
+                        <div style="height: 20px"></div>
                     </div>
-                    <div style="height: 20px"></div>
-                </div>
-            </a>
+                </a>
+            </div>
         </div>
     </div>
 </div>

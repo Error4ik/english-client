@@ -1,28 +1,29 @@
-<div class="row text-center width_hundred_percent_marg_zero">
-    <div class="col-md-12">
-        <ul class="breadcrumb">
-            <li><a href="#!/">Главная</a></li>
-            <li><a href="#!/training">Обучение</a></li>
-            <li class="active">Категории фраз</li>
-        </ul>
-    </div>
+<div class="container p-0">
+    <div class="row text-center width_hundred_percent_marg_zero">
+        <div class="col-md-12">
+            <ul class="breadcrumb">
+                <li><a href="#!/">Главная</a></li>
+                <li><a href="#!/training">Обучение</a></li>
+                <li class="active">Категории фраз</li>
+            </ul>
+        </div>
 
-    <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" ng-repeat="category in categories"
-         style="margin-bottom: 20px">
-        <div class="category-card-container">
-            <a href="#!/phrase-by-category/{{category.id}}">
-                <div class="cover text-center">
-                    <img ng-src="img/mental-health.png" alt="photo"/>
-                </div>
-                <div class="content">
-                    <div class="text-center">
-                        <h5>{{ category.name }}</h5>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 p-2" ng-repeat="category in categories">
+            <div class="category-card-container">
+                <a href="#!/phrase-by-category/{{category.id}}">
+                    <div class="cover text-center">
+                        <img ng-src="img/mental-health.png" alt="photo"/>
                     </div>
-                    <div style="padding: 2px" class="text-center">
-                        <h5>{{ category.numberOfPhrases }}</h5>
+                    <div class="content">
+                        <div class="text-center">
+                            <h5>{{ category.name }}</h5>
+                        </div>
+                        <div style="padding: 2px" class="text-center">
+                            <h5>{{ category.numberOfPhrases }}</h5>
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
+            </div>
         </div>
     </div>
 </div>

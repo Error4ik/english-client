@@ -1,75 +1,78 @@
-<div class="row text-center width_hundred_percent_marg_zero">
-    <div class="col-md-12">
-        <ul class="breadcrumb">
-            <li><a href="#!/">Главная</a></li>
-            <li><a href="#!/training">Обучение</a></li>
-            <li><a href="#!/category">Категории</a></li>
-            <li class="active">{{ category }}</li>
-        </ul>
-    </div>
-    <div class="col-sm-12" id="search">
-        <input type="text" ng-model="query.word" class="form-control" placeholder="Search"/>
-    </div>
-    <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3"
-         dir-paginate="word in words | itemsPerPage: itemsPerPage | filter: query" total-items="total_count">
-        <div class="card-container">
-            <div class="card">
-                <div class="front">
-                    <div class="cover text-center">
-                        <img ng-src="{{imageUrl}}{{word.image.id}}" alt="photo"/>
-                    </div>
-                    <div class="content">
-                        <div class="text-center">
-                            <div style="padding: 2px">
+<div class="container p-0">
+    <div class="row text-center width_hundred_percent_marg_zero">
+        <div class="col-md-12">
+            <ul class="breadcrumb">
+                <li><a href="#!/">Главная</a></li>
+                <li><a href="#!/training">Обучение</a></li>
+                <li><a href="#!/category">Категории</a></li>
+                <li class="active">{{ category }}</li>
+            </ul>
+        </div>
+        <div class="col-sm-12" id="search">
+            <input type="text" ng-model="query.word" class="form-control" placeholder="Search"/>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 p-1"
+             dir-paginate="word in words | itemsPerPage: itemsPerPage | filter: query" total-items="total_count">
+            <div class="card-container">
+                <div class="card">
+                    <div class="front">
+                        <div class="cover text-center">
+                            <img ng-src="{{imageUrl}}{{word.image.id}}" alt="photo"/>
+                        </div>
+                        <div class="content">
+                            <div class="text-center">
+                                <div style="padding: 2px">
                                 <span class="card-font">
                                     {{ word.word }}
                                 </span>
-                            </div>
-                            <div style="padding: 2px">
+                                </div>
+                                <div style="padding: 2px">
                                 <span class="card-font">
                                     [{{ word.transcription }}]
                                 </span>
-                            </div>
-                            <div style="padding: 5px">
+                                </div>
+                                <div style="padding: 5px">
                                 <span ng-repeat="phrase in word.phrases">
                                 {{ phrase.phrase }}
                                 <br>
                             </span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="back">
-                    <div class="cover text-center">
-                        <img ng-src="{{imageUrl}}{{word.image.id}}" alt="photo"/>
-                    </div>
-                    <div class="content" style="background-color: #fff3fc">
-                        <div class="text-center">
-                            <div style="padding: 2px">
+                    <div class="back">
+                        <div class="cover text-center">
+                            <img ng-src="{{imageUrl}}{{word.image.id}}" alt="photo"/>
+                        </div>
+                        <div class="content" style="background-color: #fff3fc">
+                            <div class="text-center">
+                                <div style="padding: 2px">
                                 <span ng-repeat="translation in word.translations"
                                       class="card-font">
                                 {{ translation.translation }} {{$last ? '' : ($index==translations.length-2) ? ' and ' : ', '}}
                             </span>
-                            </div>
-                            <div style="margin-top: 10px; padding: 5px">
+                                </div>
+                                <div style="margin-top: 10px; padding: 5px">
                                 <span ng-repeat="phrase in word.phrases">
                                 {{ phrase.translate }}
                                 <br>
                             </span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="col-12">
+            <dir-pagination-controls
+                    max-size="9"
+                    direction-links="true"
+                    boundary-links="true"
+                    template-url="js/dirPagination/dirPagination.tpl.html"
+                    on-page-change="getData(newPageNumber)">
+            </dir-pagination-controls>
+        </div>
     </div>
-    <div class="col-12">
-        <dir-pagination-controls
-                max-size="9"
-                direction-links="true"
-                boundary-links="true"
-                template-url="js/dirPagination/dirPagination.tpl.html"
-                on-page-change="getData(newPageNumber)">
-        </dir-pagination-controls>
-    </div>
+
 </div>

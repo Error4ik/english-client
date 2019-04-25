@@ -1,42 +1,44 @@
-<div class="row text-center width_hundred_percent_marg_zero">
-    <div class="col-md-12">
-        <ul class="breadcrumb">
-            <li><a href="#!/">Главная</a></li>
-            <li><a href="#!/practice">Практика</a></li>
-            <li class="active">{{ name }}</li>
-        </ul>
-    </div>
-</div>
-<div class="container text-center">
-    <h5> {{ name }}</h5>
-    <h6 style="padding-top: 10px">Progress</h6>
-    <div class="progress">
-        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50"
-             aria-valuemin="0" aria-valuemax="100" style="width:{{progress}}%">
-            {{ count }} \ {{ total }}
+<div class="container p-0">
+    <div class="row text-center width_hundred_percent_marg_zero">
+        <div class="col-md-12">
+            <ul class="breadcrumb">
+                <li><a href="#!/">Главная</a></li>
+                <li><a href="#!/practice">Практика</a></li>
+                <li class="active">{{ name }}</li>
+            </ul>
         </div>
     </div>
-    <div ng-show="exam1">
-        <div style="padding: 10px" class="col-12">
-            <img ng-src="{{imageUrl}}{{word.image.id}}" alt="photo"/>
-        </div>
-        <div class="row text-center justify-content-center">
-            <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 words-variant" ng-repeat="variant in variants">
-                <button class="btn btn-success" ng-click="next(word, variant);">
-                    {{variant.word}}
-                </button>
+    <div class="text-center">
+        <h5> {{ name }}</h5>
+        <h6 style="padding-top: 10px">Progress</h6>
+        <div class="progress">
+            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50"
+                 aria-valuemin="0" aria-valuemax="100" style="width:{{progress}}%">
+                {{ count }} \ {{ total }}
             </div>
         </div>
-    </div>
-    <div ng-show="exam2">
-        <div style="padding: 10px">
-            <div class="exam2-word">{{ word.word }}</div>
+        <div ng-show="exam1">
+            <div style="padding: 10px" class="col-12">
+                <img ng-src="{{imageUrl}}{{word.image.id}}" alt="photo"/>
+            </div>
+            <div class="row text-center width_hundred_percent_marg_zero">
+                <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 words-variant" ng-repeat="variant in variants">
+                    <button class="btn btn-success" ng-click="next(word, variant);">
+                        {{variant.word}}
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="row text-center justify-content-center">
-            <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 image-variant" ng-repeat="variant in variants">
-                <button class="btn btn-link" ng-click="next(word, variant);">
-                    <img ng-src="{{imageUrl}}{{variant.image.id}}" alt="photo"/>
-                </button>
+        <div ng-show="exam2">
+            <div style="padding: 10px">
+                <div class="exam2-word">{{ word.word }}</div>
+            </div>
+            <div class="row text-center justify-content-center">
+                <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 image-variant" ng-repeat="variant in variants">
+                    <button class="btn btn-link" ng-click="next(word, variant);">
+                        <img ng-src="{{imageUrl}}{{variant.image.id}}" alt="photo"/>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

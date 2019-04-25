@@ -1,9 +1,12 @@
-<div class="row text-center width_hundred_percent_marg_zero">
-    <div class="col-sm-6" ng-repeat="data in exams">
-        <h5>Поздравляю {{ data.user.email }} вы прошли экзамен.</h5>
-        <h5>Дата прохождения Экзамена <span style="color: red">{{ data.dateOfTheExam | date:"dd MMMM, yyyy 'at' h:m:ss" }}</span></h5>
-        <h5><a href="#!/exam-page/{{data.exam.id}}"> {{ data.exam.name }} </a></h5>
-        <h5> Ваш результат {{ (data.correctAnswer / data.totalQuestions) * 100 }} %</h5>
-        <hr>
+<div class="container p-0">
+    <div class="row text-center width_hundred_percent_marg_zero">
+        <div class="col-sm-6" ng-repeat="data in exams">
+            <h5>Поздравляю {{ data.user.email }} вы прошли экзамен.</h5>
+            <h5>Дата прохождения Экзамена <span style="color: red">{{ data.dateOfTheExam | date:"dd MMMM, yyyy 'at' h:m:ss" }}</span>
+            </h5>
+            <h5><a href="#!/exam-page/{{data.exam.id}}"> {{ data.exam.name }} </a></h5>
+            <h5> Ваш результат {{ (data.correctAnswer / data.totalQuestions) * 100 }} %</h5>
+            <hr>
+        </div>
     </div>
 </div>
