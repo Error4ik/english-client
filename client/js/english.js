@@ -564,6 +564,7 @@ english.controller("PhrasesByCategoryController", function ($scope, $http, $rout
             $scope.phrases = data.phrasesByCategoryId;
             $scope.total_count = data.allRecords;
             $scope.category = data.phrasesByCategoryId[0].phraseCategory.name;
+            $scope.description = data.phrasesByCategoryId[0].phraseCategory.description;
         });
     };
 
