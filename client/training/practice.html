@@ -6,13 +6,18 @@
                 <li class="active">Практика</li>
             </ul>
         </div>
-        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 p-2" ng-repeat="exam in exams">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 p-2" ng-repeat="exam in exams">
             <div class="practice-button">
-                <a class="btn btn-link text-left" href="#!/exam-page/{{exam.id}}">
+                <a class="btn btn-link text-center" href="#!/exam-page/{{exam.id}}">
                     {{exam.name }}
+                    <br/>
                     <span style="color: white; float: right;">
-                   Type  {{ exam.type }}
-                </span>
+                        Type  {{ exam.type }}
+                    </span>
+                    <p class="text-center" style="margin: 0; color: white; font-size: 1em">
+                        Вопросов в экзамене
+                        {{ exam.questions.length}}
+                    </p>
                 </a>
             </div>
         </div>
