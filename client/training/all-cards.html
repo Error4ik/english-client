@@ -1,0 +1,29 @@
+<div class="container p-0">
+    <div class="row text-center width_hundred_percent_marg_zero">
+        <div class="col-sm-12" id="search">
+            <input type="text" ng-model="query.word" class="form-control" placeholder="Search"/>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-2 col-xl-2 p-2" ng-repeat="word in words | filter: query">
+            <div style="border: solid;">
+                {{ word.word }}
+                <!--<button class="btn btn-primary" href="#!/update-word/{{word.id}}">-->
+                    <!--edit-->
+                <!--</button>-->
+                <button class="btn btn-danger" ng-click="deleteWord(word.id);">
+                    delete
+                </button>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-2 col-xl-2 p-2" ng-repeat="noun in nouns | filter: query">
+            <div style="border: solid;">
+                {{ noun.word }}
+                <!--<button class="btn btn-primary" href="#!/update-word/{{noun.id}}">-->
+                    <!--edit-->
+                <!--</button>-->
+                <button class="btn btn-danger" ng-click="deleteNoun(noun.id);">
+                    delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
