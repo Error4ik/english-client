@@ -150,6 +150,7 @@ function closeDialog(data) {
         $("#add-questions").show();
         $("#add-phrase-category").show();
         $("#users").show();
+        $("#change-delete-card").show();
     }
 }
 
@@ -240,6 +241,9 @@ english.config(function ($routeProvider, $locationProvider, $httpProvider) {
     }).when('/users', {
         templateUrl: "training/users.html",
         controller: "UserController"
+    }).when('/change-delete-card', {
+        templateUrl: "training/all-cards.html",
+        controller: "AllCardsController"
     }).otherwise({
         templateUrl: 'training/empty.html'
     });
@@ -643,6 +647,49 @@ english.controller("UserController", function ($scope, $http) {
                 console.log(error);
             }
         });
+    }
+});
+
+english.controller("AllCardsController", function ($scope, $http, $routeParams) {
+    doGet($http, base_url + "/word/words", function (data) {
+        $scope.words = data.allWords;
+        $scope.nouns = data.allNouns
+    });
+
+    $scope.deleteWord = function (id) {
+        $.ajax({
+            url: base_url + "/admin/delete-word",
+            method: "DELETE",
+            dataType: "json",
+            data: {"id": id},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+            },
+            success: function (data) {
+                location.reload();
+            },
+            error: function (error) {
+                location.reload();
+            }
+        })
+    };
+
+    $scope.deleteNoun = function (id) {
+        $.ajax({
+            url: base_url + "/admin/delete-noun",
+            method: "DELETE",
+            dataType: "json",
+            data: {"id": id},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+            },
+            success: function (data) {
+                location.reload();
+            },
+            error: function (error) {
+                location.reload();
+            }
+        })
     }
 });
 
