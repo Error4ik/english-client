@@ -4,7 +4,7 @@
     </div>
     <div class="row text-center p-1 width_hundred_percent_marg_zero" ng-repeat="user in users | filter: query">
         <div class="col-sm-4">
-            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#{{user.id}}">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#user{{$index}}">
                 {{ user.email }}
             </button>
         </div>
@@ -14,7 +14,7 @@
             </button>
         </div>
         <!-- Modal -->
-        <div id="{{user.id}}" class="modal fade" role="dialog">
+        <div id="user{{$index}}" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content">
