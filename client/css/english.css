@@ -409,3 +409,13 @@ ul.breadcrumb li a:hover {
 .exam-date {
     color: #ff7500;
 }
+
+.my-border {
+    border: solid 1px #b75c00;
+    border-radius: 7px;
+}
+
+.my-border > p {
+    font-size: 20px;
+    font-weight: 500;
+}

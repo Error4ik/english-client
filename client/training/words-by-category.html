@@ -49,7 +49,7 @@
                                 <div style="padding: 2px">
                                 <span ng-repeat="translation in word.translations"
                                       class="card-font">
-                                {{ translation.translation }} {{$last ? '' : ($index==translations.length-2) ? ' and ' : ', '}}
+                                {{ translation.translation }}{{$last ? '' : ($index==translations.length-1) ? ' and ' : ', '}}
                             </span>
                                 </div>
                                 <div style="margin-top: 10px; padding: 5px">

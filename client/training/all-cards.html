@@ -4,25 +4,265 @@
             <input type="text" ng-model="query.word" class="form-control" placeholder="Search"/>
         </div>
         <div class="col-12 col-sm-6 col-md-4 col-lg-2 col-xl-2 p-2" ng-repeat="word in words | filter: query">
-            <div style="border: solid;">
-                {{ word.word }}
-                <!--<button class="btn btn-primary" href="#!/update-word/{{word.id}}">-->
-                    <!--edit-->
-                <!--</button>-->
-                <button class="btn btn-danger" ng-click="deleteWord(word.id);">
-                    delete
-                </button>
+            <div class="text-center my-border">
+                <p class="m-1">{{ word.word }}</p>
+                <div class="row width_hundred_percent_marg_zero">
+                    <button class="btn btn-primary col-6" data-toggle="modal" data-target="#word{{$index}}"
+                            ng-click="editWord();">
+                        edit
+                    </button>
+                    <button class="btn btn-danger col-6" ng-click="deleteWord(word.id);">
+                        delete
+                    </button>
+                </div>
+            </div>
+            <div class="modal fade" id="word{{$index}}" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Edit {{ word.word }}</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-sm-12 text-center" style="padding-top: 20px">
+                                <form id="edit-word{{$index}}" name="edit-word{{$index}}">
+                                    <div class="row p-1">
+                                        <div class="col-sm-6">
+                                            <label for="word-2">Word</label>
+                                            <span class="input-group-addon"></span>
+                                            <input type="text" class="form-control" id="word-2" name="word"
+                                                   placeholder="Enter word"
+                                                   autofocus required="required" value="{{ word.word }}">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="transcription-2">Transcription</label>
+                                            <span class="input-group-addon"></span>
+                                            <input type="text" class="form-control" id="transcription-2"
+                                                   name="transcription" placeholder="Enter transcription"
+                                                   required="required" value="{{ word.transcription }}">
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col-sm-12">
+                                            <label for="translation-2">Translation</label>
+                                            <span class="input-group-addon"></span>
+                                            <input type="text" class="form-control" id="translation-2"
+                                                   name="translation"
+                                                   placeholder="Enter a comma-separated translation." autofocus
+                                                   required="required"
+                                                   ng-value="getTranslation(word.translations);">
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col-sm-12">
+                                            <label for="part-of-speech-2">Part of speech</label>
+                                            <span class="input-group-addon"></span>
+                                            <select class="form-control" id="part-of-speech-2" name="partOfSpeech"
+                                                    required="required">
+                                                <option ng-repeat="speech in parts"
+                                                        ng-selected="speech.partOfSpeech == word.partOfSpeech.partOfSpeech">
+                                                    {{ speech.partOfSpeech }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col-sm-6">
+                                            <label for="first-phrase-2">First phrase</label>
+                                            <span class="input-group-addon"></span>
+                                            <input type="text" class="form-control" id="first-phrase-2"
+                                                   name="firstPhrase"
+                                                   placeholder="Enter the first phrase." autofocus
+                                                   required="required" value="{{ word.phrases[0].phrase }}">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="first-phrase-translation-2">First phrase translation</label>
+                                            <span class="input-group-addon"></span>
+                                            <input type="text" class="form-control" id="first-phrase-translation-2"
+                                                   name="firstPhraseTranslation"
+                                                   placeholder="Enter the translation for the first phrase."
+                                                   autofocus required="required"
+                                                   value="{{ word.phrases[0].translate }}">
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col-sm-6">
+                                            <label for="second-phrase-2">Second phrase</label>
+                                            <span class="input-group-addon"></span>
+                                            <input type="text" class="form-control" id="second-phrase-2"
+                                                   name="secondPhrase"
+                                                   placeholder="Enter the second phrase." autofocus
+                                                   required="required" value="{{ word.phrases[1].phrase }}">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="second-phrase-translation-2">Second phrase
+                                                translation</label>
+                                            <span class="input-group-addon"></span>
+                                            <input type="text" class="form-control" id="second-phrase-translation-2"
+                                                   name="secondPhraseTranslation"
+                                                   placeholder="Enter the translation for the second phrase."
+                                                   autofocus required="required"
+                                                   value="{{ word.phrases[1].translate }}">
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col-md-12">
+                                            <label for="description-2">Описание</label>
+                                            <textarea class="form-control" id="description-2" name="description"
+                                                      required="required">{{ word.description }}</textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" ng-click="saveWord(word.id, $index);" data-dismiss="modal">
+                                Save
+                            </button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                Закрыть
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-12 col-sm-6 col-md-4 col-lg-2 col-xl-2 p-2" ng-repeat="noun in nouns | filter: query">
-            <div style="border: solid;">
-                {{ noun.word }}
-                <!--<button class="btn btn-primary" href="#!/update-word/{{noun.id}}">-->
-                    <!--edit-->
-                <!--</button>-->
-                <button class="btn btn-danger" ng-click="deleteNoun(noun.id);">
-                    delete
-                </button>
+            <div class="text-center my-border">
+                <p class="m-1">{{ noun.word }}</p>
+                <div class="row width_hundred_percent_marg_zero">
+                    <button class="btn btn-primary col-6" data-toggle="modal" data-target="#noun{{$index}}"
+                            ng-click="editNoun();">
+                        edit
+                    </button>
+                    <button class="btn btn-danger col-6" ng-click="deleteNoun(noun.id);">
+                        delete
+                    </button>
+                </div>
+            </div>
+            <div class="modal fade" id="noun{{$index}}" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Edit {{ noun.word }}</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-sm-12 text-center" style="padding-top: 20px">
+                                <form id="edit-noun{{$index}}" name="edit-noun{{$index}}"
+                                      enctype="multipart/form-data">
+                                    <div class="row p-1">
+                                        <div class="col-sm-6">
+                                            <label for="word-1">Noun</label>
+                                            <span class="input-group-addon"></span>
+                                            <input type="text" class="form-control" id="word-1" name="word"
+                                                   placeholder="Enter noun"
+                                                   autofocus required="required" value="{{ noun.word }}">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="transcription-1">Transcription</label>
+                                            <span class="input-group-addon"></span>
+                                            <input type="text" class="form-control" id="transcription-1"
+                                                   name="transcription"
+                                                   placeholder="Enter transcription" required="required"
+                                                   value="{{ noun.transcription }}">
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col-sm-12">
+                                            <label for="translation-1">Translation</label>
+                                            <span class="input-group-addon"></span>
+                                            <input type="text" class="form-control" id="translation-1"
+                                                   name="translation"
+                                                   placeholder="Enter a comma-separated translation." autofocus
+                                                   required="required"
+                                                   ng-value="getTranslation(noun.translations);">
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col-sm-6">
+                                            <label for="category-1">Category</label>
+                                            <span class="input-group-addon"></span>
+                                            <select class="form-control" id="category-1" name="category"
+                                                    required="required">
+                                                <option ng-repeat="category in categories"
+                                                        ng-selected="category.name == noun.category.name">
+                                                    {{ category.name }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="part-of-speech-1">Part of speech</label>
+                                            <span class="input-group-addon"></span>
+                                            <select class="form-control" id="part-of-speech-1" name="partOfSpeech"
+                                                    required="required">
+                                                <option>Существительное</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col-sm-6">
+                                            <label for="first-phrase-1">First phrase</label>
+                                            <span class="input-group-addon"></span>
+                                            <input type="text" class="form-control" id="first-phrase-1"
+                                                   name="firstPhrase"
+                                                   placeholder="Enter the first phrase." autofocus
+                                                   required="required" value="{{ noun.phrases[0].phrase }}">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="first-phrase-translation-1">First phrase translation</label>
+                                            <span class="input-group-addon"></span>
+                                            <input type="text" class="form-control" id="first-phrase-translation-1"
+                                                   name="firstPhraseTranslation"
+                                                   placeholder="Enter the translation for the first phrase."
+                                                   autofocus required="required"
+                                                   value="{{ noun.phrases[0].translate }}">
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col-sm-6">
+                                            <label for="second-phrase-1">Second phrase</label>
+                                            <span class="input-group-addon"></span>
+                                            <input type="text" class="form-control" id="second-phrase-1"
+                                                   name="secondPhrase"
+                                                   placeholder="Enter the second phrase." autofocus
+                                                   required="required" value="{{ noun.phrases[1].phrase }}">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="second-phrase-translation-1">Second phrase
+                                                translation</label>
+                                            <span class="input-group-addon"></span>
+                                            <input type="text" class="form-control" id="second-phrase-translation-1"
+                                                   name="secondPhraseTranslation"
+                                                   placeholder="Enter the translation for the second phrase."
+                                                   autofocus required="required"
+                                                   value="{{ noun.phrases[1].translate }}">
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col-md-12">
+                                            <label for="description-1">Описание</label>
+                                            <textarea class="form-control"
+                                                      id="description-1"
+                                                      name="description"
+                                                      required="required">{{ noun.description }}</textarea>
+                                        </div>
+                                    </div>
+                                    <label for="photo{{index}}">Select a photo:</label>
+                                    <span class="input-group-addon"></span>
+                                    <input type="file" name="photo{{index}}" id="photo{{index}}" required="required"
+                                           class="width_hundred_percent_marg_zero form-control">
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-info" ng-click="saveNoun(noun.id, $index);" data-dismiss="modal">
+                                Save
+                            </button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

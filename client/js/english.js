@@ -653,7 +653,7 @@ english.controller("UserController", function ($scope, $http) {
 english.controller("AllCardsController", function ($scope, $http, $routeParams) {
     doGet($http, base_url + "/word/words", function (data) {
         $scope.words = data.allWords;
-        $scope.nouns = data.allNouns
+        $scope.nouns = data.allNouns;
     });
 
     $scope.deleteWord = function (id) {
@@ -665,10 +665,11 @@ english.controller("AllCardsController", function ($scope, $http, $routeParams) 
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
             },
-            success: function (data) {
+            success: function () {
                 location.reload();
             },
             error: function (error) {
+                console.log("ERROR ", error);
                 location.reload();
             }
         })
@@ -683,13 +684,92 @@ english.controller("AllCardsController", function ($scope, $http, $routeParams) 
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
             },
-            success: function (data) {
+            success: function () {
                 location.reload();
             },
             error: function (error) {
+                console.log("ERROR ", error);
                 location.reload();
             }
         })
+    };
+
+    $scope.editWord = function () {
+        doGet($http, base_url + "/part-of-speech/part-of-speech-without-noun", function (data) {
+            $scope.parts = data;
+        });
+    };
+
+    $scope.editNoun = function () {
+        doGet($http, base_url + "/category/categories", function (data) {
+            $scope.categories = data;
+        });
+    };
+
+    $scope.saveWord = function (id, index) {
+        let form = $("#edit-word" + index).serializeArray();
+        let wordForm = checkFields(form);
+        wordForm.append("wordId", id);
+        if (formIsValidate) {
+            $.ajax({
+                url: base_url + "/admin/edit-word",
+                method: "POST",
+                contentType: false,
+                data: wordForm,
+                processData: false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+                },
+                success: function () {
+                    form = null;
+                    wordForm = null;
+                    location.reload();
+                },
+                error: function (error) {
+                    console.log("ERROR: ", error);
+                }
+            });
+        }
+        console.log(form);
+    };
+
+    $scope.saveNoun = function (id, index) {
+        let form = $("#edit-noun" + index).serializeArray();
+        let file = $('input[type=file]')[index].files[0];
+        let wordForm = checkFields(form);
+        wordForm.append("nounId", id);
+        if (typeof file !== "undefined") {
+            wordForm.append("photo", file);
+        }
+        if (formIsValidate) {
+            $.ajax({
+                url: base_url + "/admin/edit-noun",
+                method: "POST",
+                contentType: false,
+                data: wordForm,
+                processData: false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+                },
+                success: function () {
+                    form = null;
+                    file = null;
+                    wordForm = null;
+                    location.reload();
+                },
+                error: function (error) {
+                    console.log("ERROR: ", error);
+                }
+            });
+        }
+    };
+
+    $scope.getTranslation = function (list) {
+        let result = "";
+        for(let i = 0; i < list.length; i++) {
+            result += list[i].translation.trim() + (i === list.length - 1 ? '' : ', ');
+        }
+        return result;
     }
 });
 
