@@ -657,41 +657,45 @@ english.controller("AllCardsController", function ($scope, $http, $routeParams) 
     });
 
     $scope.deleteWord = function (id) {
-        $.ajax({
-            url: base_url + "/admin/delete-word",
-            method: "DELETE",
-            dataType: "json",
-            data: {"id": id},
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
-            },
-            success: function () {
-                location.reload();
-            },
-            error: function (error) {
-                console.log("ERROR ", error);
-                location.reload();
-            }
-        })
+        if (confirm("Are you sure to delete this word ?")) {
+            $.ajax({
+                url: base_url + "/admin/delete-word",
+                method: "DELETE",
+                dataType: "json",
+                data: {"id": id},
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+                },
+                success: function () {
+                    location.reload();
+                },
+                error: function (error) {
+                    console.log("ERROR ", error);
+                    location.reload();
+                }
+            })
+        }
     };
 
     $scope.deleteNoun = function (id) {
-        $.ajax({
-            url: base_url + "/admin/delete-noun",
-            method: "DELETE",
-            dataType: "json",
-            data: {"id": id},
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
-            },
-            success: function () {
-                location.reload();
-            },
-            error: function (error) {
-                console.log("ERROR ", error);
-                location.reload();
-            }
-        })
+        if (confirm("Are you sure to delete this word ?")) {
+            $.ajax({
+                url: base_url + "/admin/delete-noun",
+                method: "DELETE",
+                dataType: "json",
+                data: {"id": id},
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+                },
+                success: function () {
+                    location.reload();
+                },
+                error: function (error) {
+                    console.log("ERROR ", error);
+                    location.reload();
+                }
+            })
+        }
     };
 
     $scope.editWord = function () {
@@ -766,7 +770,7 @@ english.controller("AllCardsController", function ($scope, $http, $routeParams) 
 
     $scope.getTranslation = function (list) {
         let result = "";
-        for(let i = 0; i < list.length; i++) {
+        for (let i = 0; i < list.length; i++) {
             result += list[i].translation.trim() + (i === list.length - 1 ? '' : ', ');
         }
         return result;
