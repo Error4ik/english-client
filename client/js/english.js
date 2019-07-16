@@ -142,15 +142,11 @@ function closeDialog(data) {
     $('#login-page').hide();
     $('#user-info').html(data.name);
     if (isAuthenticated()) {
-        $('#user-test').show();
+        $("#user-panel").show();
+        $("#user-practice").show();
     }
     if (isAdmin()) {
-        $("#add-card-page").show();
-        $("#add-category-page").show();
-        $("#add-questions").show();
-        $("#add-phrase-category").show();
-        $("#users").show();
-        $("#change-delete-card").show();
+        $("#admin-panel").show();
     }
 }
 

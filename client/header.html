@@ -20,64 +20,72 @@
                         Обучение
                     </a>
                 </li>
-                <li id="user-test" class="nav-item" style="display: none">
+                <li id="user-practice" class="nav-item" style="display: none">
                     <a class="nav-link" href="#!/practice">
                         Практика
                     </a>
                 </li>
-                <li class="dropdown nav-item" id="user-item" style="display: none;">
-                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"
-                       onclick="return false;">
-                        <span id="user-info"></span>
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu text-center">
-                        <li id="add-card-page" class="nav-item" style="display: none;">
-                            <a class="nav-link" href="#!/add-card">
-                                Добавить карточку
-                            </a>
-                        </li>
-                        <li id="add-category-page" class="nav-item" style="display: none;">
-                            <a class="nav-link" href="#!/add-category">
-                                Добавить категорию
-                            </a>
-                        </li>
-                        <li id="add-questions" class="nav-item" style="display: none">
-                            <a class="nav-link" href="#!/add-exam-and-question">
-                                Добавить Вопрос
-                            </a>
-                        </li>
-                        <li id="add-phrase-category" class="nav-item" style="display: none">
-                            <a class="nav-link" href="#!/add-phrase-category">
-                                Добавить Фразу
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#!/settings" class="nav-link">
-                                Настройки
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#!/result" class="nav-link">
-                                Пройденые екзамены
-                            </a>
-                        </li>
-                        <li id="users" class="nav-item" style="display: none">
-                            <a href="#!/users" class="nav-link">
-                                Пользователи
-                            </a>
-                        </li>
-                        <li id="change-delete-card" class="nav-item" style="display: none;">
-                            <a class="nav-link" href="#!/change-delete-card">
-                                Изменить удалить
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" onclick="return logOut();">
-                                Выйти
-                            </a>
-                        </li>
-                    </ul>
+                <li class="nav-item" id="user-panel" style="display: none;">
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"
+                           onclick="return false;">
+                            <span id="user-info"></span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu text-center" role="menu" aria-labelledby="dropdownMenu">
+                            <li class="divider"></li>
+                            <li class="dropdown-submenu text-center" id="admin-panel" style="display: none;">
+                                <a tabindex="-1" href="#" class="nav-link">Admin panel</a>
+                                <ul class="dropdown-menu text-center">
+                                    <li id="add-card-page" class="nav-item">
+                                        <a class="nav-link" href="#!/add-card">
+                                            Добавить карточку
+                                        </a>
+                                    </li>
+                                    <li id="add-category-page" class="nav-item">
+                                        <a class="nav-link" href="#!/add-category">
+                                            Добавить категорию
+                                        </a>
+                                    </li>
+                                    <li id="add-questions" class="nav-item">
+                                        <a class="nav-link" href="#!/add-exam-and-question">
+                                            Добавить Вопрос
+                                        </a>
+                                    </li>
+                                    <li id="add-phrase-category" class="nav-item">
+                                        <a class="nav-link" href="#!/add-phrase-category">
+                                            Добавить Фразу
+                                        </a>
+                                    </li>
+                                    <li id="users" class="nav-item">
+                                        <a href="#!/users" class="nav-link">
+                                            Пользователи
+                                        </a>
+                                    </li>
+                                    <li id="change-delete-card" class="nav-item">
+                                        <a class="nav-link" href="#!/change-delete-card">
+                                            Изменить удалить
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#!/settings" class="nav-link">
+                                    Настройки
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#!/result" class="nav-link">
+                                    Пройденые екзамены
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link" onclick="return logOut();">
+                                    Выйти
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
                 <li id="login-page" class="nav-item">
                     <a class="nav-link" href="#!/login">Войти</a>
