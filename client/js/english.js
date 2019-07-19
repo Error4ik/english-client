@@ -615,6 +615,9 @@ english.controller("UserController", function ($scope, $http) {
         if (allRoles.length === userRoles.length) {
             return array
         }
+        if (userRoles.length === 0) {
+            array = allRoles;
+        }
         for (let a = 0; a < allRoles.length; a++) {
             for (let b = 0; b < userRoles.length; b++) {
                 if (allRoles[a].role === userRoles[b].role) {
