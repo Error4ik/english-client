@@ -1,37 +1,41 @@
 <div class="container p-0">
-    <div class="col-sm-12" id="search">
-        <input type="text" ng-model="query.email" class="form-control" placeholder="Search"/>
-    </div>
-    <div class="row text-center p-1 width_hundred_percent_marg_zero" ng-repeat="user in users | filter: query">
-        <div class="col-sm-3">
-            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#user{{$index}}">
-                {{ user.email }}
-            </button>
+    <div class="row text-center width_hundred_percent_marg_zero">
+        <div class="col-sm-12" id="search">
+            <input type="text" ng-model="query.email" class="form-control" placeholder="Search"/>
         </div>
-        <div class="col-sm-1 col-md-2" ng-repeat="role in user.roles">
-            <button type="button" class="btn btn-danger" style="width: 100%" ng-click="addOrDeleteRole(user, role);">
-                {{ role.role }}
-            </button>
-        </div>
-        <!-- Modal -->
-        <div id="user{{$index}}" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">{{user.email}}</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-2 col-xl-2 p-2" ng-repeat="user in users | filter: query">
+            <div class="text-center my-border">
+                <button class="btn btn-info col-12" data-toggle="modal" data-target="#user{{$index}}">
+                    {{ user.email }}
+                </button>
+                <div class="row width_hundred_percent_marg_zero">
+                    <div class="col-sm-6 col-md-6 p-1" ng-repeat="role in user.roles">
+                        <button class="btn btn-primary" style="width: 100%"
+                                ng-click="addOrDeleteRole(user, role);">
+                            {{ role.role }}
+                        </button>
                     </div>
-                    <div class="modal-body">
-                        <div class="col-sm-6 p-1" ng-repeat="role in userRoles(user.roles);">
-                            <button type="button" class="btn btn-success" style="width: 100%"
-                                    ng-click="addOrDeleteRole(user, role);">
-                                {{ role.role }}
-                            </button>
+                </div>
+            </div>
+            <div id="user{{$index}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">{{user.email}}</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <div class="modal-body">
+                            <div class="col-sm-6 p-1" ng-repeat="role in userRoles(user.roles);">
+                                <button type="button" class="btn btn-success" style="width: 100%"
+                                        ng-click="addOrDeleteRole(user, role);" data-dismiss="modal">
+                                    {{ role.role }}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
                 </div>
             </div>
