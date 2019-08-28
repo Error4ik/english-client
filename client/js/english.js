@@ -3,7 +3,7 @@ DOMAIN = 'http://78.107.253.241';
 auth_url = DOMAIN + ':9000';
 word_url = DOMAIN + ':9900';
 noun_url = DOMAIN + ':9920';
-centence_url = DOMAIN + ':9910';
+sentence_url = DOMAIN + ':9910';
 image_url = noun_url + "/image/";
 
 user = {};
@@ -550,7 +550,7 @@ english.controller("WordsByPartOfSpeechController", function ($scope, $http, $ro
 });
 
 english.controller("SentenceCategoryController", function ($scope, $http, $routeParams) {
-    doGet($http, centence_url + "/category/categories", function (data) {
+    doGet($http, sentence_url + "/category/categories", function (data) {
         $scope.categories = data;
     })
 });
@@ -564,7 +564,7 @@ english.controller("SentenceByCategoryController", function ($scope, $http, $rou
         if (page > 0) {
             page = page - 1;
         }
-        let url = centence_url + "/sentence/category/" + $routeParams.id + "/" + $scope.itemsPerPage + "/" + page;
+        let url = sentence_url + "/sentence/category/" + $routeParams.id + "/" + $scope.itemsPerPage + "/" + page;
         doGet($http, url, function (data) {
             $scope.sentences = data.sentencesByCategoryId;
             $scope.total_count = data.allRecords;
@@ -577,7 +577,7 @@ english.controller("SentenceByCategoryController", function ($scope, $http, $rou
 });
 
 english.controller("AddSentenceCategoryController", function ($scope, $http, $routeParams) {
-    doGet($http, centence_url + "/category/categories", function (data) {
+    doGet($http, sentence_url + "/category/categories", function (data) {
         $scope.categories = data;
     });
 
@@ -589,7 +589,7 @@ english.controller("AddSentenceCategoryController", function ($scope, $http, $ro
         checkFields(data);
         console.log("before");
         $.ajax({
-            url: centence_url + "/sentence/add-sentence",
+            url: sentence_url + "/sentence/add-sentence",
             type: 'POST',
             contentType: false,
             data: omgT,
