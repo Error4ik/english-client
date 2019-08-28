@@ -1,7 +1,10 @@
 DOMAIN = 'http://78.107.253.241';
 // DOMAIN = 'http://localhost';
-base_url = DOMAIN + ':9000';
-image_url = base_url + "/image/";
+auth_url = DOMAIN + ':9000';
+word_url = DOMAIN + ':9900';
+noun_url = DOMAIN + ':9920';
+centence_url = DOMAIN + ':9910';
+image_url = noun_url + "/image/";
 
 user = {};
 user.hasRole = function (role) {
@@ -14,7 +17,7 @@ function login() {
     let email = $("#email").val();
     let pass = $("#password").val();
     $.ajax({
-        url: base_url + "/oauth/token",
+        url: auth_url + "/oauth/token",
         method: "POST",
         crossDomain: true,
         dataType: "json",
@@ -41,7 +44,7 @@ function regUser() {
     let email = $("#reg-email").val();
     let pass = $("#reg-password").val();
     $.ajax({
-        url: base_url + "/registration",
+        url: auth_url + "/registration",
         method: "POST",
         dataType: "json",
         data: JSON.stringify({
@@ -69,7 +72,7 @@ function loadUser(f) {
     let token = readCookie("token");
     if (token != null && token != "") {
         $.ajax({
-            url: base_url + '/user/current',
+            url: auth_url + '/user/current',
             type: 'GET',
             dataType: "json",
             crossDomain: true,
@@ -98,7 +101,7 @@ function loadUser(f) {
 function logOut() {
     console.log("logOut");
     $.ajax({
-        url: base_url + "/revoke",
+        url: auth_url + "/revoke",
         method: "GET",
         dataType: "json",
         beforeSend: function (xhr) {
@@ -118,12 +121,14 @@ function logOut() {
 
 function checkFields(form) {
     let formData = new FormData();
+    console.log(form.length);
     formIsValidate = true;
     for (let i = 0; i < form.length; ++i) {
         if (form[i].value === "") {
             formIsValidate = false;
             break;
         }
+        console.log(form[i].name + "  -  " + form[i].value);
         formData.append(form[i].name, form[i].value);
     }
     return formData;
@@ -201,8 +206,8 @@ english.config(function ($routeProvider, $locationProvider, $httpProvider) {
         templateUrl: "training/add-category.html",
         controller: "AddCategoryController"
     }).when('/category/:id', {
-        templateUrl: "training/words-by-category.html",
-        controller: "WordByCategoryController"
+        templateUrl: "training/nouns-by-category.html",
+        controller: "NounByCategoryController"
     }).when('/login', {
         templateUrl: "login.html"
     }).when('/registration-is-completed', {
@@ -225,15 +230,15 @@ english.config(function ($routeProvider, $locationProvider, $httpProvider) {
     }).when('/words-by-part-of-speech/:id', {
         templateUrl: "training/words-by-part-of-speech.html",
         controller: "WordsByPartOfSpeechController"
-    }).when('/learning-by-phrase', {
-        templateUrl: "training/phrases-category.html",
-        controller: "PhrasesCategoryController"
-    }).when('/phrase-by-category/:id', {
-        templateUrl: "training/phrases-by-category.html",
-        controller: "PhrasesByCategoryController"
-    }).when('/add-phrase-category', {
-        templateUrl: "training/add-phrase-category.html",
-        controller: "AddPhraseCategoryController"
+    }).when('/learning-by-sentence', {
+        templateUrl: "training/sentence-category.html",
+        controller: "SentenceCategoryController"
+    }).when('/sentence-by-category/:id', {
+        templateUrl: "training/sentence-by-category.html",
+        controller: "SentenceByCategoryController"
+    }).when('/add-sentence', {
+        templateUrl: "training/add-sentence.html",
+        controller: "AddSentenceCategoryController"
     }).when('/users', {
         templateUrl: "training/users.html",
         controller: "UserController"
@@ -252,22 +257,22 @@ english.controller('IndexController', function ($scope, $http, $location, $route
 });
 
 english.controller("TrainingController", function ($scope, $http, $location, $route, $routeParams) {
-
+    console.log("Training controller!");
 });
 
 english.controller("CategoryController", function ($scope, $http) {
-    doGet($http, base_url + "/category/categories", function (data) {
+    doGet($http, noun_url + "/category/categories", function (data) {
         $scope.categories = data;
         $scope.imageUrl = image_url;
     });
 });
 
 english.controller("AddCardController", function ($scope, $http) {
-    doGet($http, base_url + "/category/categories", function (data) {
+    doGet($http, noun_url + "/category/categories", function (data) {
         $scope.categories = data;
     });
 
-    doGet($http, base_url + "/part-of-speech/part-of-speech-without-noun", function (data) {
+    doGet($http, word_url + "/part-of-speech/parts-of-speech", function (data) {
         $scope.parts = data;
     });
 
@@ -275,14 +280,14 @@ english.controller("AddCardController", function ($scope, $http) {
         let form = $("#add-noun").serializeArray();
         let file = $('input[type=file]')[0].files[0];
         if (typeof file !== "undefined") {
-            let wordForm = checkFields(form);
-            wordForm.append("photo", file);
+            let nounForm = checkFields(form);
+            nounForm.append("photo", file);
             if (formIsValidate) {
                 $.ajax({
-                    url: base_url + "/admin/add-noun",
+                    url: noun_url + "/noun/add-noun",
                     method: "POST",
                     contentType: false,
-                    data: wordForm,
+                    data: nounForm,
                     processData: false,
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
@@ -303,7 +308,7 @@ english.controller("AddCardController", function ($scope, $http) {
         let wordForm = checkFields(form);
         if (formIsValidate) {
             $.ajax({
-                url: base_url + "/admin/add-word",
+                url: word_url + "/word/add-word",
                 method: "POST",
                 contentType: false,
                 data: wordForm,
@@ -331,7 +336,7 @@ english.controller("AddCategoryController", function ($scope, $http) {
             categoryForm.append("photo", file);
             if (formIsValidate) {
                 $.ajax({
-                    url: base_url + "/admin/add-category",
+                    url: noun_url + "/category/add-category",
                     method: "POST",
                     contentType: false,
                     data: categoryForm,
@@ -351,21 +356,21 @@ english.controller("AddCategoryController", function ($scope, $http) {
     }
 });
 
-english.controller("WordByCategoryController", function ($scope, $http, $routeParams) {
+english.controller("NounByCategoryController", function ($scope, $http, $routeParams) {
     let page = 0;
     $scope.itemsPerPage = 12;
     $scope.total_count = 0;
-    $scope.words = [];
+    $scope.nouns = [];
     $scope.getData = function (page) {
         if (page > 0) {
             page = page - 1;
         }
-        let url = base_url + "/word/words-by-category/" + $routeParams.id + "/" + $scope.itemsPerPage + "/" + page;
+        let url = noun_url + "/noun/nouns/by/category/" + $routeParams.id + "/" + $scope.itemsPerPage + "/" + page;
         doGet($http, url, function (data) {
-            $scope.words = data.wordsByCategory;
+            $scope.nouns = data.nouns;
             $scope.total_count = data.allRecords;
             $scope.imageUrl = image_url;
-            $scope.category = data.wordsByCategory[0].category.name;
+            $scope.category = data.nouns[0].category.name;
         });
     };
 
@@ -373,7 +378,7 @@ english.controller("WordByCategoryController", function ($scope, $http, $routePa
 });
 
 english.controller("PracticeController", function ($scope, $http) {
-    doGet($http, base_url + "/exam/exams", function (data) {
+    doGet($http, auth_url + "/exam/exams", function (data) {
         $scope.exams = data;
     });
 });
@@ -385,7 +390,7 @@ english.controller("ExamController", function ($scope, $http, $routeParams) {
     let userAnswers = [];
     let totalQuestion;
     let examId;
-    doGet($http, base_url + "/exam/" + $routeParams.id, function (data) {
+    doGet($http, auth_url + "/exam/" + $routeParams.id, function (data) {
         if (data.type === 0) {
             $scope.exam1 = true;
         } else {
@@ -421,7 +426,7 @@ english.controller("ExamController", function ($scope, $http, $routeParams) {
             }
 
             $.ajax({
-                url: base_url + '/exam/save-stats-for-exam',
+                url: auth_url + '/exam/save-stats-for-exam',
                 type: 'POST',
                 dataType: "json",
                 crossDomain: true,
@@ -442,26 +447,26 @@ english.controller("ExamController", function ($scope, $http, $routeParams) {
 });
 
 english.controller("ExamResultController", function ($scope, $http) {
-    doGet($http, base_url + "/exam/exam-stats-by-user", function (data) {
+    doGet($http, auth_url + "/exam/exam-stats-by-user", function (data) {
         $scope.exams = data;
     });
 });
 
 english.controller("AddQuestionsController", function ($scope, $http) {
     let exams = [];
-    doGet($http, base_url + "/exam/exams", function (data) {
+    doGet($http, auth_url + "/exam/exams", function (data) {
         $scope.exams = data;
         exams = data;
     });
 
-    doGet($http, base_url + "/category/categories", function (data) {
+    doGet($http, noun_url + "/category/categories", function (data) {
         $scope.categories = data;
     });
 
     $scope.addExam = function () {
         let data = new FormData($("#add-exam")[0]);
         $.ajax({
-            url: base_url + "/admin/add-exam",
+            url: auth_url + "/admin/add-exam",
             method: "POST",
             contentType: false,
             data: data,
@@ -489,7 +494,7 @@ english.controller("AddQuestionsController", function ($scope, $http) {
     };
 
     $scope.setWords = function (exam) {
-        doGet($http, base_url + "/word/words-by-category/" + exam.category.id, function (data) {
+        doGet($http, noun_url + "/noun/nouns/by/category/" + exam.category.id, function (data) {
             $scope.words = data;
             $scope.wordsIsNotQuestion = getWordsIsNotQuestion(data, exam);
         });
@@ -498,7 +503,7 @@ english.controller("AddQuestionsController", function ($scope, $http) {
     $scope.addQuestion = function () {
         let data = new FormData($("#add-question")[0]);
         $.ajax({
-            url: base_url + "/admin/add-question",
+            url: auth_url + "/admin/add-question",
             type: 'POST',
             contentType: false,
             data: data,
@@ -517,7 +522,7 @@ english.controller("AddQuestionsController", function ($scope, $http) {
 });
 
 english.controller("PartOfSpeechController", function ($scope, $http) {
-    doGet($http, base_url + "/part-of-speech/part-of-speech-without-noun", function (data) {
+    doGet($http, word_url + "/part-of-speech/parts-of-speech", function (data) {
         $scope.parts = data;
         $scope.imageUrl = image_url;
     })
@@ -532,7 +537,7 @@ english.controller("WordsByPartOfSpeechController", function ($scope, $http, $ro
         if (page > 0) {
             page = page - 1;
         }
-        let url = base_url + "/word/words-by-part-of-speech/" + $routeParams.id + "/" + $scope.itemsPerPage + "/" + page;
+        let url = word_url + "/word/words/by/part-of-speech/" + $routeParams.id + "/" + $scope.itemsPerPage + "/" + page;
         doGet($http, url, function (data) {
             $scope.words = data.wordsByPartOfSpeech;
             $scope.total_count = data.allRecords;
@@ -544,46 +549,50 @@ english.controller("WordsByPartOfSpeechController", function ($scope, $http, $ro
     $scope.getData(page);
 });
 
-english.controller("PhrasesCategoryController", function ($scope, $http, $routeParams) {
-    doGet($http, base_url + "/category/phrase-category", function (data) {
+english.controller("SentenceCategoryController", function ($scope, $http, $routeParams) {
+    doGet($http, centence_url + "/category/categories", function (data) {
         $scope.categories = data;
     })
 });
 
-english.controller("PhrasesByCategoryController", function ($scope, $http, $routeParams) {
+english.controller("SentenceByCategoryController", function ($scope, $http, $routeParams) {
     let page = 0;
     $scope.itemsPerPage = 12;
     $scope.total_count = 0;
-    $scope.phrases = [];
+    $scope.sentences = [];
     $scope.getData = function (page) {
         if (page > 0) {
             page = page - 1;
         }
-        let url = base_url + "/phrase/category/" + $routeParams.id + "/" + $scope.itemsPerPage + "/" + page;
+        let url = centence_url + "/sentence/category/" + $routeParams.id + "/" + $scope.itemsPerPage + "/" + page;
         doGet($http, url, function (data) {
-            $scope.phrases = data.phrasesByCategoryId;
+            $scope.sentences = data.sentencesByCategoryId;
             $scope.total_count = data.allRecords;
-            $scope.category = data.phrasesByCategoryId[0].phraseCategory.name;
-            $scope.description = data.phrasesByCategoryId[0].phraseCategory.description;
+            $scope.category = data.sentencesByCategoryId[0].category.name;
+            $scope.description = data.sentencesByCategoryId[0].category.description;
         });
     };
 
     $scope.getData(page);
 });
 
-english.controller("AddPhraseCategoryController", function ($scope, $http, $routeParams) {
-    doGet($http, base_url + "/category/phrase-category", function (data) {
+english.controller("AddSentenceCategoryController", function ($scope, $http, $routeParams) {
+    doGet($http, centence_url + "/category/categories", function (data) {
         $scope.categories = data;
     });
 
-    $scope.addPhraseFromTraining = function () {
-        console.log("HELLO!");
-        let data = new FormData($("#add-phrase-for-training")[0]);
+    $scope.addSentence = function () {
+        // TODO Исправить название и проверку формы.
+        let omgT = new FormData($("#aaaaaaaa")[0]);
+        let data = $("#aaaaaaaa").serializeArray();
+        console.log("after");
+        checkFields(data);
+        console.log("before");
         $.ajax({
-            url: base_url + "/admin/add-phrase-for-training",
+            url: centence_url + "/sentence/add-sentence",
             type: 'POST',
             contentType: false,
-            data: data,
+            data: omgT,
             processData: false,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
@@ -599,13 +608,13 @@ english.controller("AddPhraseCategoryController", function ($scope, $http, $rout
 });
 
 english.controller("UserController", function ($scope, $http) {
-    doGet($http, base_url + "/admin/users", function (data) {
+    doGet($http, auth_url + "/users", function (data) {
         $scope.users = data;
     });
 
     let allRoles = [];
 
-    doGet($http, base_url + "/admin/roles", function (data) {
+    doGet($http, auth_url + "/roles", function (data) {
         $scope.roles = data;
         allRoles = data;
     });
@@ -632,7 +641,7 @@ english.controller("UserController", function ($scope, $http) {
 
     $scope.addOrDeleteRole = function (user, role) {
         $.ajax({
-            url: base_url + "/admin/change-role",
+            url: auth_url + "/change-role",
             method: "POST",
             dataType: "json",
             data: {"userId": user.id, "roleId": role.id},
@@ -650,15 +659,18 @@ english.controller("UserController", function ($scope, $http) {
 });
 
 english.controller("AllCardsController", function ($scope, $http, $routeParams) {
-    doGet($http, base_url + "/word/words", function (data) {
-        $scope.words = data.allWords;
-        $scope.nouns = data.allNouns;
+    doGet($http, word_url + "/word/words", function (data) {
+        $scope.words = data;
+    });
+
+    doGet($http, noun_url + "/noun/nouns", function (data) {
+        $scope.nouns = data;
     });
 
     $scope.deleteWord = function (id) {
         if (confirm("Are you sure to delete this word ?")) {
             $.ajax({
-                url: base_url + "/admin/delete-word",
+                url: word_url + "/word/delete-word",
                 method: "DELETE",
                 dataType: "json",
                 data: {"id": id},
@@ -677,9 +689,9 @@ english.controller("AllCardsController", function ($scope, $http, $routeParams) 
     };
 
     $scope.deleteNoun = function (id) {
-        if (confirm("Are you sure to delete this word ?")) {
+        if (confirm("Are you sure to delete this noun ?")) {
             $.ajax({
-                url: base_url + "/admin/delete-noun",
+                url: noun_url + "/noun/delete-noun",
                 method: "DELETE",
                 dataType: "json",
                 data: {"id": id},
@@ -698,13 +710,13 @@ english.controller("AllCardsController", function ($scope, $http, $routeParams) 
     };
 
     $scope.editWord = function () {
-        doGet($http, base_url + "/part-of-speech/part-of-speech-without-noun", function (data) {
+        doGet($http, word_url + "/part-of-speech/parts-of-speech", function (data) {
             $scope.parts = data;
         });
     };
 
     $scope.editNoun = function () {
-        doGet($http, base_url + "/category/categories", function (data) {
+        doGet($http, noun_url + "/category/categories", function (data) {
             $scope.categories = data;
         });
     };
@@ -715,7 +727,7 @@ english.controller("AllCardsController", function ($scope, $http, $routeParams) 
         wordForm.append("wordId", id);
         if (formIsValidate) {
             $.ajax({
-                url: base_url + "/admin/edit-word",
+                url: word_url + "/word/edit-word",
                 method: "POST",
                 contentType: false,
                 data: wordForm,
@@ -739,17 +751,17 @@ english.controller("AllCardsController", function ($scope, $http, $routeParams) 
     $scope.saveNoun = function (id, index) {
         let form = $("#edit-noun" + index).serializeArray();
         let file = $('input[type=file]')[index].files[0];
-        let wordForm = checkFields(form);
-        wordForm.append("nounId", id);
+        let nounForm = checkFields(form);
+        nounForm.append("nounId", id);
         if (typeof file !== "undefined") {
-            wordForm.append("photo", file);
+            nounForm.append("photo", file);
         }
         if (formIsValidate) {
             $.ajax({
-                url: base_url + "/admin/edit-noun",
+                url: noun_url + "/noun/edit-noun",
                 method: "POST",
                 contentType: false,
-                data: wordForm,
+                data: nounForm,
                 processData: false,
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
@@ -757,7 +769,7 @@ english.controller("AllCardsController", function ($scope, $http, $routeParams) 
                 success: function () {
                     form = null;
                     file = null;
-                    wordForm = null;
+                    nounForm = null;
                     location.reload();
                 },
                 error: function (error) {
@@ -826,6 +838,9 @@ function doHttp(method, $http, url, data, action, error) {
         if (error) {
             error(response)
         } else {
+            if (response.data.error === "unauthorized") {
+                document.location.href = "#!/login";
+            }
             console.log("ERROR: ", response);
         }
     });

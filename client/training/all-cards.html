@@ -129,7 +129,7 @@
         </div>
         <div class="col-12 col-sm-6 col-md-4 col-lg-2 col-xl-2 p-2" ng-repeat="noun in nouns | filter: query">
             <div class="text-center my-border">
-                <p class="m-1">{{ noun.word }}</p>
+                <p class="m-1">{{ noun.noun }}</p>
                 <div class="row width_hundred_percent_marg_zero">
                     <button class="btn btn-primary col-6" data-toggle="modal" data-target="#noun{{$index}}"
                             ng-click="editNoun();">
@@ -144,7 +144,7 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Edit {{ noun.word }}</h4>
+                            <h4 class="modal-title">Edit {{ noun.noun }}</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
@@ -153,11 +153,11 @@
                                       enctype="multipart/form-data">
                                     <div class="row p-1">
                                         <div class="col-sm-6">
-                                            <label for="word-1">Noun</label>
+                                            <label for="noun">Noun</label>
                                             <span class="input-group-addon"></span>
-                                            <input type="text" class="form-control" id="word-1" name="word"
+                                            <input type="text" class="form-control" id="noun" name="noun"
                                                    placeholder="Enter noun"
-                                                   autofocus required="required" value="{{ noun.word }}">
+                                                   autofocus required="required" value="{{ noun.noun }}">
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="transcription-1">Transcription</label>

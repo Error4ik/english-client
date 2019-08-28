@@ -9,30 +9,30 @@
             </ul>
         </div>
         <div class="col-sm-12" id="search">
-            <input type="text" ng-model="query.word" class="form-control" placeholder="Search"/>
+            <input type="text" ng-model="query.noun" class="form-control" placeholder="Search"/>
         </div>
         <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 p-1"
-             dir-paginate="word in words | itemsPerPage: itemsPerPage | filter: query" total-items="total_count">
+             dir-paginate="noun in nouns | itemsPerPage: itemsPerPage | filter: query" total-items="total_count">
             <div class="card-container">
                 <div class="card">
                     <div class="front">
                         <div class="cover text-center">
-                            <img ng-src="{{imageUrl}}{{word.image.id}}" alt="photo"/>
+                            <img ng-src="{{imageUrl}}{{noun.image.id}}" alt="photo"/>
                         </div>
                         <div class="content">
                             <div class="text-center">
                                 <div style="padding: 2px">
                                 <span class="card-font">
-                                    {{ word.word }}
+                                    {{ noun.word }}
                                 </span>
                                 </div>
                                 <div style="padding: 2px">
                                 <span class="card-font">
-                                    [{{ word.transcription }}]
+                                    [{{ noun.transcription }}]
                                 </span>
                                 </div>
                                 <div style="padding: 5px">
-                                <span ng-repeat="phrase in word.phrases">
+                                <span ng-repeat="phrase in noun.phrases">
                                 {{ phrase.phrase }}
                                 <br>
                             </span>
@@ -42,18 +42,18 @@
                     </div>
                     <div class="back">
                         <div class="cover text-center">
-                            <img ng-src="{{imageUrl}}{{word.image.id}}" alt="photo"/>
+                            <img ng-src="{{imageUrl}}{{noun.image.id}}" alt="photo"/>
                         </div>
                         <div class="content" style="background-color: #fff3fc">
                             <div class="text-center">
                                 <div style="padding: 2px">
-                                <span ng-repeat="translation in word.translations"
+                                <span ng-repeat="translation in noun.translations"
                                       class="card-font">
                                 {{ translation.translation }}{{$last ? '' : ($index==translations.length-1) ? ' and ' : ', '}}
                             </span>
                                 </div>
                                 <div style="margin-top: 10px; padding: 5px">
-                                <span ng-repeat="phrase in word.phrases">
+                                <span ng-repeat="phrase in noun.phrases">
                                 {{ phrase.translate }}
                                 <br>
                             </span>
