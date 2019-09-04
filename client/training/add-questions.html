@@ -42,17 +42,17 @@
                 </select>
             </div>
             <div class="col-sm-6">
-                <label for="word">Слово по которому будет вопрос</label>
+                <label for="noun">Слово по которому будет вопрос</label>
                 <span class="input-group-addon"></span>
-                <select class="form-control" id="word" name="noun">
-                    <option ng-repeat="word in wordsIsNotQuestion">{{ word.word }}</option>
+                <select class="form-control" id="noun" name="noun">
+                    <option ng-repeat="noun in nounsIsNotQuestion">{{ noun.noun }}</option>
                 </select>
             </div>
             <div class="col-sm-12">
                 <label for="variants">Варианты ответов.</label>
                 <span class="input-group-addon"></span>
                 <select multiple size="6" class="form-control" id="variants" name="variants">
-                    <option ng-repeat="word in words">{{ word.word }}</option>
+                    <option ng-repeat="noun in nouns">{{ noun.noun }}</option>
                 </select>
             </div>
             <div class="col-sm-12">

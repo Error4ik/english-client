@@ -11,9 +11,9 @@
                 <a class="btn btn-link text-center" href="#!/exam-page/{{exam.id}}">
                     {{exam.name }}
                     <br/>
-                    <span style="color: white; float: right;">
-                        Type  {{ exam.type }}
-                    </span>
+                    <p class="text-center" style="margin: 0; color: #ffe212; font-size: 1em">
+                        {{ exam.category.name }}
+                    </p>
                     <p class="text-center" style="margin: 0; color: white; font-size: 1em">
                         Вопросов в экзамене
                         {{ exam.questions.length}}

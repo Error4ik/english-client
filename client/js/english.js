@@ -121,14 +121,12 @@ function logOut() {
 
 function checkFields(form) {
     let formData = new FormData();
-    console.log(form.length);
     formIsValidate = true;
     for (let i = 0; i < form.length; ++i) {
         if (form[i].value === "") {
             formIsValidate = false;
             break;
         }
-        console.log(form[i].name + "  -  " + form[i].value);
         formData.append(form[i].name, form[i].value);
     }
     return formData;
@@ -216,7 +214,7 @@ english.config(function ($routeProvider, $locationProvider, $httpProvider) {
         templateUrl: "training/practice.html",
         controller: "PracticeController"
     }).when('/exam-page/:id', {
-        templateUrl: "training/exam-page.html",
+        templateUrl: "training/noun-exam-page.html",
         controller: "ExamController"
     }).when('/result', {
         templateUrl: "training/exam-result.html",
@@ -378,7 +376,7 @@ english.controller("NounByCategoryController", function ($scope, $http, $routePa
 });
 
 english.controller("PracticeController", function ($scope, $http) {
-    doGet($http, auth_url + "/exam/exams", function (data) {
+    doGet($http, noun_url + "/exam/exams", function (data) {
         $scope.exams = data;
     });
 });
@@ -390,7 +388,7 @@ english.controller("ExamController", function ($scope, $http, $routeParams) {
     let userAnswers = [];
     let totalQuestion;
     let examId;
-    doGet($http, auth_url + "/exam/" + $routeParams.id, function (data) {
+    doGet($http, noun_url + "/exam/" + $routeParams.id, function (data) {
         if (data.type === 0) {
             $scope.exam1 = true;
         } else {
@@ -400,7 +398,7 @@ english.controller("ExamController", function ($scope, $http, $routeParams) {
         $scope.name = data.name;
         examId = data.id;
         questions = data.questions;
-        $scope.word = questions[count].noun;
+        $scope.noun = questions[count].noun;
         $scope.variants = questions[count].nouns;
         totalQuestion = questions.length;
         $scope.count = count + 1;
@@ -408,25 +406,25 @@ english.controller("ExamController", function ($scope, $http, $routeParams) {
         $scope.progress = ($scope.count / totalQuestion) * 100;
     });
 
-    $scope.next = function (word, variant) {
-        answersTrue.push(word);
+    $scope.next = function (noun, variant) {
+        answersTrue.push(noun);
         userAnswers.push(variant);
 
         if (count >= 0 && count < questions.length - 1) {
-            $scope.word = questions[++count].noun;
+            $scope.noun = questions[++count].noun;
             $scope.variants = questions[count].nouns;
             $scope.count = count + 1;
             $scope.progress = ($scope.count / totalQuestion) * 100;
         } else {
             let coincidences = 0;
             for (let i = 0; i < questions.length; i++) {
-                if (answersTrue[i].word === userAnswers[i].word) {
+                if (answersTrue[i].noun === userAnswers[i].noun) {
                     coincidences += 1;
                 }
             }
 
             $.ajax({
-                url: auth_url + '/exam/save-stats-for-exam',
+                url: noun_url + '/exam/save-stats-for-exam',
                 type: 'POST',
                 dataType: "json",
                 crossDomain: true,
@@ -447,14 +445,14 @@ english.controller("ExamController", function ($scope, $http, $routeParams) {
 });
 
 english.controller("ExamResultController", function ($scope, $http) {
-    doGet($http, auth_url + "/exam/exam-stats-by-user", function (data) {
+    doGet($http, noun_url + "/exam/exam-stats-by-user", function (data) {
         $scope.exams = data;
     });
 });
 
 english.controller("AddQuestionsController", function ($scope, $http) {
     let exams = [];
-    doGet($http, auth_url + "/exam/exams", function (data) {
+    doGet($http, noun_url + "/exam/exams", function (data) {
         $scope.exams = data;
         exams = data;
     });
@@ -466,7 +464,7 @@ english.controller("AddQuestionsController", function ($scope, $http) {
     $scope.addExam = function () {
         let data = new FormData($("#add-exam")[0]);
         $.ajax({
-            url: auth_url + "/admin/add-exam",
+            url: noun_url + "/exam/add-exam",
             method: "POST",
             contentType: false,
             data: data,
@@ -495,15 +493,15 @@ english.controller("AddQuestionsController", function ($scope, $http) {
 
     $scope.setWords = function (exam) {
         doGet($http, noun_url + "/noun/nouns/by/category/" + exam.category.id, function (data) {
-            $scope.words = data;
-            $scope.wordsIsNotQuestion = getWordsIsNotQuestion(data, exam);
+            $scope.nouns = data;
+            $scope.nounsIsNotQuestion = getNounsIsNotQuestion(data, exam);
         });
     };
 
     $scope.addQuestion = function () {
         let data = new FormData($("#add-question")[0]);
         $.ajax({
-            url: auth_url + "/admin/add-question",
+            url: noun_url + "/exam/add-question",
             type: 'POST',
             contentType: false,
             data: data,
@@ -582,28 +580,26 @@ english.controller("AddSentenceCategoryController", function ($scope, $http, $ro
     });
 
     $scope.addSentence = function () {
-        // TODO Исправить название и проверку формы.
-        let omgT = new FormData($("#aaaaaaaa")[0]);
-        let data = $("#aaaaaaaa").serializeArray();
-        console.log("after");
-        checkFields(data);
-        console.log("before");
-        $.ajax({
-            url: sentence_url + "/sentence/add-sentence",
-            type: 'POST',
-            contentType: false,
-            data: omgT,
-            processData: false,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
-            },
-            success: function (data) {
-                location.reload();
-            },
-            error: function (data) {
-                console.log(JSON.parse(data.responseText).error_description);
-            }
-        });
+        let form = $("#add-sentence").serializeArray();
+        let data = checkFields(form);
+        if (formIsValidate) {
+            $.ajax({
+                url: sentence_url + "/sentence/add-sentence",
+                type: 'POST',
+                contentType: false,
+                data: data,
+                processData: false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+                },
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (data) {
+                    console.log(JSON.parse(data.responseText).error_description);
+                }
+            });
+        }
     }
 });
 
@@ -788,24 +784,24 @@ english.controller("AllCardsController", function ($scope, $http, $routeParams) 
     }
 });
 
-function getWordsIsNotQuestion(words, exam) {
+function getNounsIsNotQuestion(nouns, exam) {
     let array = [];
     let flag = true;
     if (exam.questions.length > 0) {
-        for (let i = 0; i < words.length; i++) {
+        for (let i = 0; i < nouns.length; i++) {
             for (let j = 0; j < exam.questions.length; j++) {
-                if (words[i].id === exam.questions[j].word.id) {
+                if (nouns[i].id === exam.questions[j].noun.id) {
                     flag = false;
                     break;
                 }
             }
             if (flag) {
-                array.push(words[i]);
+                array.push(nouns[i]);
             }
             flag = true;
         }
     } else {
-        array = words;
+        array = nouns;
     }
     return array;
 }
