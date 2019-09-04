@@ -15,8 +15,9 @@
                 <div class="p-2">
                     <h6>
                         Дата прохождения
+                        <br>
                         <span class="exam-date">
-                            {{ data.dateOfTheExam | date:"dd MMMM, yyyy 'at' h:m" }}
+                            {{ data.date | date:"dd MMMM, yyyy 'at' h:m" }}
                         </span>
                     </h6>
                     <h6>
@@ -26,7 +27,7 @@
                         <br>
                         <span class="exam-date">
                             Результат
-                            {{ (data.correctAnswer / data.totalQuestions) * 100 }} %
+                            {{ (data.correctAnswer / data.totalQuestions) * 100 | number : 2 }} %
                         </span>
                     </h6>
                 </div>
