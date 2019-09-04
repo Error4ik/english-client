@@ -1,33 +1,40 @@
 <div class="container p-0">
     <div class="row text-center width_hundred_percent_marg_zero">
-        <div class="col-12 col-sm-6 col-md-4 p-2" ng-repeat="data in exams">
+        <div class="col-12 col-sm-6 col-md-4 p-2" ng-repeat="exam in exams">
             <div class="container_of_the_passed_exams">
                 <div class="p-2">
                     <h6>
                         Экзамен
                     </h6>
                     <h6>
-                        <a href="#!/exam-page/{{data.exam.id}}">
-                            {{ data.exam.name }}
+                        <a href="#!/exam-page/{{exam.exam.id}}">
+                            {{ exam.exam.name }}
                         </a>
                     </h6>
                 </div>
-                <div class="p-2">
+                <div class="p-1">
+                    <h6>
+                        Категория
+                        <br>
+                        <span class="exam-date">{{ exam.exam.category.name }}</span>
+                    </h6>
+                </div>
+                <div class="p-1">
                     <h6>
                         Дата прохождения
                         <br>
                         <span class="exam-date">
-                            {{ data.date | date:"dd MMMM, yyyy 'at' h:m" }}
+                            {{ exam.date | date:"dd MMMM, yyyy 'at' h:m" }}
                         </span>
                     </h6>
                     <h6>
-                        Всего вопросов: {{data.totalQuestions}}
+                        Всего вопросов: {{exam.totalQuestions}}
                         <br>
-                        Правильных ответов: {{data.correctAnswer}}
+                        Правильных ответов: {{exam.correctAnswer}}
                         <br>
                         <span class="exam-date">
                             Результат
-                            {{ (data.correctAnswer / data.totalQuestions) * 100 | number : 0 }} %
+                            {{ (exam.correctAnswer / exam.totalQuestions) * 100 | number : 0 }} %
                         </span>
                     </h6>
                 </div>
