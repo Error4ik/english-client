@@ -539,7 +539,7 @@ english.controller("WordsByPartOfSpeechController", function ($scope, $http, $ro
         doGet($http, url, function (data) {
             $scope.words = data.wordsByPartOfSpeech;
             $scope.total_count = data.allRecords;
-            $scope.partOfSpeech = data.wordsByPartOfSpeech[0].partOfSpeech.partOfSpeech;
+            $scope.partOfSpeech = data.wordsByPartOfSpeech[0].partOfSpeech.name;
             $scope.description = data.wordsByPartOfSpeech[0].partOfSpeech.description;
         });
     };
