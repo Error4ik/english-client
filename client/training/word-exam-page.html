@@ -1,0 +1,32 @@
+<div class="container p-0">
+    <div class="row text-center width_hundred_percent_marg_zero">
+        <div class="col-md-12 p-2">
+            <ul class="breadcrumb">
+                <li><a href="#!/">Главная</a></li>
+                <li><a href="#!/practice">Практика</a></li>
+                <li class="active">{{ name }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="text-center">
+        <h4 style="padding-top: 10px">Progress</h4>
+        <div class="progress">
+            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50"
+                 aria-valuemin="0" aria-valuemax="100" style="width:{{progress}}%">
+                {{ count }} \ {{ total }}
+            </div>
+        </div>
+        <div ng-show="exam">
+            <div class="p-1">
+                <div class="exam2-word">{{ word.translations[0].translation }}</div>
+            </div>
+            <div class="row text-center width_hundred_percent_marg_zero">
+                <div class="col-6 col-sm-6 col-md-3 col-lg-3 col-xl-3 words-variant" ng-repeat="variant in variants">
+                    <button class="btn btn-success" ng-click="next(word, variant);">
+                        <span style="font-size: 25px">{{variant.word}}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

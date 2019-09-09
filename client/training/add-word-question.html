@@ -1,0 +1,65 @@
+<div class="container p-0">
+    <form id="add-word-exam" name="add-word-exam" style="margin-top: 30px">
+        <div class="row text-center width_hundred_percent_marg_zero">
+            <div class="col-sm-4">
+                <label for="name">Название экзамена</label>
+                <span class="input-group-addon"></span>
+                <input type="text" class="form-control" id="name" name="name"
+                       placeholder="Enter exam name" required="required">
+            </div>
+            <div class="col-sm-4">
+                <label for="speech">Выберите часть речи</label>
+                <span class="input-group-addon"></span>
+                <select class="form-control" id="speech" name="speech">
+                    <option ng-repeat="speech in partsOfSpeech">{{ speech.name }}</option>
+                </select>
+            </div>
+            <div class="col-sm-4">
+                <label for="type">Укажите тип экзамена(0 или 1)</label>
+                <span class="input-group-addon"></span>
+                <select type="number" class="form-control" id="type" name="type" required="required">
+                    <option>0</option>
+                    <option>1</option>
+                </select>
+            </div>
+            <div class="col-sm-12">
+                <button type="submit" ng-click="addExam();" class="btn btn-info" style="margin-top: 15px">
+                    Add Exam
+                </button>
+            </div>
+        </div>
+    </form>
+    <div class="col-sm-12">
+        <hr align="left" width="100%" color="#ff9900"/>
+    </div>
+    <form id="add-word-question" name="add-word-question" style="margin-top: 50px">
+        <div class="row p-1 text-center width_hundred_percent_marg_zero">
+            <div class="col-sm-6">
+                <label for="exam">Exams</label>
+                <span class="input-group-addon"></span>
+                <select class="form-control" id="exam" name="exam" ng-model="e" ng-change="changeValue(e)">
+                    <option ng-repeat="exam in exams">{{ exam.name }}</option>
+                </select>
+            </div>
+            <div class="col-sm-6">
+                <label for="word">Слово по которому будет вопрос</label>
+                <span class="input-group-addon"></span>
+                <select class="form-control" id="word" name="word" ng-model="a" ng-change="changeWord(a)">
+                    <option ng-repeat="word in wordsIsNotQuestion">{{ word.word }}</option>
+                </select>
+            </div>
+            <div class="col-sm-12">
+                <label for="variants">Варианты ответов.</label>
+                <span class="input-group-addon"></span>
+                <select multiple size="6" class="form-control" id="variants" name="variants">
+                    <option ng-repeat="word in words">{{ word.word }}</option>
+                </select>
+            </div>
+            <div class="col-sm-12">
+                <button type="submit" ng-click="addQuestion();" class="btn btn-info" style="margin-top: 15px">
+                    Add question
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
