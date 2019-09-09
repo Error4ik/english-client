@@ -213,15 +213,21 @@ english.config(function ($routeProvider, $locationProvider, $httpProvider) {
     }).when('/practice', {
         templateUrl: "training/practice.html",
         controller: "PracticeController"
-    }).when('/exam-page/:id', {
+    }).when('/noun-exam/:id', {
         templateUrl: "training/noun-exam-page.html",
-        controller: "ExamController"
+        controller: "NounExamController"
+    }).when('/word-exam/:id', {
+        templateUrl: "training/word-exam-page.html",
+        controller: "WordExamController"
     }).when('/result', {
         templateUrl: "training/exam-result.html",
         controller: "ExamResultController"
-    }).when('/add-exam-and-question', {
+    }).when('/add-noun-question', {
         templateUrl: "training/add-questions.html",
-        controller: "AddQuestionsController"
+        controller: "AddNounQuestionsController"
+    }).when('/add-word-question', {
+        templateUrl: "training/add-word-question.html",
+        controller: "AddWordQuestionController"
     }).when('/learning-by-part-of-speech', {
         templateUrl: "training/parts-of-speech.html",
         controller: "PartOfSpeechController"
@@ -377,11 +383,15 @@ english.controller("NounByCategoryController", function ($scope, $http, $routePa
 
 english.controller("PracticeController", function ($scope, $http) {
     doGet($http, noun_url + "/exam/exams", function (data) {
-        $scope.exams = data;
+        $scope.nounExams = data;
     });
+
+    doGet($http, word_url + "/exam/exams", function (data) {
+        $scope.wordExams = data;
+    })
 });
 
-english.controller("ExamController", function ($scope, $http, $routeParams) {
+english.controller("NounExamController", function ($scope, $http, $routeParams) {
     let questions;
     let count = 0;
     let answersTrue = [];
@@ -444,13 +454,75 @@ english.controller("ExamController", function ($scope, $http, $routeParams) {
     };
 });
 
+english.controller("WordExamController", function ($scope, $http, $routeParams) {
+    let questions;
+    let count = 0;
+    let answersTrue = [];
+    let userAnswers = [];
+    let totalQuestion;
+    let examId;
+    doGet($http, word_url + "/exam/" + $routeParams.id, function (data) {
+        $scope.exam = true;
+        $scope.name = data.name;
+        examId = data.id;
+        questions = data.questions;
+        $scope.word = questions[count].word;
+        $scope.variants = questions[count].words;
+        totalQuestion = questions.length;
+        $scope.count = count + 1;
+        $scope.total = totalQuestion;
+        $scope.progress = ($scope.count / totalQuestion) * 100;
+    });
+
+    $scope.next = function (word, variant) {
+        answersTrue.push(word);
+        userAnswers.push(variant);
+
+        if (count >= 0 && count < questions.length - 1) {
+            $scope.word = questions[++count].word;
+            $scope.variants = questions[count].words;
+            $scope.count = count + 1;
+            $scope.progress = ($scope.count / totalQuestion) * 100;
+        } else {
+            let coincidences = 0;
+            for (let i = 0; i < questions.length; i++) {
+                if (answersTrue[i].word === userAnswers[i].word) {
+                    coincidences += 1;
+                }
+            }
+
+            $.ajax({
+                url: word_url + '/exam/save-stats-for-exam',
+                type: 'POST',
+                dataType: "json",
+                crossDomain: true,
+                data: {"examId": examId, "correctAnswer": coincidences},
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=utf-8");
+                },
+                success: function (data) {
+                    document.location.href = "#!/result";
+                },
+                error: function (data) {
+                    console.log(JSON.parse(data.responseText).error_description);
+                }
+            });
+        }
+    };
+});
+
 english.controller("ExamResultController", function ($scope, $http) {
     doGet($http, noun_url + "/exam/exam-stats-by-user", function (data) {
-        $scope.exams = data;
+        $scope.nounExams = data;
+    });
+
+    doGet($http, word_url + "/exam/exam-stats-by-user", function (data) {
+        $scope.wordExams = data;
     });
 });
 
-english.controller("AddQuestionsController", function ($scope, $http) {
+english.controller("AddNounQuestionsController", function ($scope, $http) {
     let exams = [];
     doGet($http, noun_url + "/exam/exams", function (data) {
         $scope.exams = data;
@@ -502,6 +574,90 @@ english.controller("AddQuestionsController", function ($scope, $http) {
         let data = new FormData($("#add-question")[0]);
         $.ajax({
             url: noun_url + "/exam/add-question",
+            type: 'POST',
+            contentType: false,
+            data: data,
+            processData: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+            },
+            success: function (data) {
+                location.reload();
+            },
+            error: function (data) {
+                console.log(JSON.parse(data.responseText).error_description);
+            }
+        });
+    }
+});
+
+english.controller("AddWordQuestionController", function ($scope, $http) {
+    let exams = [];
+    let words = [];
+    doGet($http, word_url + "/exam/exams", function (data) {
+        $scope.exams = data;
+        exams = data;
+    });
+
+    doGet($http, word_url + "/part-of-speech/parts-of-speech", function (data) {
+        $scope.partsOfSpeech = data;
+    });
+
+    $scope.addExam = function () {
+        let data = new FormData($("#add-word-exam")[0]);
+        $.ajax({
+            url: word_url + "/exam/add-exam",
+            method: "POST",
+            contentType: false,
+            data: data,
+            processData: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+            },
+            success: function (data) {
+                location.reload();
+            },
+            error: function (error) {
+                console.log("ERROR ", error);
+            }
+        });
+    };
+
+    $scope.changeWord = function (item) {
+        let variants = [];
+        for (let i = 0; i < words.length; i++) {
+            if (words[i].word !== item) {
+                variants.push(words[i]);
+            }
+        }
+        $scope.words = variants;
+    };
+
+    $scope.changeValue = function (item) {
+        for (let i = 0; i < exams.length; i++) {
+            if (exams[i].name === item) {
+                item = exams[i];
+                break;
+            }
+        }
+        $scope.setWords(item);
+    };
+
+    $scope.setWords = function (exam) {
+        doGet($http, word_url + "/word/words/by/part-of-speech/" + exam.partOfSpeech.id, function (data) {
+            $scope.wordsIsNotQuestion = getWordsIsNotQuestion(data, exam);
+        });
+
+        doGet($http, word_url + "/word/words", function (data) {
+            $scope.words = data;
+            words = data;
+        });
+    };
+
+    $scope.addQuestion = function () {
+        let data = new FormData($("#add-word-question")[0]);
+        $.ajax({
+            url: word_url + "/exam/add-question",
             type: 'POST',
             contentType: false,
             data: data,
@@ -802,6 +958,28 @@ function getNounsIsNotQuestion(nouns, exam) {
         }
     } else {
         array = nouns;
+    }
+    return array;
+}
+
+function getWordsIsNotQuestion(words, exam) {
+    let array = [];
+    let flag = true;
+    if (exam.questions.length > 0) {
+        for (let i = 0; i < words.length; i++) {
+            for (let j = 0; j < exam.questions.length; j++) {
+                if (words[i].id === exam.questions[j].word.id) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                array.push(words[i]);
+            }
+            flag = true;
+        }
+    } else {
+        array = words;
     }
     return array;
 }
