@@ -3,6 +3,8 @@
         <div class="col-sm-12" id="search">
             <input type="text" ng-model="query.word" class="form-control" placeholder="Search"/>
         </div>
+    </div>
+    <div class="row text-center width_hundred_percent_marg_zero">
         <div class="col-12 col-sm-6 col-md-4 col-lg-2 col-xl-2 p-2" ng-repeat="word in words | filter: query">
             <div class="text-center my-border">
                 <p class="m-1">{{ word.word }}</p>

@@ -223,7 +223,7 @@ english.config(function ($routeProvider, $locationProvider, $httpProvider) {
         templateUrl: "training/exam-result.html",
         controller: "ExamResultController"
     }).when('/add-noun-question', {
-        templateUrl: "training/add-questions.html",
+        templateUrl: "training/add-noun-questions.html",
         controller: "AddNounQuestionsController"
     }).when('/add-word-question', {
         templateUrl: "training/add-word-question.html",

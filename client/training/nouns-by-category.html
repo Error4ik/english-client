@@ -1,6 +1,6 @@
 <div class="container p-0">
-    <div class="row text-center width_hundred_percent_marg_zero">
-        <div class="col-md-12">
+    <div class="row text-center width_hundred_percent_marg_zero" style="padding: 5px 0 5px 0">
+        <div class="col-md-12 p-0">
             <ul class="breadcrumb">
                 <li><a href="#!/">Главная</a></li>
                 <li><a href="#!/training">Обучение</a></li>
@@ -8,11 +8,10 @@
                 <li class="active">{{ category }}</li>
             </ul>
         </div>
-        <div class="col-sm-12" id="search">
-            <input type="text" ng-model="query.noun" class="form-control" placeholder="Search"/>
-        </div>
+    </div>
+    <div class="row text-center width_hundred_percent_marg_zero">
         <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 p-1"
-             dir-paginate="noun in nouns | itemsPerPage: itemsPerPage | filter: query" total-items="total_count">
+             dir-paginate="noun in nouns | itemsPerPage: itemsPerPage" total-items="total_count">
             <div class="card-container">
                 <div class="card">
                     <div class="front">
@@ -64,6 +63,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row text-center width_hundred_percent_marg_zero">
         <div class="col-12">
             <dir-pagination-controls
                     max-size="9"
@@ -74,5 +75,4 @@
             </dir-pagination-controls>
         </div>
     </div>
-
 </div>

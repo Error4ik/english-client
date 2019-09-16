@@ -1,27 +1,37 @@
 <div class="container p-1">
-    <form id="add-category" name="add-category" enctype="multipart/form-data">
-        <div class="col-sm-12 text-center" style="padding-top: 20px">
-            <div class="row p-1">
-                <div class="col-sm-6">
-                    <label for="name">Category name</label>
-                    <span class="input-group-addon"></span>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter name category"
-                           autofocus required="required">
+    <div class="row text-center width_hundred_percent_marg_zero">
+        <div class="col-12">
+            <form id="add-category" name="add-category" enctype="multipart/form-data">
+                <div class="row text-center width_hundred_percent_marg_zero">
+                    <div class="col-12 p-2">
+                        <div class="row p-1">
+                            <div class="col-sm-6">
+                                <label for="name">Category name</label>
+                                <span class="input-group-addon"></span>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter name category"
+                                       autofocus required="required">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="description">Category description</label>
+                                <span class="input-group-addon"></span>
+                                <input type="text" class="form-control" id="description" name="description"
+                                       placeholder="Enter description" required="required">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm-6">
-                    <label for="description">Category description</label>
-                    <span class="input-group-addon"></span>
-                    <input type="text" class="form-control" id="description" name="description"
-                           placeholder="Enter description" required="required">
+                <div class="row text-center width_hundred_percent_marg_zero">
+                    <div class="col-12">
+                        <label for="photo">Select a photo:</label>
+                        <span class="input-group-addon"></span>
+                        <input type="file" name="photo" id="photo" required="required" class="width_hundred_percent_marg_zero">
+                        <br/>
+                        <button type="submit" ng-click="addCategory();" class="btn btn-info">
+                            Add Category
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <label for="photo">Select a photo:</label>
-            <span class="input-group-addon"></span>
-            <input type="file" name="photo" id="photo" required="required" class="width_hundred_percent_marg_zero">
-            <br/>
-            <button type="submit" ng-click="addCategory();" class="btn btn-info" style="margin-top: 15px">
-                Add Category
-            </button>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
