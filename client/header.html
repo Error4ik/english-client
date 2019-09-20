@@ -93,9 +93,86 @@
                     </div>
                 </li>
                 <li id="login-page" class="nav-item">
-                    <a class="nav-link" href="#!/login">Войти</a>
+                    <a class="nav-link" data-toggle="modal" data-target="#myModal">Войти</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row col-12 text-center">
+                    <div class="col-6">
+                        <a class="active nav-item btn btn-link btn-login" id="login-form-link" style="font-size: 20px;">Войти</a>
+                    </div>
+                    <div class="col-6">
+                        <a class="btn btn-link btn-register" id="register-form-link" style="font-size: 20px">Зарегистрироваться</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row width_hundred_percent_marg_zero">
+                    <div class="col-12">
+                        <form id="login-form" role="form" style="display: block;">
+                            <div class="alert alert-danger" id="login_error" style="display: none;"></div>
+                            <label for="email">Email:</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                <input type="text" class="form-control" id="email" placeholder="Enter email"
+                                       name="email" required="required"
+                                       autofocus>
+                            </div>
+                            <label for="password">Password:</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                <input type="password" class="form-control" id="password" placeholder="Enter password"
+                                       name="password">
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" name="submit" onclick="login()" class="btn btn-success"
+                                        style="margin-top: 15px; margin-bottom: 15px" data-dismiss="modal">
+                                    Sign On
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-12">
+                        <form id="registration" name="registration" role="form" style="display: none;">
+                            <div class="alert alert-danger" id="reg-error" style="display: none;"></div>
+                            <label for="reg-email">Reg email:</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                <input type="email" class="form-control" id="reg-email" placeholder="Enter email"
+                                       name="email" required="required"
+                                       autofocus>
+                            </div>
+                            <label for="reg-password">Reg password:</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                <input type="password" class="form-control" id="reg-password"
+                                       placeholder="Enter password"
+                                       name="password" required="required">
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" onclick="regUser()" class="btn btn-success"
+                                        style="margin-top: 15px; margin-bottom: 15px" data-dismiss="modal">
+                                    Sign In
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $(modalLoginForm());
+</script>
+

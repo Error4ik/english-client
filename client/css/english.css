@@ -452,3 +452,14 @@ ul.breadcrumb li a:hover {
     border-right: .3em solid;
     border-bottom: .3em solid transparent
 }
+
+.modal-header a.active{
+    color: #fff;
+    background-color: #00a661;
+    border-color: #1d39a3;
+}
+.modal-header a:hover,
+.modal-header a:focus {
+    background-color: #009cd0;
+    border-color: #000000;
+}

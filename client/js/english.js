@@ -16,56 +16,61 @@ formIsValidate = false;
 function login() {
     let email = $("#email").val();
     let pass = $("#password").val();
-    $.ajax({
-        url: auth_url + "/oauth/token",
-        method: "POST",
-        crossDomain: true,
-        dataType: "json",
-        data: {"grant_type": "password", "username": email, "password": pass},
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Basic " + btoa("english:password"));
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=utf-8");
-        },
-        success: function (data) {
-            createCookie("token", data.access_token, data.expires_in);
-            document.location.href = "./index.html";
-        },
-        error: function (error) {
-            var result = JSON.parse(error.responseText);
-            if (result.error) {
-                $('#login_error').html(result.error == 'invalid_grant' ? "Логин или пароль не совпадают." : result.error_description);
-                $('#login_error').show();
+    if (email !== undefined && pass !== undefined && email !== "" && pass !== "") {
+        $.ajax({
+            url: auth_url + "/oauth/token",
+            method: "POST",
+            crossDomain: true,
+            dataType: "json",
+            data: {"grant_type": "password", "username": email, "password": pass},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Basic " + btoa("english:password"));
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=utf-8");
+            },
+            success: function (data) {
+                createCookie("token", data.access_token, data.expires_in);
+                location.reload();
+            },
+            error: function (error) {
+                let result = JSON.parse(error.responseText);
+                if (result.error) {
+                    $('#login_error').html(result.error == 'invalid_grant' ? "Логин или пароль не совпадают." : result.error_description);
+                    $('#login_error').show();
+                }
             }
-        }
-    });
+        });
+    }
 }
 
 function regUser() {
     let email = $("#reg-email").val();
     let pass = $("#reg-password").val();
-    $.ajax({
-        url: auth_url + "/registration",
-        method: "POST",
-        dataType: "json",
-        data: JSON.stringify({
-            "email": email,
-            "password": pass
-        }),
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
-        },
-        success: function (data) {
-            if (data.error) {
-                $('#reg-error').html(data.error);
-                $('#reg-error').show();
-            } else {
-                document.location.href = "#!/registration-is-completed";
+    if (email !== undefined && pass !== undefined && email !== "" && pass !== "") {
+        console.log("sending");
+        $.ajax({
+            url: auth_url + "/registration",
+            method: "POST",
+            dataType: "json",
+            data: JSON.stringify({
+                "email": email,
+                "password": pass
+            }),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
+            },
+            success: function (data) {
+                if (data.error) {
+                    $('#reg-error').html(data.error);
+                    $('#reg-error').show();
+                } else {
+                    document.location.href = "#!/registration-is-completed";
+                }
+            },
+            error: function (error) {
+                console.log("ERROR: ", error);
             }
-        },
-        error: function (error) {
-            console.log("ERROR: ", error);
-        }
-    });
+        });
+    }
 }
 
 function loadUser(f) {
@@ -940,6 +945,23 @@ english.controller("AllCardsController", function ($scope, $http, $routeParams) 
     }
 });
 
+function modalLoginForm() {
+    $('#login-form-link').click(function (e) {
+        $("#login-form").delay(100).fadeIn(100);
+        $("#registration").fadeOut(100);
+        $('#register-form-link').removeClass('active');
+        $(this).addClass('active');
+        e.preventDefault();
+    });
+    $('#register-form-link').click(function (e) {
+        $("#registration").delay(100).fadeIn(100);
+        $("#login-form").fadeOut(100);
+        $('#login-form-link').removeClass('active');
+        $(this).addClass('active');
+        e.preventDefault();
+    });
+}
+
 function getNounsIsNotQuestion(nouns, exam) {
     let array = [];
     let flag = true;
@@ -1013,7 +1035,7 @@ function doHttp(method, $http, url, data, action, error) {
             error(response)
         } else {
             if (response.data.error === "unauthorized") {
-                document.location.href = "#!/login";
+                console.log("You are not logged in, please log in.")
             }
             console.log("ERROR: ", response);
         }
