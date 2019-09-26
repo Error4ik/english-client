@@ -104,7 +104,6 @@ function loadUser(f) {
 }
 
 function logOut() {
-    console.log("logOut");
     $.ajax({
         url: auth_url + "/revoke",
         method: "GET",
@@ -292,22 +291,8 @@ english.controller("AddCardController", function ($scope, $http) {
             let nounForm = checkFields(form);
             nounForm.append("photo", file);
             if (formIsValidate) {
-                $.ajax({
-                    url: noun_url + "/noun/add-noun",
-                    method: "POST",
-                    contentType: false,
-                    data: nounForm,
-                    processData: false,
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
-                    },
-                    success: function () {
-                        document.location.href = "#!/";
-                    },
-                    error: function (error) {
-                        console.log("ERROR: ", error);
-                    }
-                });
+                let url = noun_url + "/noun/add-noun";
+                save(url, nounForm);
             }
         }
     };
@@ -316,22 +301,8 @@ english.controller("AddCardController", function ($scope, $http) {
         let form = $("#add-word").serializeArray();
         let wordForm = checkFields(form);
         if (formIsValidate) {
-            $.ajax({
-                url: word_url + "/word/add-word",
-                method: "POST",
-                contentType: false,
-                data: wordForm,
-                processData: false,
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
-                },
-                success: function () {
-                    document.location.href = "#!/";
-                },
-                error: function (error) {
-                    console.log("ERROR: ", error);
-                }
-            });
+            let url = word_url + "/word/add-word";
+            save(url, wordForm);
         }
     };
 });
@@ -344,22 +315,8 @@ english.controller("AddCategoryController", function ($scope, $http) {
             let categoryForm = checkFields(form);
             categoryForm.append("photo", file);
             if (formIsValidate) {
-                $.ajax({
-                    url: noun_url + "/category/add-category",
-                    method: "POST",
-                    contentType: false,
-                    data: categoryForm,
-                    processData: false,
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
-                    },
-                    success: function () {
-                        document.location.href = "#!/";
-                    },
-                    error: function (error) {
-                        console.log("ERROR: ", error);
-                    }
-                });
+                let url = noun_url + "/category/add-category";
+                save(url, categoryForm);
             }
         }
     }
@@ -540,22 +497,8 @@ english.controller("AddNounQuestionsController", function ($scope, $http) {
 
     $scope.addExam = function () {
         let data = new FormData($("#add-exam")[0]);
-        $.ajax({
-            url: noun_url + "/exam/add-exam",
-            method: "POST",
-            contentType: false,
-            data: data,
-            processData: false,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
-            },
-            success: function (data) {
-                location.reload();
-            },
-            error: function (error) {
-                console.log("ERROR ", error);
-            }
-        });
+        let url = noun_url + "/exam/add-exam";
+        save(url, data);
     };
 
     $scope.changedValue = function (item) {
@@ -577,22 +520,8 @@ english.controller("AddNounQuestionsController", function ($scope, $http) {
 
     $scope.addQuestion = function () {
         let data = new FormData($("#add-question")[0]);
-        $.ajax({
-            url: noun_url + "/exam/add-question",
-            type: 'POST',
-            contentType: false,
-            data: data,
-            processData: false,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
-            },
-            success: function (data) {
-                location.reload();
-            },
-            error: function (data) {
-                console.log(JSON.parse(data.responseText).error_description);
-            }
-        });
+        let url = noun_url + "/exam/add-question";
+        save(url, data);
     }
 });
 
@@ -610,22 +539,8 @@ english.controller("AddWordQuestionController", function ($scope, $http) {
 
     $scope.addExam = function () {
         let data = new FormData($("#add-word-exam")[0]);
-        $.ajax({
-            url: word_url + "/exam/add-exam",
-            method: "POST",
-            contentType: false,
-            data: data,
-            processData: false,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
-            },
-            success: function (data) {
-                location.reload();
-            },
-            error: function (error) {
-                console.log("ERROR ", error);
-            }
-        });
+        let url = word_url + "/exam/add-exam";
+        save(url, data);
     };
 
     $scope.changeWord = function (item) {
@@ -661,22 +576,8 @@ english.controller("AddWordQuestionController", function ($scope, $http) {
 
     $scope.addQuestion = function () {
         let data = new FormData($("#add-word-question")[0]);
-        $.ajax({
-            url: word_url + "/exam/add-question",
-            type: 'POST',
-            contentType: false,
-            data: data,
-            processData: false,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
-            },
-            success: function (data) {
-                location.reload();
-            },
-            error: function (data) {
-                console.log(JSON.parse(data.responseText).error_description);
-            }
-        });
+        let url = word_url + "/exam/add-question";
+        save(url, data);
     }
 });
 
@@ -744,22 +645,8 @@ english.controller("AddSentenceCategoryController", function ($scope, $http, $ro
         let form = $("#add-sentence").serializeArray();
         let data = checkFields(form);
         if (formIsValidate) {
-            $.ajax({
-                url: sentence_url + "/sentence/add-sentence",
-                type: 'POST',
-                contentType: false,
-                data: data,
-                processData: false,
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
-                },
-                success: function (data) {
-                    location.reload();
-                },
-                error: function (data) {
-                    console.log(JSON.parse(data.responseText).error_description);
-                }
-            });
+            let url = sentence_url + "/sentence/add-sentence";
+            save(url, data);
         }
     }
 });
@@ -826,45 +713,36 @@ english.controller("AllCardsController", function ($scope, $http, $routeParams) 
 
     $scope.deleteWord = function (id) {
         if (confirm("Are you sure to delete this word ?")) {
-            $.ajax({
-                url: word_url + "/word/delete-word",
-                method: "DELETE",
-                dataType: "json",
-                data: {"id": id},
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
-                },
-                success: function () {
-                    location.reload();
-                },
-                error: function (error) {
-                    console.log("ERROR ", error);
-                    location.reload();
-                }
-            })
+            let url = word_url + "/word/delete-word";
+            deleteWordOrNoun(url, id);
         }
     };
 
     $scope.deleteNoun = function (id) {
         if (confirm("Are you sure to delete this noun ?")) {
-            $.ajax({
-                url: noun_url + "/noun/delete-noun",
-                method: "DELETE",
-                dataType: "json",
-                data: {"id": id},
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
-                },
-                success: function () {
-                    location.reload();
-                },
-                error: function (error) {
-                    console.log("ERROR ", error);
-                    location.reload();
-                }
-            })
+            let url = noun_url + "/noun/delete-noun";
+            deleteWordOrNoun(url, id);
         }
     };
+
+    function deleteWordOrNoun(url, id) {
+        $.ajax({
+            url: url,
+            method: "DELETE",
+            dataType: "json",
+            data: {"id": id},
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+            },
+            success: function () {
+                location.reload();
+            },
+            error: function (error) {
+                console.log("ERROR ", error);
+                location.reload();
+            }
+        })
+    }
 
     $scope.editWord = function () {
         doGet($http, word_url + "/part-of-speech/parts-of-speech", function (data) {
@@ -883,26 +761,11 @@ english.controller("AllCardsController", function ($scope, $http, $routeParams) 
         let wordForm = checkFields(form);
         wordForm.append("wordId", id);
         if (formIsValidate) {
-            $.ajax({
-                url: word_url + "/word/edit-word",
-                method: "POST",
-                contentType: false,
-                data: wordForm,
-                processData: false,
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
-                },
-                success: function () {
-                    form = null;
-                    wordForm = null;
-                    location.reload();
-                },
-                error: function (error) {
-                    console.log("ERROR: ", error);
-                }
-            });
+            let url = word_url + "/word/edit-word";
+            save(url, wordForm);
+            form = null;
+            wordForm = null;
         }
-        console.log(form);
     };
 
     $scope.saveNoun = function (id, index) {
@@ -914,25 +777,11 @@ english.controller("AllCardsController", function ($scope, $http, $routeParams) 
             nounForm.append("photo", file);
         }
         if (formIsValidate) {
-            $.ajax({
-                url: noun_url + "/noun/edit-noun",
-                method: "POST",
-                contentType: false,
-                data: nounForm,
-                processData: false,
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
-                },
-                success: function () {
-                    form = null;
-                    file = null;
-                    nounForm = null;
-                    location.reload();
-                },
-                error: function (error) {
-                    console.log("ERROR: ", error);
-                }
-            });
+            let url = noun_url + "/noun/edit-noun";
+            save(url, nounForm);
+            form = null;
+            file = null;
+            nounForm = null;
         }
     };
 
@@ -944,6 +793,26 @@ english.controller("AllCardsController", function ($scope, $http, $routeParams) 
         return result;
     }
 });
+
+function save(url, data) {
+    $.ajax({
+        url: url,
+        method: "POST",
+        contentType: false,
+        data: data,
+        processData: false,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+        },
+        success: function () {
+            location.reload();
+        },
+        error: function (error) {
+            console.log("ERROR: ", error);
+            console.log(JSON.parse(error.responseText).error_description)
+        }
+    });
+}
 
 function modalLoginForm() {
     $('#login-form-link').click(function (e) {
