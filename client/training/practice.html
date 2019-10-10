@@ -41,4 +41,21 @@
             </div>
         </div>
     </div>
+    <div class="row text-center width_hundred_percent_marg_zero">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 p-2" ng-repeat="exam in sentenceExams">
+            <div class="practice-button">
+                <a class="btn btn-link text-center" href="#!/sentence-exam/{{exam.id}}">
+                    {{exam.name }}
+                    <br/>
+                    <p class="text-center" style="margin: 0; color: #ffe212; font-size: 1em">
+                        {{ exam.examType }}
+                    </p>
+                    <p class="text-center" style="margin: 0; color: white; font-size: 1em">
+                        Вопросов в экзамене
+                        {{ exam.questions.length}}
+                    </p>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>

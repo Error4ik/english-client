@@ -1,35 +1,35 @@
 <div class="container p-0">
     <div class="row text-center width_hundred_percent_marg_zero">
-        <div class="col-12 col-sm-6 col-md-4 p-2" ng-repeat="exam in nounExams">
+        <div class="col-12 col-sm-6 col-md-4 p-2" ng-repeat="userExam in nounExams">
             <div class="container_of_the_passed_exams">
                 <div class="p-2">
                     <h6>
-                        <a href="#!/noun-exam/{{exam.exam.id}}">
-                            {{ exam.exam.name }}
+                        <a href="#!/noun-exam/{{userExam.exam.id}}">
+                            {{ userExam.exam.name }}
                         </a>
                     </h6>
                 </div>
                 <h6>
                     Категория
                     <br>
-                    <span class="exam-date">{{ exam.exam.category.name }}</span>
+                    <span class="exam-date">{{ userExam.exam.category.name }}</span>
                 </h6>
                 <div class="p-1">
                     <h6>
                         Дата прохождения
                         <br>
                         <span class="exam-date">
-                            {{ exam.date | date:"dd MMMM, yyyy 'at' h:m" }}
+                            {{ userExam.date | date:"dd MMMM, yyyy 'at' h:m" }}
                         </span>
                     </h6>
                     <h6>
-                        Всего вопросов: {{exam.totalQuestions}}
+                        Всего вопросов: {{userExam.totalQuestions}}
                         <br>
-                        Правильных ответов: {{exam.correctAnswer}}
+                        Правильных ответов: {{userExam.correctAnswer}}
                         <br>
                         <span class="exam-date">
                             Результат
-                            {{ (exam.correctAnswer / exam.totalQuestions) * 100 | number : 0 }} %
+                            {{ (userExam.correctAnswer / userExam.totalQuestions) * 100 | number : 0 }} %
                         </span>
                     </h6>
                 </div>
@@ -37,36 +37,73 @@
         </div>
     </div>
     <div class="row text-center width_hundred_percent_marg_zero">
-        <div class="col-12 col-sm-6 col-md-4 p-2" ng-repeat="exam in wordExams">
+        <div class="col-12 col-sm-6 col-md-4 p-2" ng-repeat="userExam in wordExams">
             <div class="container_of_the_passed_exams">
                 <div class="p-2">
                     <h6>
-                        <a href="#!/word-exam/{{exam.exam.id}}">
-                            {{ exam.exam.name }}
+                        <a href="#!/word-exam/{{userExam.exam.id}}">
+                            {{ userExam.exam.name }}
                         </a>
                     </h6>
                 </div>
                     <h6>
                         Категория
                         <br>
-                        <span class="exam-date">{{ exam.exam.partOfSpeech.name }}</span>
+                        <span class="exam-date">{{ userExam.exam.partOfSpeech.name }}</span>
                     </h6>
                 <div class="p-1">
                     <h6>
                         Дата прохождения
                         <br>
                         <span class="exam-date">
-                            {{ exam.date | date:"dd MMMM, yyyy 'at' h:m" }}
+                            {{ userExam.date | date:"dd MMMM, yyyy 'at' h:m" }}
                         </span>
                     </h6>
                     <h6>
-                        Всего вопросов: {{exam.totalQuestions}}
+                        Всего вопросов: {{userExam.totalQuestions}}
                         <br>
-                        Правильных ответов: {{exam.correctAnswer}}
+                        Правильных ответов: {{userExam.correctAnswer}}
                         <br>
                         <span class="exam-date">
                             Результат
-                            {{ (exam.correctAnswer / exam.totalQuestions) * 100 | number : 0 }} %
+                            {{ (userExam.correctAnswer / userExam.totalQuestions) * 100 | number : 0 }} %
+                        </span>
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row text-center width_hundred_percent_marg_zero">
+        <div class="col-12 col-sm-6 col-md-4 p-2" ng-repeat="userExam in sentenceExams">
+            <div class="container_of_the_passed_exams">
+                <div class="p-2">
+                    <h6>
+                        <a href="#!/sentence-exam/{{userExam.exam.id}}">
+                            {{ userExam.exam.name }}
+                        </a>
+                    </h6>
+                </div>
+                <h6>
+                    Категория
+                    <br>
+                    <span class="exam-date">{{ userExam.exam.examType }}</span>
+                </h6>
+                <div class="p-1">
+                    <h6>
+                        Дата прохождения
+                        <br>
+                        <span class="exam-date">
+                            {{ userExam.date | date:"dd MMMM, yyyy 'at' h:m" }}
+                        </span>
+                    </h6>
+                    <h6>
+                        Всего вопросов: {{userExam.totalQuestions}}
+                        <br>
+                        Правильных ответов: {{userExam.correctAnswers}}
+                        <br>
+                        <span class="exam-date">
+                            Результат
+                            {{ (userExam.correctAnswers / userExam.totalQuestions) * 100 | number : 0 }} %
                         </span>
                     </h6>
                 </div>

@@ -1,0 +1,50 @@
+<div class="container p-0">
+    <div class="row text-center width_hundred_percent_marg_zero">
+        <div class="col-md-12 p-2">
+            <ul class="breadcrumb">
+                <li><a href="#!/">Главная</a></li>
+                <li><a href="#!/practice">Практика</a></li>
+                <li class="active">{{ name }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row text-center p-2 width_hundred_percent_marg_zero">
+        <div class="col-12 text-center">
+            <h4 style="padding-top: 10px">Progress</h4>
+        </div>
+        <div class="col-12 progress">
+            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50"
+                 aria-valuemin="0" aria-valuemax="100" style="width:{{ progress }}%">
+                {{ count }} \ {{ total }}
+            </div>
+        </div>
+    </div>
+    <div class="row text-center p-2 width_hundred_percent_marg_zero" ng-show="exam">
+        <div class="col-12 p-2">
+            <h3>{{ question.question }}</h3>
+        </div>
+        <div class="col-12 col-lg-6 p-1">
+            <label for="translate">Напишите перевод используя ключи.</label>
+            <span class="input-group-addon"></span>
+            <input type="text" class="form-control" id="translate" name="translate"
+                   placeholder="Enter translate" required="required">
+        </div>
+        <div class="col-12 col-lg-6 p-1">
+            <div>
+                <label for="keys">Ключи.</label>
+                <span class="input-group-addon"></span><br>
+                <span ng-repeat="key in question.keyWords" id="keys" name="keys"
+                      style="font-weight: bold; font-size: 24px">
+                    {{ key.word }}{{$last ? '' : ($index==keyWords.length-1) ? ' and ' : ' /'}}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row text-center width_hundred_percent_marg_zero">
+        <div class="col-12 p-3">
+            <button type="submit" class="btn btn-info" ng-click="next();">
+                Next
+            </button>
+        </div>
+    </div>
+</div>

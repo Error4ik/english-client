@@ -1,0 +1,100 @@
+<div class="container p-1">
+    <div class="row text-center width_hundred_percent_marg_zero">
+        <div class="col-12">
+            <form id="add-sentence-exam" name="add-sentence-exam" style="margin-top: 30px">
+                <div class="row text-center width_hundred_percent_marg_zero">
+                    <div class="col-sm-6">
+                        <label for="examName">Название экзамена</label>
+                        <span class="input-group-addon"></span>
+                        <input type="text" class="form-control" id="examName" name="examName"
+                               placeholder="Enter exam name" required="required">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="examType">Выберите тип</label>
+                        <span class="input-group-addon"></span>
+                        <select type="text" class="form-control" id="examType" name="examType" required="required">
+                            <option>FUTURE</option>
+                            <option>PRESENT</option>
+                            <option>PAST</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-12 p-2">
+                        <button type="submit" ng-click="addExam();" class="btn btn-info">
+                            Add Exam
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row text-center width_hundred_percent_marg_zero">
+        <div class="col-12">
+            <hr align="left" width="100%" color="#ff9900"/>
+        </div>
+    </div>
+    <div class="row text-center width_hundred_percent_marg_zero">
+        <div class="col-12">
+            <form id="add-key-word" name="add-key-word" style="margin-top: 30px">
+                <div class="row text-center width_hundred_percent_marg_zero">
+                    <div class="col-12">
+                        <label for="word">Введите ключевое слово</label>
+                        <span class="input-group-addon"></span>
+                        <input type="text" class="form-control" id="word" name="word"
+                               placeholder="Enter key word" required="required">
+                    </div>
+                    <div class="col-sm-12 p-2">
+                        <button type="submit" ng-click="addKeyWord();" class="btn btn-info">
+                            Add key word
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row text-center width_hundred_percent_marg_zero">
+        <div class="col-12">
+            <hr align="left" width="100%" color="#ff9900"/>
+        </div>
+    </div>
+    <div class="row text-center width_hundred_percent_marg_zero">
+        <div class="col-12">
+            <form id="sentence-question" name="sentence-question" style="margin-top: 50px">
+                <div class="row p-1 text-center width_hundred_percent_marg_zero">
+                    <div class="col-12">
+                        <label for="exam">Exams</label>
+                        <span class="input-group-addon"></span>
+                        <select class="form-control" id="exam" name="exam" ng-model="e" ng-change="changedValue(e)">
+                            <option ng-repeat="exam in exams">{{ exam.name }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row p-1 text-center width_hundred_percent_marg_zero">
+                    <div class="col-sm-6">
+                        <label for="question">Вопрос</label>
+                        <span class="input-group-addon"></span>
+                        <input type="text" class="form-control" id="question" name="question"
+                               placeholder="Enter the question in Russian" required="required">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="answer">Ответ</label>
+                        <span class="input-group-addon"></span>
+                        <input type="text" class="form-control" id="answer" name="answer"
+                               placeholder="Enter the answer in English" required="required">
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="keyWords">Ключевые слова.</label>
+                        <span class="input-group-addon"></span>
+                        <select multiple size="20" class="form-control" id="keyWords" name="keyWords">
+                            <option ng-repeat="keyWord in keyWords">{{ keyWord.word }}</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-12 p-2">
+                        <button type="submit" ng-click="addQuestion();" class="btn btn-info">
+                            Add question
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -223,6 +223,9 @@ english.config(function ($routeProvider, $locationProvider, $httpProvider) {
     }).when('/word-exam/:id', {
         templateUrl: "training/word-exam-page.html",
         controller: "WordExamController"
+    }).when('/sentence-exam/:id', {
+        templateUrl: "training/sentence-exam-page.html",
+        controller: "SentenceExamController"
     }).when('/result', {
         templateUrl: "training/exam-result.html",
         controller: "ExamResultController"
@@ -247,6 +250,9 @@ english.config(function ($routeProvider, $locationProvider, $httpProvider) {
     }).when('/add-sentence', {
         templateUrl: "training/add-sentence.html",
         controller: "AddSentenceCategoryController"
+    }).when('/add-sentence-question', {
+        templateUrl: "training/add-sentence-question.html",
+        controller: "AddSentenceQuestionController"
     }).when('/users', {
         templateUrl: "training/users.html",
         controller: "UserController"
@@ -350,7 +356,11 @@ english.controller("PracticeController", function ($scope, $http) {
 
     doGet($http, word_url + "/exam/exams", function (data) {
         $scope.wordExams = data;
-    })
+    });
+
+    doGet($http, sentence_url + "/exam/exams", function (data) {
+        $scope.sentenceExams = data;
+    });
 });
 
 english.controller("NounExamController", function ($scope, $http, $routeParams) {
@@ -474,6 +484,58 @@ english.controller("WordExamController", function ($scope, $http, $routeParams) 
     };
 });
 
+english.controller("SentenceExamController", function ($http, $scope, $routeParams) {
+    let questions = [];
+    let count = 0;
+    let totalQuestion;
+    let examId;
+    let coincidences = 0;
+    doGet($http, sentence_url + "/exam/" + $routeParams.id, function (data) {
+        $scope.exam = true;
+        $scope.exam = data;
+        $scope.name = data.name;
+        questions = data.questions;
+        totalQuestion = questions.length;
+        examId = data.id;
+        $scope.question = questions[count];
+        $scope.count = count + 1;
+        $scope.total = totalQuestion;
+        $scope.progress = ($scope.count / totalQuestion) * 100;
+    });
+
+    $scope.next = function () {
+        let value = $("#translate");
+        if (questions[count].answer === value.val()) {
+            coincidences += 1;
+        }
+
+        if (count >= 0 && count < questions.length - 1) {
+            $scope.question = questions[++count];
+            $scope.count = count + 1;
+            $scope.progress = ($scope.count / totalQuestion) * 100;
+            value.val('');
+        } else {
+            $.ajax({
+                url: sentence_url + '/exam/save-stats-for-exam',
+                type: 'POST',
+                dataType: "json",
+                crossDomain: true,
+                data: {"examId": examId, "correctAnswers": coincidences},
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=utf-8");
+                },
+                success: function (data) {
+                    document.location.href = "#!/result";
+                },
+                error: function (data) {
+                    console.log(JSON.parse(data.responseText).error_description);
+                }
+            });
+        }
+    }
+});
+
 english.controller("ExamResultController", function ($scope, $http) {
     doGet($http, noun_url + "/exam/exam-stats-by-user", function (data) {
         $scope.nounExams = data;
@@ -482,6 +544,10 @@ english.controller("ExamResultController", function ($scope, $http) {
     doGet($http, word_url + "/exam/exam-stats-by-user", function (data) {
         $scope.wordExams = data;
     });
+
+    doGet($http, sentence_url + "/exam/exam-stats-by-user", function (data) {
+        $scope.sentenceExams = data;
+    })
 });
 
 english.controller("AddNounQuestionsController", function ($scope, $http) {
@@ -584,7 +650,6 @@ english.controller("AddWordQuestionController", function ($scope, $http) {
 english.controller("PartOfSpeechController", function ($scope, $http) {
     doGet($http, word_url + "/part-of-speech/parts-of-speech", function (data) {
         $scope.parts = data;
-        $scope.imageUrl = image_url;
     })
 });
 
@@ -649,6 +714,47 @@ english.controller("AddSentenceCategoryController", function ($scope, $http, $ro
             save(url, data);
         }
     }
+});
+
+english.controller("AddSentenceQuestionController", function ($scope, $http) {
+    let exams = [];
+    let examId;
+    $scope.addExam = function () {
+        let data = new FormData($("#add-sentence-exam")[0]);
+        let url = sentence_url + "/exam/add-exam";
+        save(url, data)
+    };
+
+    $scope.addKeyWord = function () {
+        let data = new FormData($("#add-key-word")[0]);
+        let url = sentence_url + "/key-word/add";
+        save(url, data);
+    };
+
+    doGet($http, sentence_url + "/exam/exams", function (data) {
+        $scope.exams = data;
+        exams = data;
+    });
+
+    doGet($http, sentence_url + "/key-word/words", function (data) {
+        $scope.keyWords = data;
+    });
+
+    $scope.changedValue = function (exam) {
+        for (let i = 0; i < exams.length; i++) {
+            if (exams[i].name === exam) {
+                examId = exams[i].id;
+                break;
+            }
+        }
+    };
+
+    $scope.addQuestion = function () {
+        let data = new FormData($("#sentence-question")[0]);
+        data.append("examId", examId);
+        let url = sentence_url + "/exam/add-question";
+        save(url, data);
+    };
 });
 
 english.controller("UserController", function ($scope, $http) {
