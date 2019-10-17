@@ -43,8 +43,8 @@ function login() {
 }
 
 function regUser() {
-    let email = $("#reg-email").val();
-    let pass = $("#reg-password").val();
+    let email = $("#email").val();
+    let pass = $("#password").val();
     if (email !== undefined && pass !== undefined && email !== "" && pass !== "") {
         console.log("sending");
         $.ajax({
@@ -60,9 +60,13 @@ function regUser() {
             },
             success: function (data) {
                 if (data.error) {
-                    $('#reg-error').html(data.error);
-                    $('#reg-error').show();
+                    $('#login_error').html(data.error);
+                    $('#login_error').show();
                 } else {
+                    $("#email").val("");
+                    $("#password").val("");
+                    $('#myModal').modal('toggle');
+                    $('#login_error').hide();
                     document.location.href = "#!/registration-is-completed";
                 }
             },
@@ -917,23 +921,6 @@ function save(url, data) {
             console.log("ERROR: ", error);
             console.log(JSON.parse(error.responseText).error_description)
         }
-    });
-}
-
-function modalLoginForm() {
-    $('#login-form-link').click(function (e) {
-        $("#login-form").delay(100).fadeIn(100);
-        $("#registration").fadeOut(100);
-        $('#register-form-link').removeClass('active');
-        $(this).addClass('active');
-        e.preventDefault();
-    });
-    $('#register-form-link').click(function (e) {
-        $("#registration").delay(100).fadeIn(100);
-        $("#login-form").fadeOut(100);
-        $('#login-form-link').removeClass('active');
-        $(this).addClass('active');
-        e.preventDefault();
     });
 }
 

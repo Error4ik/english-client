@@ -453,13 +453,26 @@ ul.breadcrumb li a:hover {
     border-bottom: .3em solid transparent
 }
 
-.modal-header a.active{
-    color: #fff;
-    background-color: #00a661;
-    border-color: #1d39a3;
+.modal-header {
+    border-radius: 20px 20px 0 0;
+    background-color: #ffa838;
+    color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
-.modal-header a:hover,
-.modal-header a:focus {
-    background-color: #009cd0;
-    border-color: #000000;
+.modal-content {
+    border-radius: 20px;
+}
+
+.login-form-button {
+    width: 100%;
+    border-radius: 10px;
+    color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.modal-footer {
+    border-radius: 0 0 20px 20px;
+    background-color: #ffa838;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-top: 15px;
 }
