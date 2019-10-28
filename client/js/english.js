@@ -34,7 +34,7 @@ function login() {
             error: function (error) {
                 let result = JSON.parse(error.responseText);
                 if (result.error) {
-                    $('#login_error').html(result.error == 'invalid_grant' ? "Логин или пароль не совпадают." : result.error_description);
+                    $('#login_error').html(result.error === 'invalid_grant' ? "Логин или пароль не совпадают." : result.error_description);
                     $('#login_error').show();
                 }
             }
@@ -59,19 +59,16 @@ function regUser() {
                 xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
             },
             success: function (data) {
-                if (data.error) {
-                    $('#login_error').html(data.error);
-                    $('#login_error').show();
-                } else {
-                    $("#email").val("");
-                    $("#password").val("");
-                    $('#myModal').modal('toggle');
-                    $('#login_error').hide();
-                    document.location.href = "#!/registration-is-completed";
-                }
+                $("#email").val("");
+                $("#password").val("");
+                $('#myModal').modal('toggle');
+                $('#login_error').hide();
+                document.location.href = "#!/registration-is-completed";
             },
             error: function (error) {
-                console.log("ERROR: ", error);
+                let result = JSON.parse(error.responseText);
+                $('#login_error').html(result.message);
+                $('#login_error').show();
             }
         });
     }
@@ -100,8 +97,8 @@ function loadUser(f) {
                 };
                 closeDialog(data);
             },
-            error: function (data) {
-                console.log(JSON.parse(data.responseText).error_description);
+            error: function (error) {
+                console.log(JSON.parse(error.responseText).error_description);
             }
         });
     }
@@ -263,6 +260,9 @@ english.config(function ($routeProvider, $locationProvider, $httpProvider) {
     }).when('/change-delete-card', {
         templateUrl: "training/all-cards.html",
         controller: "AllCardsController"
+    }).when('/settings', {
+        templateUrl: "training/user-settings.html",
+        controller: "UserSettingsController"
     }).otherwise({
         templateUrl: 'training/empty.html'
     });
@@ -902,6 +902,51 @@ english.controller("AllCardsController", function ($scope, $http, $routeParams) 
         }
         return result;
     }
+});
+
+english.controller("UserSettingsController", function ($scope, $http) {
+    $scope.updateEmail = function () {
+        let data = new FormData($("#update-email-form")[0]);
+        $.ajax({
+            url: auth_url + "/update-email",
+            method: "POST",
+            contentType: false,
+            data: data,
+            processData: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+            },
+            success: function () {
+                logOut();
+                document.location.href = "#!/registration-is-completed";
+            },
+            error: function (error) {
+                let result = JSON.parse(error.responseText);
+                $('#update-email-error').html(result.message).show();
+            }
+        });
+    };
+
+    $scope.updatePassword = function () {
+        let data = new FormData($("#update-password-form")[0]);
+        $.ajax({
+            url: auth_url + "/update-password",
+            method: "POST",
+            contentType: false,
+            data: data,
+            processData: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", "Bearer " + readCookie("token"));
+            },
+            success: function (data) {
+                location.reload()
+            },
+            error: function (error) {
+                let result = JSON.parse(error.responseText);
+                $('#update-password-error').html(result.message).show();
+            }
+        });
+    };
 });
 
 function save(url, data) {

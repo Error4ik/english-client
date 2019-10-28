@@ -1,0 +1,55 @@
+<div class="container p-0">
+    <div class="row text-center width_hundred_percent_marg_zero">
+        <div class="col-sm-6 p-3">
+            <div class="text-center p-3">
+                <h4>Change Email address</h4>
+            </div>
+            <form id="update-email-form" name="update-email-form" class="p-4">
+                <div class="alert alert-danger" id="update-email-error" style="display: none;"></div>
+                <div class="col-12">
+                    <label for="update-email">New Email</label>
+                    <span class="input-group-addon"></span>
+                    <input type="email" class="form-control" id="update-email" name="email"
+                           placeholder="Enter new email" autofocus required="required">
+                </div>
+                <div class="col-12">
+                    <label for="update-email-password">Your Password</label>
+                    <span class="input-group-addon"></span>
+                    <input type="password" class="form-control" id="update-email-password" name="password"
+                           placeholder="Enter your password" required="required">
+                </div>
+                <button type="submit" ng-click="updateEmail();" class="btn btn-info" style="margin-top: 15px">
+                    Update email
+                </button>
+            </form>
+
+        </div>
+        <div class="col-sm-6 p-3">
+            <div class="text-center p-3">
+                <h4>Change password</h4>
+            </div>
+            <form id="update-password-form" name="update-password-form" class="p-4">
+                <div class="alert alert-danger" id="update-password-error" style="display: none;"></div>
+                <div class="col-12">
+                    <label for="update-password-form-new-password">New Password</label>
+                    <span class="input-group-addon"></span>
+                    <input type="password" class="form-control" id="update-password-form-new-password"
+                           name="newPass" placeholder="Enter new password"
+                           autofocus required="required">
+                </div>
+                <div class="col-12">
+                    <label for="update-password-form-old-password">Old Password</label>
+                    <span class="input-group-addon"></span>
+                    <input type="text" class="form-control" id="update-password-form-old-password"
+                           name="oldPass" placeholder="Enter old password"
+                           required="required">
+                </div>
+                <button type="submit" ng-click="updatePassword();" class="btn btn-info" style="margin-top: 15px">
+                    Update password
+                </button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
