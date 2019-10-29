@@ -29,13 +29,16 @@ function login() {
             },
             success: function (data) {
                 createCookie("token", data.access_token, data.expires_in);
+                document.location.href = "#!/";
                 location.reload();
             },
             error: function (error) {
                 let result = JSON.parse(error.responseText);
-                if (result.error) {
-                    $('#login_error').html(result.error === 'invalid_grant' ? "Логин или пароль не совпадают." : result.error_description);
-                    $('#login_error').show();
+                let login_error = $('#login_error');
+                login_error.html(result.error === 'invalid_grant' ? "Логин или пароль не совпадают." : result.error_description);
+                login_error.show();
+                if (result.error === "unauthorized") {
+                    document.location.href = "#!/registration-is-completed";
                 }
             }
         });
@@ -214,7 +217,8 @@ english.config(function ($routeProvider, $locationProvider, $httpProvider) {
     }).when('/login', {
         templateUrl: "login.html"
     }).when('/registration-is-completed', {
-        templateUrl: "training/registration-is-completed.html"
+        templateUrl: "training/registration-is-completed.html",
+        controller: "RegistrationCompleteController"
     }).when('/practice', {
         templateUrl: "training/practice.html",
         controller: "PracticeController"
@@ -947,6 +951,25 @@ english.controller("UserSettingsController", function ($scope, $http) {
             }
         });
     };
+});
+
+english.controller("RegistrationCompleteController", function ($scope, $http) {
+    $scope.sendActivationKey = function () {
+        let activationKey = $("#input-activation-key").val().trim();
+        $.ajax({
+            url: auth_url + "/activate/" + activationKey,
+            method: "POST",
+            success: function (data) {
+                $('#activation-error').hide();
+                $('#activation-success').html(data + " - " + "Теперь вам осталось залогиниться под новой почтой.").show();
+                $('#input-activation-key').val("");
+            },
+            error: function (error) {
+                let result = JSON.parse(error.responseText);
+                $('#activation-error').html(result.message).show();
+            }
+        });
+    }
 });
 
 function save(url, data) {

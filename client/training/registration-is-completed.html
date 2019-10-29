@@ -4,12 +4,20 @@
             <h3>
                 Спасибо за регистрацию на english.ru.
             </h3>
-            <h3>
-                Вам на почту отправлено письмо.
-            </h3>
-            <h3>
-                Для активации вашего аккаунта нужно пройти по ссылке указанной в письме.
-            </h3>
+            <h4>
+                Вам на почту отправлено письмо с кодом активации, скопируйте его, вставьте в поле снизу и нажмите активировать.
+            </h4>
+            <div class="alert alert-success" id="activation-success" style="display: none;"></div>
+            <div class="alert alert-danger" id="activation-error" style="display: none;"></div>
+            <div class="col-12">
+                <label for="input-activation-key">Activation key</label>
+                <span class="input-group-addon"></span>
+                <input type="text" class="form-control" id="input-activation-key" name="key"
+                       placeholder="Enter activation key" autofocus required="required">
+            </div>
+            <button type="submit" ng-click="sendActivationKey();" class="btn btn-info" style="margin-top: 15px">
+                Activate
+            </button>
         </div>
     </div>
 </div>
